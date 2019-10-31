@@ -24,7 +24,8 @@
         <div>
             <h1 class="bg-dark text-white text-center">Players:<br><span id="playerInfo"></span></h1>
         </div>
-        <div id="shipsHall" class="row">
+        <button onclick="toAddShips()">Enviar Barcos</button>
+        <div class="row">
             <div class="col-1 barcoHall">
                 <span>Battleship</span>
                 <div id="Battleship" class="col bg-danger barco">
@@ -59,7 +60,6 @@
                     <button id="AircraftOrientation" name="Aircraft" class="btnGiro" onclick=toChangeOrientation(this)>A</button>
                 </div>
             </div>
-            <button id="btnEnviarBarcos" class="bg-success" onclick="toAddShips()">Enviar Barcos</button>
         </div>
 
         <div class="row">
