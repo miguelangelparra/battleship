@@ -53,10 +53,10 @@ public class SalvoController {
         } else {
             dto.put("player", playerRepository.findByEmail(authentication.getName()).makePlayerDTO());
 
-            List<GamePlayer> gamePlayerForPlayer = repoGamePlayer.findAll()
+          /*  List<GamePlayer> gamePlayerForPlayer = repoGamePlayer.findAll()
                     .stream()
                     .filter(gamePlayer -> gamePlayer.getPlayer().getEmail() == authentication.getName()).collect(Collectors.toList());
-            dto.put("gamesOwn",gamePlayerForPlayer);
+            dto.put("gamesOwn",gamePlayerForPlayer);*/
         }
         dto.put("games", infoGame());
 

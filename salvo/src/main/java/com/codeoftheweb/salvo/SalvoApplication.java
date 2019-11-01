@@ -126,16 +126,20 @@ public class SalvoApplication {
       Ship ship25 = new Ship(gamePlayer14, patrolBoat, Arrays.asList("26", "27"));
       shipRepository.saveAll(Arrays.asList(ship1, ship2, ship3, ship4, ship5, ship6, ship7, ship8, ship9, ship10, ship11, ship12, ship13, ship14, ship15, ship16, ship17, ship18, ship19, ship20, ship21, ship22, ship23, ship24, ship25));
 
-      Set<String> sL1 = new HashSet<>(Arrays.asList("H5", "C5", "F1"));
-      Set<String> sL2 = new HashSet<>(Arrays.asList("B4", "B5", "B6"));
-      Set<String> sL3 = new HashSet<>(Arrays.asList("D5", "F2"));
-      Set<String> sL4 = new HashSet<>(Arrays.asList("E1", "H3", "A2"));
+      Set<String> sL1 = new HashSet<>(Arrays.asList("35", "25", "51"));
+      Set<String> sL2 = new HashSet<>(Arrays.asList("14", "15", "16"));
+      Set<String> sL3 = new HashSet<>(Arrays.asList("45", "52"));
+      Set<String> sL4 = new HashSet<>(Arrays.asList("41", "63", "02"));
 
       Salvo salvo1 = new Salvo(1, sL1, gamePlayer1);
       Salvo salvo2 = new Salvo(2, sL3, gamePlayer1);
       Salvo salvo3 = new Salvo(1, sL2, gamePlayer2);
       Salvo salvo4 = new Salvo(2, sL4, gamePlayer2);
-      salvoRepository.saveAll(Arrays.asList(salvo1, salvo2, salvo3, salvo4));
+      Salvo salvo5 = new Salvo(1, sL1, gamePlayer3);
+      Salvo salvo6 = new Salvo(2, sL3, gamePlayer3);
+      Salvo salvo7 = new Salvo(1, sL2, gamePlayer4);
+      Salvo salvo8 = new Salvo(2, sL4, gamePlayer4);
+      salvoRepository.saveAll(Arrays.asList(salvo1, salvo2, salvo3, salvo4,salvo5, salvo6, salvo7, salvo8));
 
 
       Score score1 = new Score(game1, player1, 2);

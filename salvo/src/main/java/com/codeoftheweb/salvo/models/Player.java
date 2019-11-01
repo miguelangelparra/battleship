@@ -21,7 +21,6 @@ public class Player {
   private String lastName;
   private String password;
 
-
   @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
   Set<GamePlayer> gamePlayers;
 

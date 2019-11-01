@@ -1,5 +1,6 @@
 package com.codeoftheweb.salvo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -47,7 +48,7 @@ public class Game {
     Map<String, Object> dto = new LinkedHashMap<>();
     dto.put("id", this.getId());
     dto.put("created", this.getDateGame().getTime());
-    dto.put("gamePlayers", getGamePlayersList());
+    dto.put("gamePlayers", this.getGamePlayersList());
     dto.put("score", this.getScoresList());
     return dto;
   }
@@ -57,7 +58,6 @@ public class Game {
       .map(score -> score.makeScoreDTO())
       .collect(Collectors.toList());
   }
-
   public List<Map<String, Object>> getGamePlayersList() {
     return this.gamePlayers.stream()
       .map(GamePlayer -> GamePlayer.makeGamePlayerDTO())
