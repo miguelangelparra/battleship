@@ -122,8 +122,8 @@ function toLogUp() {
     let nameUsu = document.getElementById("inpEmail").value
     let passwordUsu = document.getElementById("inpPassword").value
     $.post("/api/players", {
-        email: nameUsu,
-        password: passwordUsu
+        "email": nameUsu,
+        "password": passwordUsu
     }).done(function(data) {
         loginFunc(nameUsu, passwordUsu)
         console.log(data)
@@ -144,8 +144,8 @@ function toLogOut() {
 function loginFunc(nameUsu, passwordUsu) {
 
     var body = {
-        name: nameUsu,
-        password: passwordUsu
+        "name": nameUsu,
+        "password": passwordUsu
     }
 
     fetch('http://localhost:8080/api/login', {
@@ -171,8 +171,8 @@ function loginFunc(nameUsu, passwordUsu) {
 
         })
 }
-
-/*function loginFunc(nameUsu, passwordUsu) {
+/*
+function loginFunc(nameUsu, passwordUsu) {
 
     $.ajax({
         type: 'POST',
@@ -199,8 +199,8 @@ function loginFunc(nameUsu, passwordUsu) {
         }
     })
 
-}*/
-
+}
+/*
 
 
 /*

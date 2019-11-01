@@ -105,7 +105,7 @@ public class SalvoController {
 
 
     @RequestMapping("/games/players/{gamePlayerId}/ships")
-    public List<Ship> getPlayerssInGame(@PathVariable long gamePlayerId) {
+    public List<Ship> getShipsFromIdPlayer(@PathVariable long gamePlayerId) {
         return repoGamePlayer.findById(gamePlayerId).get().getShips();
     }
 

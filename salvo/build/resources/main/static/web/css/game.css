@@ -14,14 +14,17 @@
     background-color: crimson;
 }
 
+
 /*.ship{
     width: 3%;
     height: auto;
 }*/
 
-td{padding:0}
+td {
+    padding: 0
+}
 
-body{
+body {
     height: 100vh;
     background-color: aqua;
     background-image: url("../img/shipInitial.jpg");
@@ -30,7 +33,7 @@ body{
     background-position: bottom;
 }
 
-.list-group-item{
+.list-group-item {
     background-color: transparent;
     color: black;
 }
@@ -44,12 +47,21 @@ td {
     max-width: 3px;
     max-height: 3px;
 }
-.btnGiro{
+
+.btnGiro {
     max-width: 3px;
     max-height: 3px;
 }
 
-#game-list{
+#game-list {
     max-height: 37vh;
     overflow: scroll;
+}
+
+#btnEnviarBarcos {
+    display: block;
+}
+
+#btnCreate {
+    display: none;
 }

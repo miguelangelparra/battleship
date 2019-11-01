@@ -1,21 +1,30 @@
 $(function() {
     loadData()
 });
+var gameList = document.getElementById("game-list")
+var dataRaw
 
 function updateViewGames(data) {
     console.log(data)
+    gameList.innerHTML = ""
     document.getElementById("MessageToLogin").setAttribute("style", "display:none");
+    if (data.player != "Guest") {
+        let btnCreate = document.getElementById("btnCreate")
+        btnCreate.style.display = "block"
+    }
     var htmlListGames = data.games.map(function(game) {
 
         let line = document.createElement("li")
 
         function toCreateBtn(id, message, func) {
-            let btnJoinGame = document.createElement("button")
-            btnJoinGame.setAttribute("onclick", func)
-            btnJoinGame.classList.add('btnJoinGame', 'btn', 'bg-success')
-            btnJoinGame.setAttribute("data-gameId", id)
-            btnJoinGame.innerText = message
-            line.appendChild(btnJoinGame)
+            if (data.player != "Guest") {
+                let btnJoinGame = document.createElement("button")
+                btnJoinGame.setAttribute("onclick", func)
+                btnJoinGame.classList.add('btnJoinGame', 'btn', 'bg-success')
+                btnJoinGame.setAttribute("data-gameId", id)
+                btnJoinGame.innerText = message
+                line.appendChild(btnJoinGame)
+            }
         }
         game.gamePlayers.map(function(gamePlayer) {
 
@@ -44,7 +53,7 @@ function updateViewGames(data) {
         line.appendChild(textDate)
         line.appendChild(textPlayer)
 
-        return document.getElementById("game-list").appendChild(line)
+        return gameList.appendChild(line)
     })
 }
 
@@ -113,8 +122,8 @@ function toLogUp() {
     let nameUsu = document.getElementById("inpEmail").value
     let passwordUsu = document.getElementById("inpPassword").value
     $.post("/api/players", {
-        email: nameUsu,
-        password: passwordUsu
+        "email": nameUsu,
+        "password": passwordUsu
     }).done(function(data) {
         loginFunc(nameUsu, passwordUsu)
         console.log(data)
@@ -132,7 +141,39 @@ function toLogOut() {
     })
 }
 
+/*function loginFunc(nameUsu, passwordUsu) {
+
+    var body = {
+        "name": nameUsu,
+        "password": passwordUsu
+    }
+
+    fetch('http://localhost:8080/api/login', {
+            method: 'POST',
+            body: new URLSearchParams(body),
+            header: 'Content-Type = application/x-www-form-urlencoded'
+        })
+        //  .then((resp) =>  resp.json())
+        .then(function(data) {
+            console.log("login!")
+            $.get("http://localhost:8080/web/games.html").done(() => {
+                loadData();
+                document.getElementById("inpEmail").setAttribute("style", "display:none")
+                document.getElementById("inpPassword").setAttribute("style", "display:none")
+                document.getElementById("btnLoginModal").setAttribute("style", "display:none")
+                document.getElementById("btnLogUp").setAttribute("style", "display:none")
+                document.getElementById("btnLogout").setAttribute("style", "display:inline")
+
+            })
+
+
+            //  location.reload()  })
+
+        })
+}*/
+
 function loginFunc(nameUsu, passwordUsu) {
+
     $.ajax({
         type: 'POST',
         url: '/api/login',
@@ -145,8 +186,6 @@ function loginFunc(nameUsu, passwordUsu) {
             $.get("http://localhost:8080/web/games.html")
 
             loadData();
-
-
             document.getElementById("inpEmail").setAttribute("style", "display:none")
             document.getElementById("inpPassword").setAttribute("style", "display:none")
             document.getElementById("btnLoginModal").setAttribute("style", "display:none")
