@@ -4,112 +4,7 @@ $(function() {
 var gameList = document.getElementById("game-list")
 var dataRaw
 
-function updateViewGames(data) {
-    console.log(data)
-    gameList.innerHTML = ""
-    document.getElementById("MessageToLogin").setAttribute("style", "display:none");
-    if (data.player != "Guest") {
-        let btnCreate = document.getElementById("btnCreate")
-        btnCreate.style.display = "block"
-    }
-    var htmlListGames = data.games.map(function(game) {
-
-        let line = document.createElement("li")
-
-        function toCreateBtn(id, message, func) {
-            if (data.player != "Guest") {
-                let btnJoinGame = document.createElement("button")
-                btnJoinGame.setAttribute("onclick", func)
-                btnJoinGame.classList.add('btnJoinGame', 'btn', 'bg-success')
-                btnJoinGame.setAttribute("data-gameId", id)
-                btnJoinGame.innerText = message
-                line.appendChild(btnJoinGame)
-            }
-        }
-        game.gamePlayers.map(function(gamePlayer) {
-
-            if (game.gamePlayers.length == 2 && gamePlayer.player.email == data.player.email) {
-                toCreateBtn(gamePlayer.id, "Re-Entry", "clickReEntry(this)")
-                return //idGamePlayer = gamePlayer.id
-            } else if (game.gamePlayers.length == 1) {
-                toCreateBtn(game.id, "Join!", "clickJoin(this)")
-                return
-            }
-        })
-
-        var spanUser = document.getElementById("spanUser")
-        spanUser.textContent = data.player.email
-
-        line.classList.add('list-group-item')
-
-        let textDate = document.createElement("h5")
-        textDate.innerHTML = new Date(game.created).toLocaleString()
-
-        let textPlayer = document.createElement("h6")
-        textPlayer.innerHTML = game.gamePlayers.map(function(element) {
-            return element.player.email
-        }).join(' VS ');
-
-        line.appendChild(textDate)
-        line.appendChild(textPlayer)
-
-        return gameList.appendChild(line)
-    })
-}
-
-function updateViewLBoard(data) {
-    var htmlList = data.map(function(score) {
-        return '<tr><td>' + score.email + '</td>' +
-            '<td>' + score.scores.total + '</td>' +
-            '<td>' + score.scores.won + '</td>' +
-            '<td>' + score.scores.lost + '</td>' +
-            '<td>' + score.scores.tied + '</td></tr>';
-    }).join('');
-    document.getElementById("leader-list").innerHTML = htmlList;
-}
-
-function loadData() {
-    $.get("http://localhost:8080/api/games")
-        .done(function(data) {
-            updateViewGames(data);
-        })
-        .fail(function(jqXHR, textStatus) {
-            //  alert( "Failed: " + textStatus );
-        });
-
-    $.get("http://localhost:8080/api/leaderBoard")
-        .done(function(data) {
-            updateViewLBoard(data);
-        })
-        .fail(function(jqXHR, textStatus) {
-            alert("Failed: " + textStatus);
-        });
-}
-
-function clickReEntry(e) {
-    let dataJoinGame = e.getAttribute("data-gameid")
-    location.href = "/web/game.html?gp=" + dataJoinGame;
-}
-
-function clickJoin(e) {
-    $.post("/api/game/" + e.getAttribute("data-gameid") + "/players").done(function(data) {
-            location.href = "game.html?gp=" + data.gpid.valueOf()
-        })
-        .fail(function(jqXHR, textStatus) {
-            console.log(jqXHR.responseText)
-        })
-}
-
-function toCreateGame() {
-    $.post("/api/games").done(function(data) {
-        location.href = "/web/game.html?gp=" + data.gpid.valueOf()
-    }).
-    fail(function(jqXHR, textStatus) {
-        console.log(jqXHR.responseText)
-    })
-}
-
-/*formulario de login*/
+/*login*/
 function toLogin() {
     var nameUsu = document.getElementById("inpEmail").value
     var passwordUsu = document.getElementById("inpPassword").value
@@ -155,22 +50,128 @@ function loginFunc(nameUsu, passwordUsu) {
         })
         //  .then((resp) =>  resp.json())
         .then(function(data) {
-            console.log("login!")
-            $.get("http://localhost:8080/web/games.html").done(() => {
-                loadData();
-                document.getElementById("inpEmail").setAttribute("style", "display:none")
-                document.getElementById("inpPassword").setAttribute("style", "display:none")
-                document.getElementById("btnLoginModal").setAttribute("style", "display:none")
-                document.getElementById("btnLogUp").setAttribute("style", "display:none")
-                document.getElementById("btnLogout").setAttribute("style", "display:inline")
-
-            })
-
-
-            //  location.reload()  })
-
+            if (data.ok) {
+                $.get("http://localhost:8080/web/games.html").done(() => {
+                    loadData();
+                    document.getElementById("btnLoginModal").setAttribute("style", "display:none")
+                    document.getElementById("btnLogout").setAttribute("style", "display:inline")
+                })
+            }
         })
 }
+
+//Botones de juego
+function toReEntry(e) {
+    let dataJoinGame = e.getAttribute("data-gameid")
+    location.href = "/web/game.html?gp=" + dataJoinGame;
+}
+
+function toJoin(e) {
+    $.post("/api/game/" + e.getAttribute("data-gameid") + "/players").done(function(data) {
+            location.href = "game.html?gp=" + data.gpid.valueOf()
+        })
+        .fail(function(jqXHR, textStatus) {
+            console.log(jqXHR.responseText)
+        })
+}
+
+function toCreateGame() {
+    $.post("/api/games").done(function(data) {
+        location.href = "/web/game.html?gp=" + data.gpid.valueOf()
+    }).
+    fail(function(jqXHR, textStatus) {
+        console.log(jqXHR.responseText)
+    })
+}
+
+//Carga y actualizacion de datos
+function loadData() {
+    $.get("http://localhost:8080/api/games")
+        .done(function(data) {
+            updateViewGames(data);
+        })
+        .fail(function(jqXHR, textStatus) {
+            //  alert( "Failed: " + textStatus );
+        });
+
+    $.get("http://localhost:8080/api/leaderBoard")
+        .done(function(data) {
+            updateViewLBoard(data);
+        })
+        .fail(function(jqXHR, textStatus) {
+            alert("Failed: " + textStatus);
+        });
+}
+
+function updateViewGames(data) {
+    console.log(data)
+    gameList.innerHTML = ""
+    document.getElementById("MessageToLogin").setAttribute("style", "display:none");
+    if (data.player != "Guest") {
+        let btnCreate = document.getElementById("btnCreate")
+        btnCreate.style.display = "block"
+    }
+    var htmlListGames = data.games.map(function(game) {
+
+        let line = document.createElement("li")
+
+        function toCreateBtn(id, message, func) {
+            if (data.player != "Guest") {
+                let btnJoinGame = document.createElement("button")
+                btnJoinGame.setAttribute("onclick", func)
+                btnJoinGame.classList.add('btnJoinGame', 'btn', 'bg-success')
+                btnJoinGame.setAttribute("data-gameId", id)
+                btnJoinGame.innerText = message
+                line.appendChild(btnJoinGame)
+            }
+        }
+        game.gamePlayers.map(function(gamePlayer) {
+            //game.gamePlayers.length == 2 && 
+            if (gamePlayer.player.email == data.player.email) {
+                toCreateBtn(gamePlayer.id, "Re-Entry", "toReEntry(this)")
+                return //idGamePlayer = gamePlayer.id
+            } else if (game.gamePlayers.length == 1 && gamePlayer.player.email != data.player.email) {
+                toCreateBtn(game.id, "Join!", "toJoin(this)")
+                return
+            }
+        })
+
+        var spanUser = document.getElementById("spanUser")
+        spanUser.textContent = data.player.email
+
+        line.classList.add('list-group-item')
+
+        let textDate = document.createElement("h5")
+        textDate.innerHTML = new Date(game.created).toLocaleString()
+
+        let textPlayer = document.createElement("h6")
+        textPlayer.innerHTML = game.gamePlayers.map(function(element) {
+            return element.player.email
+        }).join(' VS ');
+
+        line.appendChild(textDate)
+        line.appendChild(textPlayer)
+
+        return gameList.appendChild(line)
+    })
+}
+
+function updateViewLBoard(data) {
+    var htmlList = data.map(function(score) {
+        return '<tr><td>' + score.email + '</td>' +
+            '<td>' + score.scores.total + '</td>' +
+            '<td>' + score.scores.won + '</td>' +
+            '<td>' + score.scores.lost + '</td>' +
+            '<td>' + score.scores.tied + '</td></tr>';
+    }).join('');
+    document.getElementById("leader-list").innerHTML = htmlList;
+}
+
+
+
+
+
+
 /*
 function loginFunc(nameUsu, passwordUsu) {
 

@@ -7,7 +7,7 @@ $(function() {
 var tipos = [{
             tipo: "Aircraft",
             cantidad: 5,
-            orientation: true,
+            orientation: false,
         },
         {
             tipo: "Battleship",
@@ -17,7 +17,7 @@ var tipos = [{
         {
             tipo: "Submarine",
             cantidad: 3,
-            orientation: true
+            orientation: false
         },
         {
             tipo: "Destroyer",
@@ -39,22 +39,22 @@ var bufferNumConservado
 var bufferNumCambiante
 var bufferTipo
 
-
 //Creacion de elementos:
-//Configura barcos
 var barco = document.querySelectorAll(".barco")
+var barcoHall = document.querySelectorAll(".barcoHall")
+var dates = document.querySelectorAll('*[id^="B_"]');
+
+//Configura barcos
 barco.forEach((a) => {
         a.setAttribute("draggable", "true");
         a.setAttribute("ondragstart", "drag(event)")
     })
     //Configura casillero del Hall inicial de barcos
-var barcoHall = document.querySelectorAll(".barcoHall")
 barcoHall.forEach((a) => {
         a.setAttribute("ondrop", "drop(event)")
         a.setAttribute("ondragover", "allowDrop(event)")
     })
     //Configura casilleros del Drag and Drop
-var dates = document.querySelectorAll('*[id^="B_"]');
 dates.forEach(s => {
     s.setAttribute("ondrop", "drop(event)");
     s.setAttribute("ondragover", "allowDrop(event)")
@@ -151,7 +151,9 @@ function toChangeOrientation(ev) {
                 "orientation": !e.orientation
             }
             return modificado
-        } else { return e }
+        } else {
+            return e
+        }
     }))
     toGetOrientation(ship)
     toPosIniPosCam(shipPosition, ship)
@@ -195,7 +197,9 @@ function toValidatePosition() {
     toBuildArrAuxLocation()
 
     var valido = true
-    var auxLocation = arrLocation.filter((ship) => { return bufferTipo != ship.type })
+    var auxLocation = arrLocation.filter((ship) => {
+        return bufferTipo != ship.type
+    })
 
     auxLocation.forEach(function(ship) {
         ship.locations.forEach((location) => {
