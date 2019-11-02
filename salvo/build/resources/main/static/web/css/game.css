@@ -1,0 +1,67 @@
+.ship-piece {
+    background-color: mediumpurple;
+}
+
+​ .ship-piece-hited {
+    background-color: darkmagenta;
+}
+
+​ .salvo {
+    background-color: crimson;
+}
+
+.salvo-piece {
+    background-color: crimson;
+}
+
+
+/*.ship{
+    width: 3%;
+    height: auto;
+}*/
+
+td {
+    padding: 0
+}
+
+body {
+    height: 100vh;
+    background-color: aqua;
+    background-image: url("../img/shipInitial.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+}
+
+.list-group-item {
+    background-color: transparent;
+    color: black;
+}
+
+.table td {
+    padding: 0;
+}
+
+td {
+    text-align: center;
+    max-width: 3px;
+    max-height: 3px;
+}
+
+.btnGiro {
+    max-width: 3px;
+    max-height: 3px;
+}
+
+#game-list {
+    max-height: 37vh;
+    overflow: scroll;
+}
+
+#btnEnviarBarcos {
+    display: block;
+}
+
+#btnCreate {
+    display: none;
+}
