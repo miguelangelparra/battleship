@@ -1,5 +1,6 @@
 package com.codeoftheweb.salvo.controllers;
 
+import com.codeoftheweb.salvo.models.GamePlayer;
 import com.codeoftheweb.salvo.models.Ship;
 import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
 import com.codeoftheweb.salvo.repositories.ShipRepository;
@@ -27,19 +28,19 @@ public class ShipController {
 
   @RequestMapping(path = "/games/players/{gamePlayerId}/ships", method = RequestMethod.POST)
   public ResponseEntity<Object> addShips(@PathVariable long gamePlayerId, @RequestBody List<Ship> ships, Authentication authentication) {
-
+GamePlayer gamePlayer = gamePlayerRepository.findById(gamePlayerId).get();
     if(authentication == null
       || authentication.getName() == "Guest"
-      || gamePlayerRepository.findById(gamePlayerId).get().getPlayer().getEmail() != authentication.getName()
+      || gamePlayer.getPlayer().getEmail() != authentication.getName()
     ) {
       return new ResponseEntity<>("You are not a User Authorized to place ships in this game", HttpStatus.UNAUTHORIZED);
     }
-    if (!gamePlayerRepository.findById(gamePlayerId).get().getShips().isEmpty()) {
+    if (!gamePlayer.getShips().isEmpty()) {
       return new ResponseEntity<>("Forbidden. Your ships have already been placed .", HttpStatus.FORBIDDEN);
     }
 
     ships.forEach(ship -> {
-        ship.setGamePlayer(gamePlayerRepository.findById(gamePlayerId).get());
+        ship.setGamePlayer(gamePlayer);
         shipRepository.save(ship);
       gamePlayerRepository.findById(gamePlayerId).get().addShip(ship);
       }

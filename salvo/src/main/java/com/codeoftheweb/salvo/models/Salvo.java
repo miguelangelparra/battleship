@@ -53,6 +53,10 @@ public class Salvo {
     return gamePlayer;
   }
 
+  public void setGamePlayer(GamePlayer gamePlayer) {
+    this.gamePlayer = gamePlayer;
+  }
+
   public Map<String, Object> makeSalvoDTO() {
     Map<String, Object> dto = new LinkedHashMap<>();
     dto.put("turn", this.getTurn());

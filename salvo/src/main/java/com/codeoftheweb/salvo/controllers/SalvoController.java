@@ -1,126 +1,84 @@
 package com.codeoftheweb.salvo.controllers;
 
-import com.codeoftheweb.salvo.models.Game;
 import com.codeoftheweb.salvo.models.GamePlayer;
-import com.codeoftheweb.salvo.models.Player;
-import com.codeoftheweb.salvo.models.Ship;
+import com.codeoftheweb.salvo.models.Salvo;
 import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
-import com.codeoftheweb.salvo.repositories.GameRepository;
-import com.codeoftheweb.salvo.repositories.PlayerRepository;
-import com.codeoftheweb.salvo.repositories.ShipRepository;
+import com.codeoftheweb.salvo.repositories.SalvoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import javax.xml.ws.Response;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
 public class SalvoController {
 
-    @Autowired
-    private GameRepository gameRepository;
-    @Autowired
-    private GamePlayerRepository gamePlayerRepository;
-    @Autowired
-    private PlayerRepository playerRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private ShipRepository shipRepository;
+  @Autowired
+  private GamePlayerRepository gamePlayerRepository;
+  @Autowired
+  private SalvoRepository salvoRepository;
 
-    @RequestMapping("/leaderBoard")
-    public List<Map<String, Object>> leaderBoard() {
-        return playerRepository.findAll()
-          .stream()
-          .map(player -> player.makePlayerScoreDTO())
-          .collect(Collectors.toList());
+  @RequestMapping(path="/games/players/{gamePlayerId}/salvos")
+  public Set<Salvo> getSalvoes(@PathVariable long gamePlayerId){
+    return gamePlayerRepository.findById(gamePlayerId).get().getSalvoes();
+  }
+
+  @RequestMapping(path = "/games/players/{gamePlayerId}/salvos", method = RequestMethod.POST)
+  public ResponseEntity<Object> addSalvoes(@PathVariable long gamePlayerId, @RequestBody Set<String> salvoes , Authentication authentication) {
+
+
+    System.out.println(salvoes);
+
+
+    GamePlayer gamePlayer = gamePlayerRepository.findById(gamePlayerId).get();
+
+    if(authentication == null
+      || authentication.getName() == "Guest"
+      || gamePlayer.getPlayer().getEmail() != authentication.getName()
+    ) {
+      return new ResponseEntity<>("You are not a User Authorized to place ships in this game", HttpStatus.UNAUTHORIZED);
+    }
+    if (salvoes.size() > 5) {
+      return new ResponseEntity<>("Forbidden. You are trying send more than 5 salvoes.", HttpStatus.FORBIDDEN);
     }
 
-    @RequestMapping(path = "/game/{idGame}/players", method = RequestMethod.POST)
-    public ResponseEntity<Map<String,Object>> toJoinGame(Authentication authentication, @PathVariable long idGame) {
-        Game game = gameRepository.findById(idGame);
-        System.out.println(game);
-        if (authentication == null) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+    int turnOponente = 0;
+      for (GamePlayer gp : gamePlayer.getGame().getGamePlayers()){
+        if (gp.getId() != gamePlayerId){
+           turnOponente = gp.getSalvoes().size();
         }
-        if (game == null) {
-            return new ResponseEntity<Map<String,Object>>( makeMap("error","No Such Game"), HttpStatus.FORBIDDEN);
-        }
-        System.out.println(game.getGamePlayersList());
-        if (game.getGamePlayers().size() == 2){
-            return new ResponseEntity<Map<String,Object>>(makeMap("error","Game is Full"), HttpStatus.FORBIDDEN);
-        }
-        GamePlayer gamePlayer = new GamePlayer(Instant.now(),playerRepository.findByEmail(authentication.getName()),game);
-        gamePlayerRepository.save(gamePlayer);
+      }
+      //   if( turnOponente +1 < gamePlayer.getSalvoes().size()) {
+       if( turnOponente  < gamePlayer.getSalvoes().size()) {
+         return new ResponseEntity<>("You are trying to cheat", HttpStatus.NOT_ACCEPTABLE);
+       }
+System.out.println(turnOponente);
 
-        return new ResponseEntity<Map<String,Object>>(makeMap("gpid",gamePlayer.getId()), HttpStatus.CREATED);
-    }
+    int turn = gamePlayer.getSalvoes().size();
+    Salvo salvo = new Salvo(++turn,salvoes,gamePlayer);
+        salvoRepository.save(salvo);
+        System.out.println(turn);
 
-    @RequestMapping("/game_view/{idGamePlayer}")
-    public ResponseEntity<Map<String, Object>> game(@PathVariable Long idGamePlayer, Authentication authentication) {
-        System.out.println(authentication.getName());
-        if (gamePlayerRepository.findById(idGamePlayer).get().getPlayer().getEmail() != authentication.getName()) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
-        return new ResponseEntity<>((gameViewDTO(gamePlayerRepository.findById(idGamePlayer).get())), HttpStatus.ACCEPTED);
-    }
-
-    private Map<String, Object> gameViewDTO(GamePlayer gamePlayer) {
-        Map<String, Object> dto = new LinkedHashMap<>();
-
-        dto.put("id", gamePlayer.getId());
-        dto.put("created", gamePlayer.getJoinGame());
-        dto.put("gamePlayers", gamePlayer.getGame().getGamePlayers()
-                .stream()
-                .map(gP -> gP.makeGamePlayerDTO()));
-
-        dto.put("ships", gamePlayer.getShips()
-                .stream()
-                .map(sh -> sh.makeShipDTO()));
-
-        dto.put("salvoes", gamePlayer.getSalvoes()
-                .stream()
-                .flatMap((gP -> gamePlayer.getSalvoes()
-                        .stream()
-                        .map(salvo -> salvo.makeSalvoDTO()))));
-        return dto;
-    }
-
-    private Map<String, Object> makeMap(String key, Object value) {
-        Map<String, Object> map = new HashMap<>();
-        map.put(key, value);
-        return map;
-    }
-
+    return new ResponseEntity<>("Salvoes have been created", HttpStatus.CREATED);
+  }
 }
 
 
-
-
-// public List<Map<String,Object>> infoPlayersInGameDTO(Long id){
-//   return repoGame.findById(id).getGamePlayersList();
-//}
-
-    /* private Map<String,Object> infoPlayerDTO(Player player){
-
-       Codigo para encontrar una lista de juegos donde participa el jugador
-
-       List<GamePlayer> gamePlayerForPlayer = repoGamePlayer.findAll()
-                .stream()
-                .filter(gamePlayer -> gamePlayer.getPlayer().getId() == player.getId()).collect(Collectors.toList());
-        dto.put("gamesOwn",gamePlayerForPlayer);
-        //dto.put("games",game(repoGamePlayer.findById((player.getId()))));
-        return dto;
-    }*/
-
-//return repo.findAll().stream().map(game -> game.getId()).collect(Collectors.toList()); Para pedir solo el ID
+/*
+TO TEST SALVOES
+* $.post({
+      url: "/api/games/players/1/salvos",
+      data: JSON.stringify(["A1", "A2", "A3","A21","A222"]),
+      dataType: "text",
+      contentType: "application/json"
+  }).done(function(data){console.log(data)})
+*
+* */
