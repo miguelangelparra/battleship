@@ -1,36 +1,36 @@
 //Dispara funcion de solicitud de datos al servidor
-$(function() {
+$(function () {
     loadData();
 });
 
 //Barcos
 var tipos = [{
-            tipo: "Aircraft",
-            cantidad: 5,
-            orientation: false,
-        },
-        {
-            tipo: "Battleship",
-            cantidad: 4,
-            orientation: false
-        },
-        {
-            tipo: "Submarine",
-            cantidad: 3,
-            orientation: false
-        },
-        {
-            tipo: "Destroyer",
-            cantidad: 3,
-            orientation: false
-        },
-        {
-            tipo: "Patrol",
-            cantidad: 2,
-            orientation: false
-        }
-    ]
-    //Variables de logica
+    tipo: "Aircraft",
+    cantidad: 5,
+    orientation: false,
+},
+{
+    tipo: "Battleship",
+    cantidad: 4,
+    orientation: false
+},
+{
+    tipo: "Submarine",
+    cantidad: 3,
+    orientation: false
+},
+{
+    tipo: "Destroyer",
+    cantidad: 3,
+    orientation: false
+},
+{
+    tipo: "Patrol",
+    cantidad: 2,
+    orientation: false
+}
+]
+//Variables de logica
 var arrLocation = [];
 var arrAuxLocation = []
 var bufferOrientation = false
@@ -43,23 +43,26 @@ var bufferTipo
 var barco = document.querySelectorAll(".barco")
 var barcoHall = document.querySelectorAll(".barcoHall")
 var dates = document.querySelectorAll('*[id^="B_"]');
+var salvoHall = document.querySelectorAll('*[id^="S_"]');
 
 //Configura barcos
 barco.forEach((a) => {
-        a.setAttribute("draggable", "true");
-        a.setAttribute("ondragstart", "drag(event)")
-    })
-    //Configura casillero del Hall inicial de barcos
+    a.setAttribute("draggable", "true");
+    a.setAttribute("ondragstart", "drag(event)")
+})
+//Configura casillero del Hall inicial de barcos
 barcoHall.forEach((a) => {
-        a.setAttribute("ondrop", "drop(event)")
-        a.setAttribute("ondragover", "allowDrop(event)")
-    })
-    //Configura casilleros del Drag and Drop
+    a.setAttribute("ondrop", "drop(event)")
+    a.setAttribute("ondragover", "allowDrop(event)")
+})
+//Configura casilleros del Drag and Drop
 dates.forEach(s => {
     s.setAttribute("ondrop", "drop(event)");
     s.setAttribute("ondragover", "allowDrop(event)")
     s.setAttribute("ondragleave", "dragLeave(event)")
 })
+//Configura casilleros de los Halls de Salvoes
+salvoHall.forEach(sh=>sh.setAttribute("onclick","toLocateSalvo(this)"))
 
 //Movimiento Drag and Drop:
 //toma barco
@@ -81,7 +84,7 @@ function allowDrop(ev) {
     ev.preventDefault();
     toPosIniPosCam(ev.target.id, bufferTipo)
     toBuildArrAuxLocation()
-    arrAuxLocation.forEach(function(shipLocation) {
+    arrAuxLocation.forEach(function (shipLocation) {
         $('#B_' + shipLocation).addClass('ship-piece');
     })
 }
@@ -143,7 +146,7 @@ function toChangeOrientation(ev) {
     var shipPosition = button.parentElement.parentElement.id
     toGetTipoCant(ship)
     toSetTipo(ship)
-    tipos = (tipos.map(function(e) {
+    tipos = (tipos.map(function (e) {
         if (e.tipo == ship) {
             var modificado = {
                 "tipo": e.tipo,
@@ -165,14 +168,14 @@ function toFindRepetedShip(tipo) {
     if (arrLocation.some((e) => e.type == tipo)) {
         arrLocation.find(e => e.type == tipo).locations = arrAuxLocation
         arrAuxLocation = []
-            //repetido
+        //repetido
     } else {
         arrLocation.push({
             type: tipo,
             locations: arrAuxLocation
         })
         arrAuxLocation = []
-            //No repetido
+        //No repetido
     }
 }
 //Construye array auxiliar de posiciones
@@ -201,7 +204,7 @@ function toValidatePosition() {
         return bufferTipo != ship.type
     })
 
-    auxLocation.forEach(function(ship) {
+    auxLocation.forEach(function (ship) {
         ship.locations.forEach((location) => {
             for (let i = 0; i < arrAuxLocation.length; i++) {
                 if (arrAuxLocation[i] == location) {
@@ -215,11 +218,21 @@ function toValidatePosition() {
     }
     return valido
 }
+//Salvoes:
+//Posicionamiento de Salvoes
+function toLocateSalvo(e){
+    console.log(e.id)
+   if (e.hasClass("salvo")){
+        e.removeClass('salvo')
+    }else{
+        e.addClass('salvo')
+    }
+}
 //Dibujos:
 //Dibuja en barcos
 function toDrawShips(ships, salvoes, playerInfo) {
-    ships.forEach(function(shipPiece) {
-        shipPiece.locations.forEach(function(shipLocation) {
+    ships.forEach(function (shipPiece) {
+        shipPiece.locations.forEach(function (shipLocation) {
             if (playerInfo == undefined) {
                 $('#B_' + shipLocation).addClass('ship-piece');
             } else {
@@ -234,13 +247,13 @@ function toDrawShips(ships, salvoes, playerInfo) {
 }
 //Dibuja salvos
 function toDrawSalvoes(salvoes, playerInfo) {
-    salvoes.forEach(function(salvo) {
+    salvoes.forEach(function (salvo) {
         if (playerInfo[0].id === salvo.player) {
-            salvo.locations.forEach(function(location) {
+            salvo.locations.forEach(function (location) {
                 $('#S_' + location).addClass('salvo-piece');
             });
         } else {
-            salvo.locations.forEach(function(location) {
+            salvo.locations.forEach(function (location) {
                 $('#B_' + location).addClass('salvo');
             });
         }
@@ -249,9 +262,9 @@ function toDrawSalvoes(salvoes, playerInfo) {
 //Dibuja Barcos impactados
 function isHit(shipLocation, salvoes, playerId) {
     var turn = 0;
-    salvoes.forEach(function(salvo) {
+    salvoes.forEach(function (salvo) {
         if (salvo.player != playerId)
-            salvo.locations.forEach(function(location) {
+            salvo.locations.forEach(function (location) {
                 if (shipLocation === location)
                     turn = salvo.turn;
             });
@@ -262,16 +275,33 @@ function isHit(shipLocation, salvoes, playerId) {
 //Envia Barcos
 function toAddShips() {
     $.post({
-            url: '/api/games/players/' + toGetParameterByName('gp') + '/ships',
-            data: JSON.stringify(arrLocation),
-            dataType: "text",
-            contentType: "application/json"
-        })
-        .done(function(data) {
+        url: '/api/games/players/' + toGetParameterByName('gp') + '/ships',
+        data: JSON.stringify(arrLocation),
+        dataType: "text",
+        contentType: "application/json"
+    })
+        .done(function (data) {
             console.log("success");
             location.reload()
         })
-        .fail(function(jqXHR, textStatus) {
+        .fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status)
+        })
+}
+//Envia Salvoes
+function toAddSalvoes() {
+    var salvoes = document.getElementsByClassName("salvo").id
+    console.log(salvoes)
+    $.post({
+        url: '/api/games/player/' + toGetParameterByName('gp') + 'salvos',
+        data: JSON.stringify(salvoes),
+        dataType: 'text',
+        contentType: 'application/json'
+    })
+        .done(function (data) {
+            console.log("Salvoes sent")
+        })
+        .fail(function(jqXHR){
             console.log(jqXHR.status)
         })
 }
@@ -283,7 +313,7 @@ function toGetParameterByName(name) {
 //Realiza peticion de datos del juego
 function loadData() {
     $.get('/api/game_view/' + toGetParameterByName('gp'))
-        .done(function(data) {
+        .done(function (data) {
             var playerInfo;
             console.log(data)
             if (data.gamePlayers.length == 1) {
@@ -304,13 +334,13 @@ function loadData() {
             toDrawShips(data.ships, data.salvoes, playerInfo)
             toDrawSalvoes(data.salvoes, playerInfo)
         })
-        .fail(function(jqXHR, textStatus) {
+        .fail(function (jqXHR, textStatus) {
             alert("Failed: " + textStatus);
         });
 };
 //Realiza logout
 function toLogOut() {
-    $.post("/api/logout").done(function() {
+    $.post("/api/logout").done(function () {
         location.href = "/web/games.html"
     })
 }
