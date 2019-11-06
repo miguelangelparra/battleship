@@ -222,10 +222,11 @@ function toValidatePosition() {
 //Posicionamiento de Salvoes
 function toLocateSalvo(e){
     console.log(e.id)
-   if (e.hasClass("salvo")){
-        e.removeClass('salvo')
+console.log(e)
+   if ($('#'+e.id).hasClass('salvo-piece')){
+        $('#'+e.id).removeClass('salvo-piece')
     }else{
-        e.addClass('salvo')
+       $('#'+e.id).addClass('salvo-piece')
     }
 }
 //Dibujos:
@@ -290,10 +291,10 @@ function toAddShips() {
 }
 //Envia Salvoes
 function toAddSalvoes() {
-    var salvoes = document.getElementsByClassName("salvo").id
+    var salvoes = Array.from(document.getElementsByClassName("salvo-piece")).map(s=>s.id)
     console.log(salvoes)
     $.post({
-        url: '/api/games/player/' + toGetParameterByName('gp') + 'salvos',
+        url: '/api/games/players/' + toGetParameterByName('gp') + '/salvos',
         data: JSON.stringify(salvoes),
         dataType: 'text',
         contentType: 'application/json'
