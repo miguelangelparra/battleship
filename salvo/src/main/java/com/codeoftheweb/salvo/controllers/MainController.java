@@ -89,10 +89,8 @@ public class MainController {
                 .map(sh -> sh.makeShipDTO()));
 
         dto.put("salvoes", gamePlayer.getSalvoes()
-                .stream()
-                .flatMap((gP -> gamePlayer.getSalvoes()
                         .stream()
-                        .map(salvo -> salvo.makeSalvoDTO()))));
+                        .map(salvo -> salvo.makeSalvoDTO()));
         return dto;
     }
 
@@ -124,3 +122,13 @@ public class MainController {
     }*/
 
 //return repo.findAll().stream().map(game -> game.getId()).collect(Collectors.toList()); Para pedir solo el ID
+
+
+/*
+BUG Salvos Duplicados Corregidos.
+   dto.put("salvoes", gamePlayer.getSalvoes()
+                .stream()
+                .flatMap((gP -> gamePlayer.getSalvoes()
+                        .stream()
+                        .map(salvo -> salvo.makeSalvoDTO()))));
+ */

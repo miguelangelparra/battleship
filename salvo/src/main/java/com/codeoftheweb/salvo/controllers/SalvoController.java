@@ -34,9 +34,7 @@ public class SalvoController {
   @RequestMapping(path = "/games/players/{gamePlayerId}/salvos", method = RequestMethod.POST)
   public ResponseEntity<Object> addSalvoes(@PathVariable long gamePlayerId, @RequestBody Set<String> salvoes , Authentication authentication) {
 
-
     System.out.println(salvoes);
-
 
     GamePlayer gamePlayer = gamePlayerRepository.findById(gamePlayerId).get();
 
