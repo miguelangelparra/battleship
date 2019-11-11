@@ -172,8 +172,8 @@ function toFindRepetedShip(tipo) {
             //repetido
     } else {
         arrLocation.push({
-            type: tipo,
-            locations: arrAuxLocation
+            "type": tipo,
+            "locations": arrAuxLocation
         })
         arrAuxLocation = []
             //No repetido
@@ -227,7 +227,7 @@ function toLocateSalvo(e) {
     if ($('#' + e.id).hasClass('salvo-piece')) {
         $('#' + e.id).removeClass('salvo-piece')
         salvoesCant--
-    } else if (salvoesCant < 5) {
+    } else if (salvoesCant < 5 && !$('#' + e.id).hasClass('salvo-piece-finished')) {
         $('#' + e.id).addClass('salvo-piece')
         salvoesCant++
     }
@@ -251,33 +251,38 @@ function toDrawShips(ships, salvoes, playerInfo) {
 }
 //Dibuja salvos
 function toDrawSalvoes(salvoes, playerInfo) {
-    salvoes.forEach(function(salvo) {
+    salvoes.forEach(function(gp) {
+
+    gp.forEach(salvo=>{
         if (playerInfo[0].id === salvo.player) {
             salvo.locations.forEach(function(location) {
-                $('#S_' + location).addClass('salvo-piece');
+                $('#S_' + location).addClass('salvo-piece-finished');
             });
         } else {
             salvo.locations.forEach(function(location) {
                 $('#B_' + location).addClass('salvo');
             });
         }
-    })
+    })})
 }
 //Dibuja Barcos impactados
 function isHit(shipLocation, salvoes, playerId) {
     var turn = 0;
-    salvoes.forEach(function(salvo) {
+    salvoes.forEach(function(gp){
+     gp.forEach(salvo=>{
         if (salvo.player != playerId)
             salvo.locations.forEach(function(location) {
                 if (shipLocation === location)
                     turn = salvo.turn;
             });
+    })
     });
     return turn;
 }
 //Interaccion con servidor:
 //Envia Barcos
 function toAddShips() {
+console.log(arrLocation)
     $.post({
             url: '/api/games/players/' + toGetParameterByName('gp') + '/ships',
             data: JSON.stringify(arrLocation),
@@ -294,7 +299,7 @@ function toAddShips() {
 }
 //Envia Salvoes
 function toAddSalvoes() {
-    var salvoes = Array.from(document.getElementsByClassName("salvo-piece")).map(s => s.id)
+    var salvoes = Array.from(document.getElementsByClassName("salvo-piece")).map(s => s.id.split("_")[1])
     console.log(salvoes)
     $.post({
             url: '/api/games/players/' + toGetParameterByName('gp') + '/salvos',

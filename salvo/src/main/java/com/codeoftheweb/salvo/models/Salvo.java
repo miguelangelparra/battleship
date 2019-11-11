@@ -1,5 +1,6 @@
 package com.codeoftheweb.salvo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Salvo {
   @Column(name = "salvoLocation")
   private Set<String> salvoLocations;
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "gamePlayer_id")
   private GamePlayer gamePlayer;
@@ -49,6 +51,7 @@ public class Salvo {
     return salvoLocations;
   }
 
+  @JsonIgnore
   public GamePlayer getGamePlayer() {
     return gamePlayer;
   }

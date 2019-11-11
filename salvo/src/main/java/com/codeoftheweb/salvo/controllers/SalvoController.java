@@ -4,6 +4,7 @@ import com.codeoftheweb.salvo.models.GamePlayer;
 import com.codeoftheweb.salvo.models.Salvo;
 import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
 import com.codeoftheweb.salvo.repositories.SalvoRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,16 +27,15 @@ public class SalvoController {
   @Autowired
   private SalvoRepository salvoRepository;
 
-  @RequestMapping(path="/games/players/{gamePlayerId}/salvos")
+
+    @RequestMapping(path="/games/players/{gamePlayerId}/salvos")
   public Set<Salvo> getSalvoes(@PathVariable long gamePlayerId){
     return gamePlayerRepository.findById(gamePlayerId).get().getSalvoes();
   }
-
   @RequestMapping(path = "/games/players/{gamePlayerId}/salvos", method = RequestMethod.POST)
   public ResponseEntity<Object> addSalvoes(@PathVariable long gamePlayerId, @RequestBody Set<String> salvoes , Authentication authentication) {
 
     System.out.println(salvoes);
-
     GamePlayer gamePlayer = gamePlayerRepository.findById(gamePlayerId).get();
 
     if(authentication == null

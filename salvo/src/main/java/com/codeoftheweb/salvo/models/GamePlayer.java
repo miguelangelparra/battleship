@@ -76,7 +76,6 @@ public class GamePlayer {
     ship.setGamePlayer(this);
     ships.add(ship);
   }
-
   public Set<Salvo> getSalvoes() {
     return salvoes;
   }

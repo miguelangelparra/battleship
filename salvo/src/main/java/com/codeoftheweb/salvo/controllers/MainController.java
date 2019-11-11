@@ -1,13 +1,8 @@
 package com.codeoftheweb.salvo.controllers;
 
-import com.codeoftheweb.salvo.models.Game;
-import com.codeoftheweb.salvo.models.GamePlayer;
-import com.codeoftheweb.salvo.models.Player;
-import com.codeoftheweb.salvo.models.Ship;
-import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
-import com.codeoftheweb.salvo.repositories.GameRepository;
-import com.codeoftheweb.salvo.repositories.PlayerRepository;
-import com.codeoftheweb.salvo.repositories.ShipRepository;
+import com.codeoftheweb.salvo.models.*;
+import com.codeoftheweb.salvo.repositories.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,7 +28,11 @@ public class MainController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
+    @JsonIgnore
     private ShipRepository shipRepository;
+    @Autowired
+    @JsonIgnore
+    private HistoryRepository historyRepository;
 
     @RequestMapping("/leaderBoard")
     public List<Map<String, Object>> leaderBoard() {
@@ -86,13 +82,53 @@ public class MainController {
 
         dto.put("ships", gamePlayer.getShips()
                 .stream()
-                .map(sh -> sh.makeShipDTO()));
+                .map(sh -> sh.makeShipDTO())
+                .collect(Collectors.toList()));
 
-        dto.put("salvoes", gamePlayer.getSalvoes()
+        dto.put("salvoes", gamePlayer.getGame().getGamePlayers()
+                .stream()
+                .map(gp -> gp.getSalvoes()
                         .stream()
-                        .map(salvo -> salvo.makeSalvoDTO()));
+                        .map(salvo -> salvo.makeSalvoDTO())));
+
+
+        for (GamePlayer gp : gamePlayer.getGame().getGamePlayers()) {
+            if (gp.getId() != gamePlayer.getId()) {
+                GamePlayer oponente = gp;
+
+                List<Ship> barcosOponente = oponente.getShips();
+                Set<Salvo> salvoesOponente = oponente.getSalvoes();
+
+
+               /* dto.put("historial", barcosOponente
+                        .stream()
+                        .map(sh -> {*/
+                   for (Salvo sl : gamePlayer.getSalvoes()) {
+                       for (String a : sl.getSalvoLocations()) {
+                           for(Ship sh : barcosOponente) {
+                               if (sh.getLocations().contains(a)) {
+                               History history = new History(sl.getTurn(), sh.getTypeShip(), gp.getId(), gp.getGame(), true);
+                               historyRepository.save(history);
+                               //   return  makeHistorialDTO(sl.getTurn(), sh.getTypeShip(), gp.getId());
+                           } else {
+                               History history = new History(sl.getTurn(), sh.getTypeShip(), gp.getId(), gp.getGame(), false);
+                               historyRepository.save(history);
+                           }
+                       }
+                       ;
+                   }
+               }
+                  //  return  "NoHit";
+             //   }).collect(Collectors.toList()));
+            }
+        }
+
+        dto.put("historial", gamePlayer.getGame().getHistoriesList());
+
         return dto;
+
     }
+
 
     private Map<String, Object> makeMap(String key, Object value) {
         Map<String, Object> map = new HashMap<>();
@@ -100,6 +136,13 @@ public class MainController {
         return map;
     }
 
+   /* public Map<String, Object> makeHistorialDTO(long turn,String shipType, long player,) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("turn", turn);
+        dto.put("shipHited", shipType);
+        dto.put("player", player);
+        return dto;
+    }*/
 }
 
 

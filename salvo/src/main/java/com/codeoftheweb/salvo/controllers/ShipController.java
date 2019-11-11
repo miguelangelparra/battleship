@@ -39,7 +39,10 @@ GamePlayer gamePlayer = gamePlayerRepository.findById(gamePlayerId).get();
       return new ResponseEntity<>("Forbidden. Your ships have already been placed .", HttpStatus.FORBIDDEN);
     }
 
+    System.out.println(ships);
+
     ships.forEach(ship -> {
+        System.out.println(ship.getTypeShip());
         ship.setGamePlayer(gamePlayer);
         shipRepository.save(ship);
       gamePlayerRepository.findById(gamePlayerId).get().addShip(ship);

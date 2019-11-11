@@ -3,7 +3,8 @@
 }
 
 ​ .ship-piece-hited {
-    background-color: darkmagenta;
+    background-color: green;
+    color:green
 }
 
 ​ .salvo {
@@ -14,7 +15,9 @@
     background-color: crimson;
 }
 
-
+.salvo-piece-finished {
+    background-color: green;
+}
 /*.ship{
     width: 3%;
     height: auto;
