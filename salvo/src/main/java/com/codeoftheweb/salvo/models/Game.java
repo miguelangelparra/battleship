@@ -21,9 +21,9 @@ public class Game {
   @JsonIgnore
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
   List<Score> scores;
-  @JsonIgnore
+ /* @JsonIgnore
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
-  Set<History> histories;
+  Set<History> histories;*/
 
   public Game() {
     this.dateGame = new Date();
@@ -54,7 +54,7 @@ public class Game {
     dto.put("created", this.getDateGame().getTime());
     dto.put("gamePlayers", this.getGamePlayersList());
     dto.put("score", this.getScoresList());
-    dto.put("histories",this.getHistoriesList());
+   // dto.put("histories",this.getHistoriesList());
     return dto;
   }
 @JsonIgnore
@@ -70,11 +70,11 @@ public class Game {
       .map(GamePlayer -> GamePlayer.makeGamePlayerDTO())
       .collect(Collectors.toList());
   }
-  @JsonIgnore
+ /* @JsonIgnore
   public List<Map<String, Object>> getHistoriesList() {
     return this.histories.stream()
             .map(history -> history.makeHistoryDTO())
             .collect(Collectors.toList());
-  }
+  }*/
 
 }

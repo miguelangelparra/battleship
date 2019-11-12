@@ -1,6 +1,5 @@
 package com.codeoftheweb.salvo.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,7 +16,7 @@ public class Ship {
   @GenericGenerator(name = "native", strategy = "native")
   private long id;
 
-  @JsonIgnore
+
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "gamePlayer_id")
   private GamePlayer gamePlayer;
@@ -64,6 +63,7 @@ public class Ship {
   public void setGamePlayer(GamePlayer gamePlayer) {
     this.gamePlayer = gamePlayer;
   }
+
 
   public Map<String, Object> makeShipDTO() {
     Map<String, Object> dto = new LinkedHashMap<String, Object>();

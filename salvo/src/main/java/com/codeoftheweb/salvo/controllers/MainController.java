@@ -77,54 +77,67 @@ public class MainController {
         dto.put("id", gamePlayer.getId());
         dto.put("created", gamePlayer.getJoinGame());
         dto.put("gamePlayers", gamePlayer.getGame().getGamePlayers()
-                .stream()
-                .map(gP -> gP.makeGamePlayerDTO()));
+          .stream()
+          .map(gP -> gP.makeGamePlayerDTO()));
 
         dto.put("ships", gamePlayer.getShips()
-                .stream()
-                .map(sh -> sh.makeShipDTO())
-                .collect(Collectors.toList()));
+          .stream()
+          .map(sh -> sh.makeShipDTO())
+          .collect(Collectors.toList()));
 
         dto.put("salvoes", gamePlayer.getGame().getGamePlayers()
-                .stream()
-                .map(gp -> gp.getSalvoes()
-                        .stream()
-                        .map(salvo -> salvo.makeSalvoDTO())));
+          .stream()
+          .map(gp -> gp.getSalvoes()
+            .stream()
+            .map(salvo -> salvo.makeSalvoDTO())));
 
 
+        dto.put("historial", gamePlayer.getHistories().stream().map(a->a.makeHistoryDTO()));
+
+
+       /* List<History> Historial = new ArrayList<>();
         for (GamePlayer gp : gamePlayer.getGame().getGamePlayers()) {
             if (gp.getId() != gamePlayer.getId()) {
                 GamePlayer oponente = gp;
 
                 List<Ship> barcosOponente = oponente.getShips();
-                Set<Salvo> salvoesOponente = oponente.getSalvoes();
-
+                Set<Salvo> salvoesOponente = oponente.getSalvoes();*/
 
                /* dto.put("historial", barcosOponente
                         .stream()
                         .map(sh -> {*/
-                   for (Salvo sl : gamePlayer.getSalvoes()) {
-                       for (String a : sl.getSalvoLocations()) {
-                           for(Ship sh : barcosOponente) {
-                               if (sh.getLocations().contains(a)) {
-                               History history = new History(sl.getTurn(), sh.getTypeShip(), gp.getId(), gp.getGame(), true);
-                               historyRepository.save(history);
-                               //   return  makeHistorialDTO(sl.getTurn(), sh.getTypeShip(), gp.getId());
-                           } else {
-                               History history = new History(sl.getTurn(), sh.getTypeShip(), gp.getId(), gp.getGame(), false);
-                               historyRepository.save(history);
-                           }
-                       }
-                       ;
-                   }
-               }
-                  //  return  "NoHit";
-             //   }).collect(Collectors.toList()));
-            }
-        }
+              // dto.put("historial",gamePlayer.getSalvoes().stream().map(sl-> sl.getSalvoLocations().stream().map(s-> barcosOponente.stream().map(sh->sh.getLocations().contains(s)))));
 
-        dto.put("historial", gamePlayer.getGame().getHistoriesList());
 
+               /* for (Salvo sl : gamePlayer.getSalvoes()) {
+                    for (String a : sl.getSalvoLocations()) {
+                        for (Ship sh : barcosOponente) {
+                            if (sh.getLocations().contains(a)) {
+                                History history = new History(sl.getTurn(), sh.getTypeShip(), gp.getId(), gp.getGame(), true);
+                                Historial.add(history);
+
+                                // historyRepository.save(history);
+                                //   return  makeHistorialDTO(sl.getTurn(), sh.getTypeShip(), gp.getId());
+                            } else {
+                                History history = new History(sl.getTurn(), sh.getTypeShip(), gp.getId(), gp.getGame(), false);
+                                Historial.add(history);
+                                //historyRepository.save(history);
+                            }
+                        }
+                    }
+                }
+                //  return  "NoHit";
+                //   }).collect(Collectors.toList()));
+                //  }
+                //}
+
+                //dto.put("historial", gamePlayer.getGame().getHistoriesList());
+
+                dto.put("historial", Historial.stream().map(a -> a.makeHistoryDTO()).collect(Collectors.toList()));
+*/
+           // }
+
+       // }
         return dto;
 
     }

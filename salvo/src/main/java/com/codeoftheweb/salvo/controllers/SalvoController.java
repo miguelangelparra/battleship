@@ -1,8 +1,11 @@
 package com.codeoftheweb.salvo.controllers;
 
 import com.codeoftheweb.salvo.models.GamePlayer;
+import com.codeoftheweb.salvo.models.History;
 import com.codeoftheweb.salvo.models.Salvo;
+import com.codeoftheweb.salvo.models.Ship;
 import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
+import com.codeoftheweb.salvo.repositories.HistoryRepository;
 import com.codeoftheweb.salvo.repositories.SalvoRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 //import javax.xml.ws.Response;
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -27,6 +27,8 @@ public class SalvoController {
   @Autowired
   private SalvoRepository salvoRepository;
 
+  @Autowired
+  private HistoryRepository historyRepository;
 
     @RequestMapping(path="/games/players/{gamePlayerId}/salvos")
   public Set<Salvo> getSalvoes(@PathVariable long gamePlayerId){
@@ -38,7 +40,7 @@ public class SalvoController {
     System.out.println(salvoes);
     GamePlayer gamePlayer = gamePlayerRepository.findById(gamePlayerId).get();
 
-    if(authentication == null
+    if (authentication == null
       || authentication.getName() == "Guest"
       || gamePlayer.getPlayer().getEmail() != authentication.getName()
     ) {
@@ -49,25 +51,38 @@ public class SalvoController {
     }
 
     int turnOponente = 0;
-      for (GamePlayer gp : gamePlayer.getGame().getGamePlayers()){
-        if (gp.getId() != gamePlayerId){
-           turnOponente = gp.getSalvoes().size();
-        }
+    List<Ship> shipsOponente = new ArrayList<>();
+    for (GamePlayer gp : gamePlayer.getGame().getGamePlayers()) {
+      if (gp.getId() != gamePlayerId) {
+        turnOponente = gp.getSalvoes().size();
+        shipsOponente = gp.getShips();
       }
-      //   if( turnOponente +1 < gamePlayer.getSalvoes().size()) {
-       if( turnOponente  < gamePlayer.getSalvoes().size()) {
-         return new ResponseEntity<>("You are trying to cheat", HttpStatus.NOT_ACCEPTABLE);
-       }
-System.out.println(turnOponente);
+    }
+    //   if( turnOponente +1 < gamePlayer.getSalvoes().size()) {
+    if (turnOponente < gamePlayer.getSalvoes().size()) {
+      return new ResponseEntity<>("You are trying to cheat", HttpStatus.NOT_ACCEPTABLE);
+    }
+    System.out.println(turnOponente);
 
     int turn = gamePlayer.getSalvoes().size();
-    Salvo salvo = new Salvo(++turn,salvoes,gamePlayer);
-        salvoRepository.save(salvo);
-        System.out.println(turn);
+    Salvo salvo = new Salvo(++turn, salvoes, gamePlayer);
+    salvoRepository.save(salvo);
+    System.out.println(turn);
 
-    return new ResponseEntity<>("Salvoes have been created", HttpStatus.CREATED);
+
+    for (String a : salvo.getSalvoLocations()) {
+      for (Ship sh : shipsOponente) {
+        if (sh.getLocations().contains(a)) {
+          History history = new History(turn, gamePlayer, sh.getTypeShip(), true);
+          historyRepository.save(history);
+          //   return  makeHistorialDTO(sl.getTurn(), sh.getTypeShip(), gp.getId());
+        }
+      }
+    }
+      return new ResponseEntity<>("Salvoes have been created", HttpStatus.CREATED);
+    }
   }
-}
+
 
 
 /*
