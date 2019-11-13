@@ -21,7 +21,6 @@ public class Salvo {
   @Column(name = "salvoLocation")
   private Set<String> salvoLocations;
 
-  @JsonIgnore
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "gamePlayer_id")
   private GamePlayer gamePlayer;
@@ -51,7 +50,6 @@ public class Salvo {
     return salvoLocations;
   }
 
-  @JsonIgnore
   public GamePlayer getGamePlayer() {
     return gamePlayer;
   }

@@ -17,9 +17,7 @@ public class History {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gamePlayer_id")
-    @JsonIgnore
     private GamePlayer gamePlayer;
-
 
   private int turn;
   private String shipType;
@@ -41,7 +39,7 @@ public class History {
   public void setId(long id) {
     this.id = id;
   }
-  @JsonIgnore
+
   public GamePlayer getGamePlayer() {
     return gamePlayer;
   }
@@ -73,7 +71,7 @@ public class History {
   public void setHint(boolean hint) {
     this.hint = hint;
   }
-  @JsonIgnore
+
   public Map<String, Object> makeHistoryDTO() {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("turn", this.turn);

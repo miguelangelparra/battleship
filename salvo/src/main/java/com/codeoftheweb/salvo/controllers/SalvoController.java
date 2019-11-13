@@ -8,6 +8,7 @@ import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
 import com.codeoftheweb.salvo.repositories.HistoryRepository;
 import com.codeoftheweb.salvo.repositories.SalvoRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.util.ArrayIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 //import javax.xml.ws.Response;
-import java.lang.reflect.Array;
+import java.sql.Array;
 import java.util.*;
 
 @RestController
@@ -51,7 +52,7 @@ public class SalvoController {
     }
 
     int turnOponente = 0;
-    List<Ship> shipsOponente = new ArrayList<>();
+    Set<Ship> shipsOponente = new HashSet<>();
     for (GamePlayer gp : gamePlayer.getGame().getGamePlayers()) {
       if (gp.getId() != gamePlayerId) {
         turnOponente = gp.getSalvoes().size();

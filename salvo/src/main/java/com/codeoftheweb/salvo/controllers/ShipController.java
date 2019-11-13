@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -22,7 +23,7 @@ public class ShipController {
   private ShipRepository shipRepository;
 
   @RequestMapping("/games/players/{gamePlayerId}/ships")
-  public List<Ship> getShipsFromIdPlayer(@PathVariable long gamePlayerId) {
+  public Set<Ship> getShipsFromIdPlayer(@PathVariable long gamePlayerId) {
     return gamePlayerRepository.findById(gamePlayerId).get().getShips();
   }
 
@@ -45,7 +46,7 @@ GamePlayer gamePlayer = gamePlayerRepository.findById(gamePlayerId).get();
         System.out.println(ship.getTypeShip());
         ship.setGamePlayer(gamePlayer);
         shipRepository.save(ship);
-      gamePlayerRepository.findById(gamePlayerId).get().addShip(ship);
+      //gamePlayerRepository.findById(gamePlayerId).get().addShip(ship);
       }
     );
     return new ResponseEntity<>("Ships have been created", HttpStatus.CREATED);

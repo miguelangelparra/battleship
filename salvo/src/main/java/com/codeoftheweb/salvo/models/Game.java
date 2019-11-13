@@ -15,10 +15,9 @@ public class Game {
   private long id;
   private Date dateGame;
 
-  @JsonIgnore
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
   List<GamePlayer> gamePlayers;
-  @JsonIgnore
+
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
   List<Score> scores;
  /* @JsonIgnore
@@ -41,13 +40,10 @@ public class Game {
     return dateGame;
   }
 
-
-  @JsonIgnore
   public List<GamePlayer> getGamePlayers() {
     return gamePlayers;
   }
 
-  @JsonIgnore
   public Map<String, Object> getGameDTO() {
     Map<String, Object> dto = new LinkedHashMap<>();
     dto.put("id", this.getId());
@@ -57,14 +53,13 @@ public class Game {
    // dto.put("histories",this.getHistoriesList());
     return dto;
   }
-@JsonIgnore
+
   public List<Map<String, Object>> getScoresList() {
     return this.scores.stream()
       .map(score -> score.makeScoreDTO())
       .collect(Collectors.toList());
   }
 
-  @JsonIgnore
   public List<Map<String, Object>> getGamePlayersList() {
     return this.gamePlayers.stream()
       .map(GamePlayer -> GamePlayer.makeGamePlayerDTO())

@@ -25,13 +25,11 @@ public class GamePlayer {
   private Game game;
 
   @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
-  List<History> histories;
+  Set<History> histories;
 
-  @JsonIgnore
   @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
-  List<Ship> ships;
+  Set<Ship> ships;
 
-  @JsonIgnore
   @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
   private Set<Salvo> salvoes;
 
@@ -56,7 +54,6 @@ public class GamePlayer {
     return joinGame;
   }
 
-  @JsonIgnore
   public Player getPlayer() {
     return player;
   }
@@ -65,33 +62,30 @@ public class GamePlayer {
     this.player = player;
   }
 
-  @JsonIgnore
   public Game getGame() {
     return game;
   }
 
-  @JsonIgnore
-  public List<Ship> getShips() {
+  public Set<Ship> getShips() {
     return ships;
   }
 
-  public void addShip(Ship ship) {
+  /*public void addShip(Ship ship) {
     ship.setGamePlayer(this);
     ships.add(ship);
-  }
-  @JsonIgnore
+  }*/
+
   public Set<Salvo> getSalvoes() {
     return salvoes;
   }
-  @JsonIgnore
-  public List<History> getHistories() {
+  public Set<History> getHistories() {
     return histories;
   }
 
-  public void setHistories(List<History> histories) {
+  public void setHistories(Set<History> histories) {
     this.histories = histories;
   }
-  @JsonIgnore
+
   public Map<String, Object> makeGamePlayerDTO() {
     Map<String, Object> dto = new LinkedHashMap<>();
     dto.put("id", this.getId());

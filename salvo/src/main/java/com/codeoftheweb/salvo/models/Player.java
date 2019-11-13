@@ -31,8 +31,6 @@ public class Player {
   public Player() {
   }
 
-  ;
-
   public Player(String email, String password) {
     this.email = email;
     this.password = password;

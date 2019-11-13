@@ -16,7 +16,6 @@ public class Ship {
   @GenericGenerator(name = "native", strategy = "native")
   private long id;
 
-
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "gamePlayer_id")
   private GamePlayer gamePlayer;
