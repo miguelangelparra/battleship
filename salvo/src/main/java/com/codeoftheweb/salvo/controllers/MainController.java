@@ -28,10 +28,8 @@ public class MainController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    @JsonIgnore
     private ShipRepository shipRepository;
     @Autowired
-    @JsonIgnore
     private HistoryRepository historyRepository;
 
     @RequestMapping("/leaderBoard")

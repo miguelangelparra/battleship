@@ -22,6 +22,7 @@ public class History {
   private int turn;
   private String shipType;
   private boolean hint;
+  private boolean sink ;
 
    public History(){};
 
@@ -30,6 +31,7 @@ public class History {
         this.gamePlayer = gamePlayer;
         this.shipType = shipType;
         this.hint = hint;
+        this.sink = isSink();
     }
 
   public long getId() {
@@ -40,6 +42,7 @@ public class History {
     this.id = id;
   }
 
+  @JsonIgnore
   public GamePlayer getGamePlayer() {
     return gamePlayer;
   }
@@ -72,12 +75,29 @@ public class History {
     this.hint = hint;
   }
 
+
+
+  public boolean isSink(){
+    for (Ship ship : gamePlayer.getShips()) {
+        if(ship.getTypeShip() == this.shipType){
+          ship.addDamage();
+          System.out.print("el barco fue golpeado");
+          return  ship.isSink();
+        }
+      }
+   return false;
+
+  }
+
+
+
   public Map<String, Object> makeHistoryDTO() {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("turn", this.turn);
-    dto.put("player", this.gamePlayer);
-    dto.put("ship", this.shipType);
+        dto.put("player", this.gamePlayer);
+        dto.put("ship", this.shipType);
         dto.put("hint",this.hint);
+        dto.put("sink",isSink());
         return dto;
     }
 }

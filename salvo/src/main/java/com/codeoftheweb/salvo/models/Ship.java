@@ -24,6 +24,8 @@ public class Ship {
   @Column(name = "locations")
   private List<String> locations = new ArrayList<>();
   private String type;
+private int damage=0;
+  private boolean sink = false;
 
   public Ship() {
   }
@@ -63,11 +65,33 @@ public class Ship {
     this.gamePlayer = gamePlayer;
   }
 
+  public boolean isSink() {
+    return sink;
+  }
+
+  public int getDamage() {
+    return damage;
+  }
+
+  public void addDamage() {
+    this.damage = this.damage+1;
+    System.out.print(this.damage);
+    System.out.print(this.locations.size());
+    System.out.print(this.sink);
+    if(this.damage ==this.locations.size()){
+
+
+      this.sink=true;
+      System.out.print(this.sink);
+
+    }
+  }
 
   public Map<String, Object> makeShipDTO() {
     Map<String, Object> dto = new LinkedHashMap<String, Object>();
     dto.put("type", this.type);
     dto.put("locations", this.locations);
+    dto.put("sink",this.sink);
     return dto;
   }
 

@@ -27,8 +27,11 @@ public class GamePlayer {
   @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
   Set<History> histories;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
   Set<Ship> ships;
+
+  @JsonIgnore
 
   @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
   private Set<Salvo> salvoes;
@@ -53,7 +56,7 @@ public class GamePlayer {
   public Instant getJoinGame() {
     return joinGame;
   }
-
+  @JsonIgnore
   public Player getPlayer() {
     return player;
   }
@@ -61,6 +64,8 @@ public class GamePlayer {
   public void setPlayer(Player player) {
     this.player = player;
   }
+
+  @JsonIgnore
 
   public Game getGame() {
     return game;
@@ -74,10 +79,12 @@ public class GamePlayer {
     ship.setGamePlayer(this);
     ships.add(ship);
   }*/
+  @JsonIgnore
 
   public Set<Salvo> getSalvoes() {
     return salvoes;
   }
+
   public Set<History> getHistories() {
     return histories;
   }
@@ -86,11 +93,13 @@ public class GamePlayer {
     this.histories = histories;
   }
 
+  @JsonIgnore
+
   public Map<String, Object> makeGamePlayerDTO() {
     Map<String, Object> dto = new LinkedHashMap<>();
     dto.put("id", this.getId());
     dto.put("player", this.getPlayer().makePlayerDTO());
-    //dto.put("historial",this.getHistories());
+    dto.put("historial",this.getHistories());
     return dto;
   }
 

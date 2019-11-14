@@ -75,6 +75,7 @@ public class SalvoController {
       for (Ship sh : shipsOponente) {
         if (sh.getLocations().contains(a)) {
           History history = new History(turn, gamePlayer, sh.getTypeShip(), true);
+        //  history.isSink();
           historyRepository.save(history);
           //   return  makeHistorialDTO(sl.getTurn(), sh.getTypeShip(), gp.getId());
         }
