@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 public class History {
@@ -19,6 +21,7 @@ public class History {
     @JoinColumn(name = "gamePlayer_id")
     private GamePlayer gamePlayer;
 
+
   private int turn;
   private String shipType;
   private boolean hint;
@@ -26,12 +29,12 @@ public class History {
 
    public History(){};
 
-    public History(int turn, GamePlayer gamePlayer, String shipType ,Boolean hint) {
+    public History(int turn, GamePlayer gamePlayer, String shipType , Boolean hint, Set<Ship> shipsOponent) {
         this.turn = turn;
         this.gamePlayer = gamePlayer;
         this.shipType = shipType;
         this.hint = hint;
-        this.sink = isSink();
+        this.sink = isSink(shipsOponent);
     }
 
   public long getId() {
@@ -77,11 +80,19 @@ public class History {
 
 
 
-  public boolean isSink(){
-    for (Ship ship : gamePlayer.getShips()) {
-        if(ship.getTypeShip() == this.shipType){
+  public boolean isSink(Set<Ship> shipsOponent){
+
+    //for (Ship ship : gamePlayer.getShips()) {
+    for (Ship ship : shipsOponent) {
+
+      System.out.println("Por aqui pase");
+      System.out.println("Esto es el tipo de barco del historial" + this.getShipType());
+      System.out.println("Esto es el tipo de barco del barco" + ship.getTypeShip());
+
+      if(ship.getTypeShip() == this.getShipType()){
           ship.addDamage();
-          System.out.print("el barco fue golpeado");
+          System.out.println("el barco fue golpeado");
+          this.sink=ship.isSink();
           return  ship.isSink();
         }
       }
@@ -94,10 +105,10 @@ public class History {
   public Map<String, Object> makeHistoryDTO() {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("turn", this.turn);
-        dto.put("player", this.gamePlayer);
+        dto.put("player", this.gamePlayer.getId());
         dto.put("ship", this.shipType);
         dto.put("hint",this.hint);
-        dto.put("sink",isSink());
+        dto.put("sink",this.sink);
         return dto;
     }
 }

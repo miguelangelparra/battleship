@@ -74,13 +74,14 @@ private int damage=0;
   }
 
   public void addDamage() {
+    System.out.println("se ejecuto addDamage");
+    System.out.println(this.damage);
     this.damage = this.damage+1;
-    System.out.print(this.damage);
-    System.out.print(this.locations.size());
-    System.out.print(this.sink);
-    if(this.damage ==this.locations.size()){
-
-
+    System.out.println(this.damage);
+    System.out.println(this.locations.size());
+    System.out.println(this.sink);
+    if(this.damage == this.locations.size()){
+System.out.println("El barco se hundio");
       this.sink=true;
       System.out.print(this.sink);
 

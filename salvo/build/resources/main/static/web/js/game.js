@@ -253,36 +253,60 @@ function toDrawShips(ships, salvoes, playerInfo) {
 function toDrawSalvoes(salvoes, playerInfo) {
     salvoes.forEach(function(gp) {
 
-    gp.forEach(salvo=>{
-        if (playerInfo[0].id === salvo.player) {
-            salvo.locations.forEach(function(location) {
-                $('#S_' + location).addClass('salvo-piece-finished');
-            });
-        } else {
-            salvo.locations.forEach(function(location) {
-                $('#B_' + location).addClass('salvo');
-            });
-        }
-    })})
+        gp.forEach(salvo => {
+            if (playerInfo[0].id === salvo.player) {
+                salvo.locations.forEach(function(location) {
+                    $('#S_' + location).addClass('salvo-piece-finished');
+                });
+            } else {
+                salvo.locations.forEach(function(location) {
+                    $('#B_' + location).addClass('salvo');
+                });
+            }
+        })
+    })
 }
 //Dibuja Barcos impactados
 function isHit(shipLocation, salvoes, playerId) {
     var turn = 0;
-    salvoes.forEach(function(gp){
-     gp.forEach(salvo=>{
-        if (salvo.player != playerId)
-            salvo.locations.forEach(function(location) {
-                if (shipLocation === location)
-                    turn = salvo.turn;
-            });
-    })
+    salvoes.forEach(function(gp) {
+        gp.forEach(salvo => {
+            if (salvo.player != playerId)
+                salvo.locations.forEach(function(location) {
+                    if (shipLocation === location)
+                        turn = salvo.turn;
+                });
+        })
     });
     return turn;
 }
+//Dibuja Historial
+function toDrawHistorial(gamePlayers, playerInfo) {
+    var historialOwn = document.getElementById("historialOwn")
+    var historialOponent = document.getElementById("historialOponent")
+
+    gamePlayers.forEach(gp => {
+        if (gp.id = playerInfo.id) {
+            gp.historialGP.forEach(a => {
+                var span = document.createElement("span")
+                span.setAttribute("text", a)
+                historialOwn.appendChild(span)
+            })
+        } else {
+            gp.historialGP.forEach(a => {
+                var span = document.createElement("span")
+                span.setAttribute("text", a)
+                historialOponent.appendChild(span)
+
+            })
+        }
+    })
+}
+
 //Interaccion con servidor:
 //Envia Barcos
 function toAddShips() {
-console.log(arrLocation)
+    console.log(arrLocation)
     $.post({
             url: '/api/games/players/' + toGetParameterByName('gp') + '/ships',
             data: JSON.stringify(arrLocation),
@@ -342,6 +366,7 @@ function loadData() {
             }
             toDrawShips(data.ships, data.salvoes, playerInfo)
             toDrawSalvoes(data.salvoes, playerInfo)
+            toDrawHistorial(data.gamePlayers, playerInfo)
         })
         .fail(function(jqXHR, textStatus) {
             alert("Failed: " + textStatus);

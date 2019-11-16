@@ -90,7 +90,9 @@ public class MainController {
             .map(salvo -> salvo.makeSalvoDTO())));
 
 
-        dto.put("historial", gamePlayer.getHistories().stream().map(a->a.makeHistoryDTO()));
+       // dto.put("historial", gamePlayer.getHistories().stream().map(a->a.makeHistoryDTO()));
+        dto.put("historial", historyRepository.findAll().stream().map(a->a.makeHistoryDTO()));
+
 
 
        /* List<History> Historial = new ArrayList<>();

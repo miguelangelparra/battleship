@@ -53,6 +53,7 @@ public class SalvoController {
 
     int turnOponente = 0;
     Set<Ship> shipsOponente = new HashSet<>();
+
     for (GamePlayer gp : gamePlayer.getGame().getGamePlayers()) {
       if (gp.getId() != gamePlayerId) {
         turnOponente = gp.getSalvoes().size();
@@ -63,20 +64,21 @@ public class SalvoController {
     if (turnOponente < gamePlayer.getSalvoes().size()) {
       return new ResponseEntity<>("You are trying to cheat", HttpStatus.NOT_ACCEPTABLE);
     }
-    System.out.println(turnOponente);
+    //System.out.println(turnOponente);
 
     int turn = gamePlayer.getSalvoes().size();
     Salvo salvo = new Salvo(++turn, salvoes, gamePlayer);
     salvoRepository.save(salvo);
-    System.out.println(turn);
+   // System.out.println(turn);
 
 
     for (String a : salvo.getSalvoLocations()) {
       for (Ship sh : shipsOponente) {
         if (sh.getLocations().contains(a)) {
-          History history = new History(turn, gamePlayer, sh.getTypeShip(), true);
-        //  history.isSink();
+          History history = new History(turn, gamePlayer, sh.getTypeShip(), true, shipsOponente);
+          //history.isSink();
           historyRepository.save(history);
+
           //   return  makeHistorialDTO(sl.getTurn(), sh.getTypeShip(), gp.getId());
         }
       }

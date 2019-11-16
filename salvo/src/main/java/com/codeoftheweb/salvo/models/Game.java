@@ -17,7 +17,7 @@ public class Game {
 
   @JsonIgnore
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
-  List<GamePlayer> gamePlayers;
+  Set<GamePlayer> gamePlayers;
 
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
   List<Score> scores;
@@ -41,7 +41,7 @@ public class Game {
     return dateGame;
   }
   @JsonIgnore
-  public List<GamePlayer> getGamePlayers() {
+  public Set<GamePlayer> getGamePlayers() {
     return gamePlayers;
   }
 
