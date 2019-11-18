@@ -25,16 +25,13 @@ public class GamePlayer {
   private Game game;
 
   @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
-  Set<History> histories;
-
-  @JsonIgnore
-  @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
-  Set<Ship> ships;
-
-  @JsonIgnore
+ private Set<History> histories;
 
   @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
-  private Set<Salvo> salvoes;
+  private Set<Ship> ships;
+
+  @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
+  private Set<Salvo> salves;
 
   public GamePlayer() {
   }
@@ -56,7 +53,7 @@ public class GamePlayer {
   public Instant getJoinGame() {
     return joinGame;
   }
-  @JsonIgnore
+
   public Player getPlayer() {
     return player;
   }
@@ -64,8 +61,6 @@ public class GamePlayer {
   public void setPlayer(Player player) {
     this.player = player;
   }
-
-  @JsonIgnore
 
   public Game getGame() {
     return game;
@@ -75,32 +70,28 @@ public class GamePlayer {
     return ships;
   }
 
-  /*public void addShip(Ship ship) {
-    ship.setGamePlayer(this);
-    ships.add(ship);
-  }*/
-  @JsonIgnore
-
-  public Set<Salvo> getSalvoes() {
-    return salvoes;
+  public Set<Salvo> getSalves() {
+    return salves;
   }
 
-  public Set<History> getHistories() {
+  /*public Set<History> getHistories() {
     return histories;
   }
 
   public void setHistories(Set<History> histories) {
     this.histories = histories;
-  }
-
-  @JsonIgnore
+  }*/
 
   public Map<String, Object> makeGamePlayerDTO() {
     Map<String, Object> dto = new LinkedHashMap<>();
     dto.put("id", this.getId());
     dto.put("player", this.getPlayer().makePlayerDTO());
-    dto.put("historial",this.getHistories());
+   // dto.put("histories",this.getHistories());
     return dto;
   }
 
 }
+  /*public void addShip(Ship ship) {
+    ship.setGamePlayer(this);
+    ships.add(ship);
+  }*/

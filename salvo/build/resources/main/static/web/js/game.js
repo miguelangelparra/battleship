@@ -281,21 +281,22 @@ function isHit(shipLocation, salvoes, playerId) {
     return turn;
 }
 //Dibuja Historial
-function toDrawHistorial(gamePlayers, playerInfo) {
+function toDrawHistorial(gameplayers, playerInfo) {
     var historialOwn = document.getElementById("historialOwn")
     var historialOponent = document.getElementById("historialOponent")
 
-    gamePlayers.forEach(gp => {
-        if (gp.id = playerInfo.id) {
-            gp.historialGP.forEach(a => {
+    gameplayers.forEach(gp => {
+        if (gp.id == playerInfo.id) {
+            gp.historial.forEach(h => {
+                
                 var span = document.createElement("span")
-                span.setAttribute("text", a)
+                span.setAttribute("text", h.type + " " + h.sink)
                 historialOwn.appendChild(span)
             })
         } else {
-            gp.historialGP.forEach(a => {
+            gp.historial.forEach(h => {
                 var span = document.createElement("span")
-                span.setAttribute("text", a)
+                span.setAttribute("text", h.type + " " + h.sink)
                 historialOponent.appendChild(span)
 
             })
@@ -349,12 +350,12 @@ function loadData() {
         .done(function(data) {
             var playerInfo;
             console.log(data)
-            if (data.gamePlayers.length == 1) {
-                playerInfo = [data.gamePlayers[0].player]
-            } else if (data.gamePlayers[0].id == toGetParameterByName('gp')) {
-                playerInfo = [data.gamePlayers[0].player, data.gamePlayers[1].player];
+            if (data.gameplayers.length == 1) {
+                playerInfo = [data.gameplayers[0].player]
+            } else if (data.gameplayers[0].id == toGetParameterByName('gp')) {
+                playerInfo = [data.gameplayers[0].player, data.gameplayers[1].player];
             } else
-                playerInfo = [data.gamePlayers[1].player, data.gamePlayers[0].player];
+                playerInfo = [data.gameplayers[1].player, data.gameplayers[0].player];
 
             $('#userLogged').text('It´s time to win, ' + playerInfo[0].email)
             var player2 = playerInfo[1] != undefined ? playerInfo[1].email : ""
@@ -366,7 +367,7 @@ function loadData() {
             }
             toDrawShips(data.ships, data.salvoes, playerInfo)
             toDrawSalvoes(data.salvoes, playerInfo)
-            toDrawHistorial(data.gamePlayers, playerInfo)
+            toDrawHistorial(data.gameplayers, playerInfo)
         })
         .fail(function(jqXHR, textStatus) {
             alert("Failed: " + textStatus);

@@ -15,7 +15,7 @@ public class Salvo {
   @GenericGenerator(name = "native", strategy = "native")
   private long id;
 
-  private int turn;
+  private int turn = 0 ;
 
   @ElementCollection
   @Column(name = "salvoLocation")

@@ -18,6 +18,12 @@ public class History {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "game_id")
+
+    // @JoinColumn(name = "gamePlayer_id")
+    private Game game;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gamePlayer_id")
     private GamePlayer gamePlayer;
 
@@ -31,7 +37,8 @@ public class History {
 
     public History(int turn, GamePlayer gamePlayer, String shipType , Boolean hint, Set<Ship> shipsOponent) {
         this.turn = turn;
-        this.gamePlayer = gamePlayer;
+        this.game=gamePlayer.getGame();
+       this.gamePlayer = gamePlayer;
         this.shipType = shipType;
         this.hint = hint;
         this.sink = isSink(shipsOponent);
@@ -45,7 +52,7 @@ public class History {
     this.id = id;
   }
 
-  @JsonIgnore
+
   public GamePlayer getGamePlayer() {
     return gamePlayer;
   }
@@ -84,10 +91,6 @@ public class History {
 
     //for (Ship ship : gamePlayer.getShips()) {
     for (Ship ship : shipsOponent) {
-
-      System.out.println("Por aqui pase");
-      System.out.println("Esto es el tipo de barco del historial" + this.getShipType());
-      System.out.println("Esto es el tipo de barco del barco" + ship.getTypeShip());
 
       if(ship.getTypeShip() == this.getShipType()){
           ship.addDamage();

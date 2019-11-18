@@ -7,8 +7,6 @@ import com.codeoftheweb.salvo.models.Ship;
 import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
 import com.codeoftheweb.salvo.repositories.HistoryRepository;
 import com.codeoftheweb.salvo.repositories.SalvoRepository;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.util.ArrayIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 //import javax.xml.ws.Response;
-import java.sql.Array;
 import java.util.*;
 
 @RestController
@@ -33,7 +30,7 @@ public class SalvoController {
 
     @RequestMapping(path="/games/players/{gamePlayerId}/salvos")
   public Set<Salvo> getSalvoes(@PathVariable long gamePlayerId){
-    return gamePlayerRepository.findById(gamePlayerId).get().getSalvoes();
+    return gamePlayerRepository.findById(gamePlayerId).get().getSalves();
   }
   @RequestMapping(path = "/games/players/{gamePlayerId}/salvos", method = RequestMethod.POST)
   public ResponseEntity<Object> addSalvoes(@PathVariable long gamePlayerId, @RequestBody Set<String> salvoes , Authentication authentication) {
@@ -56,27 +53,23 @@ public class SalvoController {
 
     for (GamePlayer gp : gamePlayer.getGame().getGamePlayers()) {
       if (gp.getId() != gamePlayerId) {
-        turnOponente = gp.getSalvoes().size();
+        turnOponente = gp.getSalves().size();
         shipsOponente = gp.getShips();
       }
     }
-    //   if( turnOponente +1 < gamePlayer.getSalvoes().size()) {
-    if (turnOponente < gamePlayer.getSalvoes().size()) {
+    if (turnOponente < gamePlayer.getSalves().size()) {
       return new ResponseEntity<>("You are trying to cheat", HttpStatus.NOT_ACCEPTABLE);
     }
-    //System.out.println(turnOponente);
 
-    int turn = gamePlayer.getSalvoes().size();
+    int turn = gamePlayer.getSalves().size();
     Salvo salvo = new Salvo(++turn, salvoes, gamePlayer);
     salvoRepository.save(salvo);
-   // System.out.println(turn);
 
 
     for (String a : salvo.getSalvoLocations()) {
       for (Ship sh : shipsOponente) {
         if (sh.getLocations().contains(a)) {
           History history = new History(turn, gamePlayer, sh.getTypeShip(), true, shipsOponente);
-          //history.isSink();
           historyRepository.save(history);
 
           //   return  makeHistorialDTO(sl.getTurn(), sh.getTypeShip(), gp.getId());
