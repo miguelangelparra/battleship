@@ -24,6 +24,9 @@ public class Game {
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
   Set<History> histories;
 
+  private boolean gameOver = false;
+  private int status ;
+
   public Game() {
     this.dateGame = new Date();
   }
@@ -47,20 +50,47 @@ public class Game {
   public Set<History> getHistories() {
     return histories;
   }
-/*
-  public void toCalculateStateGame(){
 
-    for (GamePlayer gamePlayer : this.getGamePlayers()) {
-      for (History history : histories) {
-        if(gamePlayer == history.getGamePlayer());
+//Calcula el estado de juego
+  public int toCalculateStateGame(GamePlayer gp){
 
+    //Transforma el set en array para poder procesar los datos
+    GamePlayer[] myArray = new GamePlayer[this.getGamePlayers().size()];
+    this.getGamePlayers().toArray(myArray);
+
+    GamePlayer oponent = new GamePlayer();
+    for(GamePlayer gamePlayer: this.getGamePlayers()){
+      if(gp.getId() != gamePlayer.getId()){
+        oponent = gamePlayer;
       }
-
     }
-
-    this.histories.stream().f;
+    //Comprueba si hay otro jugador
+    if(this.getGamePlayers().size()<2){
+  status=0;
+  return status;
+}
+//Comprueba si el otro jugador ya termino su turno
+    if(gp.getSalves().size() >= oponent.getSalves().size() && this.getGamePlayers().size()==2 ){
+  status= 2;
+}else{
+  for (GamePlayer gamePlayer : this.getGamePlayers()) {
+    //Comprueba si los jugadores colocaron los barcos
+    if(gamePlayer.getShips().size()==0){
+      status = 1;
+    }
+    //Comprueba si alguno de los jugadores tiene todos los barcos hundidos
+    if (gamePlayer.toCalculateAllShipSunk() && gamePlayer.getSalves().size() != 0){
+      gameOver = true;
+      status =   4;}
+    else{
+      //Responde si aun no se han hundido los barcos.
+      status = 3;
+    }
   }
-*/
+}
+return status;
+  }
+
 
   public Map<String, Object> getGameDTO() {
     Map<String, Object> dto = new LinkedHashMap<>();

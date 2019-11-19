@@ -17,7 +17,8 @@
             </div>
             <div class="col-1 ">
                 <form id="formLogin  ">
-                    <input type="button" formmethod="post" id="btnLogout" class="btn bg-danger" onclick="toLogOut()" value="Log Out">
+                    <input type="button" formmethod="post" id="btnLogout" class="btn bg-danger" onclick="toLogOut()"
+                        value="Log Out">
                 </form>
             </div>
         </div>
@@ -28,41 +29,46 @@
             <div class="col-1 barcoHall">
                 <span>Battleship</span>
                 <div id="Battleship" class="col bg-danger barco">
-                    <button id="BattleshipOrientation" name="Battleship" class="btnGiro" onclick=toChangeOrientation(this)>B</button>
+                    <button id="BattleshipOrientation" name="Battleship" class="btnGiro"
+                        onclick=toChangeOrientation(this)>B</button>
                 </div>
             </div>
 
             <div class="col-1 barcoHall">
                 <span>Submarine</span>
                 <div id="Submarine" class="col bg-danger ship barco">
-                    <button id="SubmarineOrientation" name="Submarine" class="btnGiro" onclick=toChangeOrientation(this)>S</button>
+                    <button id="SubmarineOrientation" name="Submarine" class="btnGiro"
+                        onclick=toChangeOrientation(this)>S</button>
                 </div>
             </div>
 
             <div class="col-1 barcoHall">
                 <span>Destroyer</span>
                 <div id="Destroyer" class="col bg-danger barco">
-                    <button id="DestroyerOrientation" name="Destroyer" class="btnGiro" onclick=toChangeOrientation(this)>D</button>
+                    <button id="DestroyerOrientation" name="Destroyer" class="btnGiro"
+                        onclick=toChangeOrientation(this)>D</button>
                 </div>
             </div>
 
             <div class="col-1 barcoHall">
                 <span>Patrol</span>
                 <div id="Patrol" class="col bg-danger barco">
-                    <button id="PatrolOrientation" name="Patrol" class="btnGiro" onclick=toChangeOrientation(this)>P</button>
+                    <button id="PatrolOrientation" name="Patrol" class="btnGiro"
+                        onclick=toChangeOrientation(this)>P</button>
                 </div>
             </div>
 
             <div class="col-1 barcoHall">
                 <span>Aircraft</span>
                 <div id="Aircraft" class="col bg-danger barco ">
-                    <button id="AircraftOrientation" name="Aircraft" class="btnGiro" onclick=toChangeOrientation(this)>A</button>
+                    <button id="AircraftOrientation" name="Aircraft" class="btnGiro"
+                        onclick=toChangeOrientation(this)>A</button>
                 </div>
             </div>
             <button id="btnEnviarBarcos" class="bg-success" onclick="toAddShips()">Enviar Barcos</button>
 
         </div>
-        <button id="btnEnviarSalvoes" class="bg-success" onclick="toAddSalvoes()">Send Salvoes</button>
+        <button id="btnEnviarSalvoes" class="bg-success hidden" onclick="toAddSalvoes()">Send Salvoes</button>
 
         <div class="row">
             <div class="col-6">
@@ -372,17 +378,45 @@
                 </section>
             </div>
         </div>
+
+
         <div class="row">
-            <div id="historialOwn" class="col-6">
+            <div class="col-6">
                 <h4>Hits on you</h4>
+
+                <table class="col-10">
+                    <tr>
+                        <th>Turn</th>
+                        <th>Ship</th>
+                        <th>Sink</th>
+                    </tr>
+                    <tbody id="historialOwn"></tbody>
+                </table>
             </div>
-            <div id="historialOponent" class="col-6">
+            <div class="col-6">
                 <h4>Hits on opponent</h4>
 
+                <table class="col-10">
+                    <tr>
+                        <th>Turn</th>
+                        <th>Ship</th>
+                        <th>Sink</th>
+                    </tr>
+                    <tbody id="historialOponent"></tbody>
+                </table>
             </div>
 
+
         </div>
+        <div class="row">
+            <span id="statusGame"></span>
+        </div>
+
+
     </div>
+
+
+
     <script src="./js/librerias/popper.min.js"></script>
     <script src="./js/librerias/jquery-3.3.1.min.js"></script>
     <script src="./js/librerias/bootstrap.min.js"></script>

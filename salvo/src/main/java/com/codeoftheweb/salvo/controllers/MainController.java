@@ -67,19 +67,18 @@ public class MainController {
         return new ResponseEntity<>((gameViewDTO(gamePlayerRepository.findById(idGamePlayer).get())), HttpStatus.ACCEPTED);
     }
 
-    private Map<String, Object> gameViewDTO(GamePlayer gamePlayer) {
+        private Map<String, Object> gameViewDTO(GamePlayer gamePlayer) {
         Map<String, Object> dto = new LinkedHashMap<>();
 
-        dto.put("id", gamePlayer.getId());
+            dto.put("status",gamePlayer.getGame().toCalculateStateGame(gamePlayer));
+            dto.put("id", gamePlayer.getId());
         dto.put("created", gamePlayer.getJoinGame());
         dto.put("gameplayers", gamePlayer.getGame().getGamePlayers().stream().map(gp->gp.makeGamePlayerDTO()));
         dto.put("history",gamePlayer.getGame().getHistories().stream().map(a->a.makeHistoryDTO()));
-
         dto.put("ships", gamePlayer.getShips()
           .stream()
           .map(sh -> sh.makeShipDTO())
           .collect(Collectors.toList()));
-
         dto.put("salvoes", gamePlayer.getGame().getGamePlayers()
           .stream()
           .map(gp -> gp.getSalves()

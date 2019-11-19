@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class GamePlayer {
@@ -32,6 +33,8 @@ public class GamePlayer {
 
   @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
   private Set<Salvo> salves;
+
+  private boolean allShipSunk = false;
 
   public GamePlayer() {
   }
@@ -74,6 +77,20 @@ public class GamePlayer {
     return salves;
   }
 
+  public boolean isAllShipSunk() {
+    return allShipSunk;
+  }
+
+  public void setAllShipSunk(boolean allShipSunk) {
+    this.allShipSunk = allShipSunk;
+  }
+
+  public boolean toCalculateAllShipSunk(){
+    if (    (getShips().stream().filter(sh->sh.isSink()==true)).collect(Collectors.toList()).size() == getShips().size() ){
+      setAllShipSunk(true);
+    }
+    return isAllShipSunk();
+  }
   /*public Set<History> getHistories() {
     return histories;
   }

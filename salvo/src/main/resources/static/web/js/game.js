@@ -284,42 +284,63 @@ function isHit(shipLocation, salvoes, playerId) {
 function toDrawHistorial(history, gpId) {
     var historialOwn = document.getElementById("historialOwn")
     var historialOponent = document.getElementById("historialOponent")
-    history.forEach(historial => {
-        var sink; 
-        if(historial.sink){
-            sink= "sink"}else{sink= "hited"}
-        var tr = document.createElement("tr")
-        tr.innerHTML =   "<td>" + historial.turn + "</td>" + "<td>" + historial.ship + "</td>" + "<td>" + sink + "</td>"
+    historialOwn.innerHTML = ""
+    historialOponent.innerHTML = ""
+    historyOwn = []
+    historyOponent = []
 
-        if (historial.player == gpId) {   
-            historialOwn.appendChild(tr)
+    history.forEach(historial => {
+        if (historial.player == gpId) {
+                historyOwn.push(historial)
         }
         else {
-            var sink;
-            historialOponent.appendChild(tr)
+            historyOponent.push(historial)
         }
-    }
-    )
+        console.log(historyOwn)
+    })
+
+
+    historyOwn.forEach(historial => {
+        if (historial.sink) {
+            sink = "sink"
+        } else { sink = "hited" }
+        var tr = document.createElement("tr")
+        tr.innerHTML = "<td>" + historial.turn + "</td>" + "<td>" + historial.ship + "</td>" + "<td>" + sink + "</td>" 
+        historialOwn.appendChild(tr)
+    })
+
+
+    historyOponent.forEach(historial => {
+        if (historial.sink) {
+            sink = "sink"
+        } else { sink = "hited" }
+        var tr = document.createElement("tr")
+        tr.innerHTML = "<td>" + historial.turn + "</td>" + "<td>" + historial.ship + "</td>" + "<td>" + sink + "</td>"
+        historialOponent.appendChild(tr)
+    })
 
 }
 
 //Interaccion con servidor:
 //Envia Barcos
 function toAddShips() {
-    console.log(arrLocation)
-    $.post({
-        url: '/api/games/players/' + toGetParameterByName('gp') + '/ships',
-        data: JSON.stringify(arrLocation),
-        dataType: "text",
-        contentType: "application/json"
-    })
-        .done(function (data) {
-            console.log("success");
-            location.reload()
+    if (arrLocation.length != 5) {
+        alert("You didn´t place all yours ships")
+    } else {
+        $.post({
+            url: '/api/games/players/' + toGetParameterByName('gp') + '/ships',
+            data: JSON.stringify(arrLocation),
+            dataType: "text",
+            contentType: "application/json"
         })
-        .fail(function (jqXHR, textStatus) {
-            console.log(jqXHR.status)
-        })
+            .done(function (data) {
+                console.log("success");
+                location.reload()
+            })
+            .fail(function (jqXHR, textStatus) {
+                console.log(jqXHR.status)
+            })
+    }
 }
 //Envia Salvoes
 function toAddSalvoes() {
@@ -358,6 +379,27 @@ function loadData() {
             } else
                 playerInfo = [data.gameplayers[1].player, data.gameplayers[0].player];
 
+            var statusGame = document.getElementById("statusGame")
+            switch (data.status) {
+                case 0:
+                    statusGame.innerText = "Esperando Jugador"
+                    break;
+                case 1:
+                    statusGame.innerText = "Esperando barcos del otro jugador"
+                    break;
+                case 2:
+                    statusGame.innerText = "Esperando jugada de otro jugador"
+                    document.getElementById("btnEnviarSalvoes").classList.remove("hidden")
+
+                    break;
+                case 3:
+                    statusGame.innerText = "Coloque salvoes"
+                    document.getElementById("btnEnviarSalvoes").classList.remove("hidden")
+                    break;
+                case 4:
+                    statusGame.innerText = "Juego terminado"
+                    break;
+            }
             $('#userLogged').text('It´s time to win, ' + playerInfo[0].email)
             var player2 = playerInfo[1] != undefined ? playerInfo[1].email : ""
             $('#playerInfo').text(playerInfo[0].email + '(you) vs ' + player2);
@@ -380,3 +422,39 @@ function toLogOut() {
         location.href = "/web/games.html"
     })
 }
+
+setInterval(() => {
+    loadData()
+}, 4000);
+
+
+/*
+//Realiza peticion de datos del juego
+function loadStatus() {
+    $.get('/api/game_view/' + toGetParameterByName('gp')+'/status')
+        .done(function (data) {
+            var statusGame= document.getElementById("statusGame")
+            switch (data.status){
+case 0:
+statusGame.innerText= "Esperando Jugador"
+break;
+case 1:
+statusGame.innerText= "Esperando barcos del otro jugador"
+break;
+case 2:
+statusGame.innerText= "Esperando jugada de otro jugador"
+document.getElementById("btnEnviarSalvoes").classList.remove("hidden")
+
+break;
+case 3:
+statusGame.innerText= "Coloque salvoes"
+document.getElementById("btnEnviarSalvoes").classList.remove("hidden")
+break;
+case 4:
+statusGame.innerText= "Juego terminado"
+break;
+            }
+        })
+        .fail(function (jqXHR, textStatus) {
+            alert("Failed: " + textStatus);
+        })}*/

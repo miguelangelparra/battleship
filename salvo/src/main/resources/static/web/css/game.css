@@ -68,3 +68,7 @@ td {
 #btnCreate {
     display: none;
 }
+
+.hidden{
+    display: none;
+}
