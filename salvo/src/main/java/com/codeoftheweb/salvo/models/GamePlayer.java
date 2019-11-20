@@ -86,7 +86,7 @@ public class GamePlayer {
   }
 
   public boolean toCalculateAllShipSunk(){
-    if (    (getShips().stream().filter(sh->sh.isSink()==true)).collect(Collectors.toList()).size() == getShips().size() ){
+    if (    ((getShips().stream().filter(sh->sh.isSink()==true)).collect(Collectors.toList()).size() == getShips().size() )&& getShips().size()!=0 ){
       setAllShipSunk(true);
     }
     return isAllShipSunk();

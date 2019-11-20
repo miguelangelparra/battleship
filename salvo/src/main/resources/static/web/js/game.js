@@ -385,7 +385,7 @@ function loadData() {
                     statusGame.innerText = "Esperando Jugador"
                     break;
                 case 1:
-                    statusGame.innerText = "Esperando barcos del otro jugador"
+                    statusGame.innerText = "Esperando Barcos de todos los jugadores"
                     break;
                 case 2:
                     statusGame.innerText = "Esperando jugada de otro jugador"
