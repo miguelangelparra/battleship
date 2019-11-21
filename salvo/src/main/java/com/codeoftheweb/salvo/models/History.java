@@ -94,7 +94,6 @@ public class History {
 
       if(ship.getTypeShip() == this.getShipType()){
           ship.addDamage();
-          System.out.println("el barco fue golpeado");
           this.sink=ship.isSink();
           return  ship.isSink();
         }
