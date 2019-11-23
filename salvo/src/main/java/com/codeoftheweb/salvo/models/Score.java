@@ -1,9 +1,9 @@
 package com.codeoftheweb.salvo.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+
 import java.util.*;
 
 @Entity
@@ -59,5 +59,4 @@ public class Score {
     dto.put("score", this.getScore());
     return dto;
   }
-
 }

@@ -1,423 +1,460 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Ships locations!</title>
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="./css/game.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="./css/game.css" />
+  </head>
 
-</head>
-
-<body class="bg-secondary">
+  <body class="bg-secondary">
     <div class="container-fluid">
-        <div class="row justify-content-end">
-            <div class="col-4">
-                <h3 id="userLogged" class="bg-dark text-primary text-center"></h3>
-            </div>
-            <div class="col-1 ">
-                <form id="formLogin  ">
-                    <input type="button" formmethod="post" id="btnLogout" class="btn bg-danger" onclick="toLogOut()"
-                        value="Log Out">
-                </form>
-            </div>
+      <div class="row justify-content-end">
+        <div class="col-4">
+          <h3 id="userLogged" class="bg-dark text-primary text-center"></h3>
         </div>
-        <div>
-                <span id="statusGame"></span>
-
-            <h1 class="bg-dark text-white text-center">Players:<br><span id="playerInfo"></span></h1>
+        <div class="col-1 ">
+          <form id="formLogin  ">
+            <input
+              type="button"
+              formmethod="post"
+              id="btnLogout"
+              class="btn bg-danger"
+              onclick="toLogOut()"
+              value="Log Out"
+            />
+          </form>
         </div>
-        <div id="shipsHall" class="row">
-            <div class="col-1 barcoHall">
-                <span>Battleship</span>
-                <div id="Battleship" class="col bg-danger barco">
-                    <button id="BattleshipOrientation" name="Battleship" class="btnGiro"
-                        onclick=toChangeOrientation(this)>B</button>
-                </div>
-            </div>
+      </div>
+      <div>
+        <h3 id="statusGame"></h3>
 
-            <div class="col-1 barcoHall">
-                <span>Submarine</span>
-                <div id="Submarine" class="col bg-danger ship barco">
-                    <button id="SubmarineOrientation" name="Submarine" class="btnGiro"
-                        onclick=toChangeOrientation(this)>S</button>
-                </div>
-            </div>
-
-            <div class="col-1 barcoHall">
-                <span>Destroyer</span>
-                <div id="Destroyer" class="col bg-danger barco">
-                    <button id="DestroyerOrientation" name="Destroyer" class="btnGiro"
-                        onclick=toChangeOrientation(this)>D</button>
-                </div>
-            </div>
-
-            <div class="col-1 barcoHall">
-                <span>Patrol</span>
-                <div id="Patrol" class="col bg-danger barco">
-                    <button id="PatrolOrientation" name="Patrol" class="btnGiro"
-                        onclick=toChangeOrientation(this)>P</button>
-                </div>
-            </div>
-
-            <div class="col-1 barcoHall">
-                <span>Aircraft</span>
-                <div id="Aircraft" class="col bg-danger barco ">
-                    <button id="AircraftOrientation" name="Aircraft" class="btnGiro"
-                        onclick=toChangeOrientation(this)>A</button>
-                </div>
-            </div>
-            <button id="btnEnviarBarcos" class="bg-success" onclick="toAddShips()">Enviar Barcos</button>
-
-        </div>
-        <button id="btnEnviarSalvoes" class="bg-success hidden" onclick="toAddSalvoes()">Send Salvoes</button>
-
-        <div class="row">
-            <div class="col-6">
-                <section>
-                    <h2 class="bg-dark text-success text-center">Game Board</h2>
-                    <table border="1" class=" table">
-                        <thead>
-                            <th></th>
-                            <th id="bth_0">1</th>
-                            <th id="bth_1">2</th>
-                            <th id="bth_2">3</th>
-                            <th id="bth_3">4</th>
-                            <th id="bth_4">5</th>
-                            <th id="bth_5">6</th>
-                            <th id="bth_6">7</th>
-                            <th id="bth_7">8</th>
-                            <th id="bth_8">9</th>
-                            <th id="bth_9">10</th>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td>A</td>
-                                <td id="B_00"></td>
-                                <td id="B_01"></td>
-                                <td id="B_02"></td>
-                                <td id="B_03"></td>
-                                <td id="B_04"></td>
-                                <td id="B_05"></td>
-                                <td id="B_06"></td>
-                                <td id="B_07"></td>
-                                <td id="B_08"></td>
-                                <td id="B_09"></td>
-                            </tr>
-                            <tr>
-                                <td>B</td>
-                                <td id="B_10"></td>
-                                <td id="B_11"></td>
-                                <td id="B_12"></td>
-                                <td id="B_13"></td>
-                                <td id="B_14"></td>
-                                <td id="B_15"></td>
-                                <td id="B_16"></td>
-                                <td id="B_17"></td>
-                                <td id="B_18"></td>
-                                <td id="B_19"></td>
-                            </tr>
-                            <tr>
-                                <td>C</td>
-                                <td id="B_20"></td>
-                                <td id="B_21"></td>
-                                <td id="B_22"></td>
-                                <td id="B_23"></td>
-                                <td id="B_24"></td>
-                                <td id="B_25"></td>
-                                <td id="B_26"></td>
-                                <td id="B_27"></td>
-                                <td id="B_28"></td>
-                                <td id="B_29"></td>
-                            </tr>
-                            <tr>
-                                <td>D</td>
-                                <td id="B_30"></td>
-                                <td id="B_31"></td>
-                                <td id="B_32"></td>
-                                <td id="B_33"></td>
-                                <td id="B_34"></td>
-                                <td id="B_35"></td>
-                                <td id="B_36"></td>
-                                <td id="B_37"></td>
-                                <td id="B_38"></td>
-                                <td id="B_39"></td>
-                            </tr>
-                            <tr>
-                                <td>E</td>
-                                <td id="B_40"></td>
-                                <td id="B_41"></td>
-                                <td id="B_42"></td>
-                                <td id="B_43"></td>
-                                <td id="B_44"></td>
-                                <td id="B_45"></td>
-                                <td id="B_46"></td>
-                                <td id="B_47"></td>
-                                <td id="B_48"></td>
-                                <td id="B_49"></td>
-                            </tr>
-                            <tr>
-                                <td>F</td>
-                                <td id="B_50"></td>
-                                <td id="B_51"></td>
-                                <td id="B_52"></td>
-                                <td id="B_53"></td>
-                                <td id="B_54"></td>
-                                <td id="B_55"></td>
-                                <td id="B_56"></td>
-                                <td id="B_57"></td>
-                                <td id="B_58"></td>
-                                <td id="B_59"></td>
-                            </tr>
-                            <tr>
-                                <td>G</td>
-                                <td id="B_60"></td>
-                                <td id="B_61"></td>
-                                <td id="B_62"></td>
-                                <td id="B_63"></td>
-                                <td id="B_64"></td>
-                                <td id="B_65"></td>
-                                <td id="B_66"></td>
-                                <td id="B_67"></td>
-                                <td id="B_68"></td>
-                                <td id="B_69"></td>
-                            </tr>
-                            <tr>
-                                <td>H</td>
-                                <td id="B_70"></td>
-                                <td id="B_71"></td>
-                                <td id="B_72"></td>
-                                <td id="B_73"></td>
-                                <td id="B_74"></td>
-                                <td id="B_75"></td>
-                                <td id="B_76"></td>
-                                <td id="B_77"></td>
-                                <td id="B_78"></td>
-                                <td id="B_79"></td>
-                            </tr>
-                            <tr>
-                                <td>I</td>
-                                <td id="B_80"></td>
-                                <td id="B_81"></td>
-                                <td id="B_82"></td>
-                                <td id="B_83"></td>
-                                <td id="B_84"></td>
-                                <td id="B_85"></td>
-                                <td id="B_86"></td>
-                                <td id="B_87"></td>
-                                <td id="B_88"></td>
-                                <td id="B_89"></td>
-                            </tr>
-                            <tr>
-                                <td>J</td>
-                                <td id="B_90"></td>
-                                <td id="B_91"></td>
-                                <td id="B_92"></td>
-                                <td id="B_93"></td>
-                                <td id="B_94"></td>
-                                <td id="B_95"></td>
-                                <td id="B_96"></td>
-                                <td id="B_97"></td>
-                                <td id="B_98"></td>
-                                <td id="B_99"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-            </div>
-            <div class="col-6">
-                <section>
-                    <h2 class="bg-dark text-success text-center">Salvo board</h2>
-                    <table id="salvoTable" border="1" class="table ">
-                        <thead>
-                            <th></th>
-                            <th id="bth_0">1</th>
-                            <th id="bth_1">2</th>
-                            <th id="bth_2">3</th>
-                            <th id="bth_3">4</th>
-                            <th id="bth_4">5</th>
-                            <th id="bth_5">6</th>
-                            <th id="bth_6">7</th>
-                            <th id="bth_7">8</th>
-                            <th id="bth_8">9</th>
-                            <th id="bth_9">10</th>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td>A</td>
-                                <td id="S_00"></td>
-                                <td id="S_01"></td>
-                                <td id="S_02"></td>
-                                <td id="S_03"></td>
-                                <td id="S_04"></td>
-                                <td id="S_05"></td>
-                                <td id="S_06"></td>
-                                <td id="S_07"></td>
-                                <td id="S_08"></td>
-                                <td id="S_09"></td>
-                            </tr>
-                            <tr>
-                                <td>B</td>
-                                <td id="S_10"></td>
-                                <td id="S_11"></td>
-                                <td id="S_12"></td>
-                                <td id="S_13"></td>
-                                <td id="S_14"></td>
-                                <td id="S_15"></td>
-                                <td id="S_16"></td>
-                                <td id="S_17"></td>
-                                <td id="S_18"></td>
-                                <td id="S_19"></td>
-                            </tr>
-                            <tr>
-                                <td>C</td>
-                                <td id="S_20"></td>
-                                <td id="S_21"></td>
-                                <td id="S_22"></td>
-                                <td id="S_23"></td>
-                                <td id="S_24"></td>
-                                <td id="S_25"></td>
-                                <td id="S_26"></td>
-                                <td id="S_27"></td>
-                                <td id="S_28"></td>
-                                <td id="S_29"></td>
-                            </tr>
-                            <tr>
-                                <td>D</td>
-                                <td id="S_30"></td>
-                                <td id="S_31"></td>
-                                <td id="S_32"></td>
-                                <td id="S_33"></td>
-                                <td id="S_34"></td>
-                                <td id="S_35"></td>
-                                <td id="S_36"></td>
-                                <td id="S_37"></td>
-                                <td id="S_38"></td>
-                                <td id="S_39"></td>
-                            </tr>
-                            <tr>
-                                <td>E</td>
-                                <td id="S_40"></td>
-                                <td id="S_41"></td>
-                                <td id="S_42"></td>
-                                <td id="S_43"></td>
-                                <td id="S_44"></td>
-                                <td id="S_45"></td>
-                                <td id="S_46"></td>
-                                <td id="S_47"></td>
-                                <td id="S_48"></td>
-                                <td id="S_49"></td>
-                            </tr>
-                            <tr>
-                                <td>F</td>
-                                <td id="S_50"></td>
-                                <td id="S_51"></td>
-                                <td id="S_52"></td>
-                                <td id="S_53"></td>
-                                <td id="S_54"></td>
-                                <td id="S_55"></td>
-                                <td id="S_56"></td>
-                                <td id="S_57"></td>
-                                <td id="S_58"></td>
-                                <td id="S_59"></td>
-                            </tr>
-                            <tr>
-                                <td>G</td>
-                                <td id="S_60"></td>
-                                <td id="S_61"></td>
-                                <td id="S_62"></td>
-                                <td id="S_63"></td>
-                                <td id="S_64"></td>
-                                <td id="S_65"></td>
-                                <td id="S_66"></td>
-                                <td id="S_67"></td>
-                                <td id="S_68"></td>
-                                <td id="S_69"></td>
-                            </tr>
-                            <tr>
-                                <td>H</td>
-                                <td id="S_70"></td>
-                                <td id="S_71"></td>
-                                <td id="S_72"></td>
-                                <td id="S_73"></td>
-                                <td id="S_74"></td>
-                                <td id="S_75"></td>
-                                <td id="S_76"></td>
-                                <td id="S_77"></td>
-                                <td id="S_78"></td>
-                                <td id="S_79"></td>
-                            </tr>
-                            <tr>
-                                <td>I</td>
-                                <td id="S_80"></td>
-                                <td id="S_81"></td>
-                                <td id="S_82"></td>
-                                <td id="S_83"></td>
-                                <td id="S_84"></td>
-                                <td id="S_85"></td>
-                                <td id="S_86"></td>
-                                <td id="S_87"></td>
-                                <td id="S_88"></td>
-                                <td id="S_89"></td>
-                            </tr>
-                            <tr>
-                                <td>J</td>
-                                <td id="S_90"></td>
-                                <td id="S_91"></td>
-                                <td id="S_92"></td>
-                                <td id="S_93"></td>
-                                <td id="S_94"></td>
-                                <td id="S_95"></td>
-                                <td id="S_96"></td>
-                                <td id="S_97"></td>
-                                <td id="S_98"></td>
-                                <td id="S_99"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-            </div>
+        <h1 class="bg-dark text-white text-center">
+          Players:<br /><span id="playerInfo"></span>
+        </h1>
+      </div>
+      <div id="shipsHall" class="row hidden">
+        <div class="col-1 barcoHall">
+          <span>Battleship</span>
+          <div id="Battleship" class="col bg-danger barco">
+            <button
+              id="BattleshipOrientation"
+              name="Battleship"
+              class="btnGiro"
+              onclick="toChangeOrientation(this)"
+            >
+              B
+            </button>
+          </div>
         </div>
 
-
-        <div class="row">
-            <div class="col-6">
-                <h4>Hits on you</h4>
-
-                <table class="col-10">
-                    <tr>
-                        <th>Turn</th>
-                        <th>Ship</th>
-                        <th>Sink</th>
-                    </tr>
-                    <tbody id="historialOwn"></tbody>
-                </table>
-            </div>
-            <div class="col-6">
-                <h4>Hits on opponent</h4>
-
-                <table class="col-10">
-                    <tr>
-                        <th>Turn</th>
-                        <th>Ship</th>
-                        <th>Sink</th>
-                    </tr>
-                    <tbody id="historialOponent"></tbody>
-                </table>
-            </div>
+        <div class="col-1 barcoHall">
+          <span>Submarine</span>
+          <div id="Submarine" class="col bg-danger ship barco">
+            <button
+              id="SubmarineOrientation"
+              name="Submarine"
+              class="btnGiro"
+              onclick="toChangeOrientation(this)"
+            >
+              S
+            </button>
+          </div>
         </div>
 
+        <div class="col-1 barcoHall">
+          <span>Destroyer</span>
+          <div id="Destroyer" class="col bg-danger barco">
+            <button
+              id="DestroyerOrientation"
+              name="Destroyer"
+              class="btnGiro"
+              onclick="toChangeOrientation(this)"
+            >
+              D
+            </button>
+          </div>
+        </div>
 
+        <div class="col-1 barcoHall">
+          <span>Patrol</span>
+          <div id="Patrol" class="col bg-danger barco">
+            <button
+              id="PatrolOrientation"
+              name="Patrol"
+              class="btnGiro"
+              onclick="toChangeOrientation(this)"
+            >
+              P
+            </button>
+          </div>
+        </div>
+
+        <div class="col-1 barcoHall">
+          <span>Aircraft</span>
+          <div id="Aircraft" class="col bg-danger barco ">
+            <button
+              id="AircraftOrientation"
+              name="Aircraft"
+              class="btnGiro"
+              onclick="toChangeOrientation(this)"
+            >
+              A
+            </button>
+          </div>
+        </div>
+        <button id="btnAddShips" class="bg-success hidden" onclick="toAddShips()">
+         Send Ship
+        </button>
+      </div>
+      <button
+        id="btnEnviarSalvoes"
+        class="bg-success hidden"
+        onclick="toAddSalvoes()"
+      >
+        Send Salvoes
+      </button>
+
+      <div class="row">
+        <div class="col-6">
+          <section>
+            <h2 class="bg-dark text-success text-center">Game Board</h2>
+            <table border="1" class=" table">
+              <thead>
+                <th></th>
+                <th id="bth_0">1</th>
+                <th id="bth_1">2</th>
+                <th id="bth_2">3</th>
+                <th id="bth_3">4</th>
+                <th id="bth_4">5</th>
+                <th id="bth_5">6</th>
+                <th id="bth_6">7</th>
+                <th id="bth_7">8</th>
+                <th id="bth_8">9</th>
+                <th id="bth_9">10</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>A</td>
+                  <td id="B_00"></td>
+                  <td id="B_01"></td>
+                  <td id="B_02"></td>
+                  <td id="B_03"></td>
+                  <td id="B_04"></td>
+                  <td id="B_05"></td>
+                  <td id="B_06"></td>
+                  <td id="B_07"></td>
+                  <td id="B_08"></td>
+                  <td id="B_09"></td>
+                </tr>
+                <tr>
+                  <td>B</td>
+                  <td id="B_10"></td>
+                  <td id="B_11"></td>
+                  <td id="B_12"></td>
+                  <td id="B_13"></td>
+                  <td id="B_14"></td>
+                  <td id="B_15"></td>
+                  <td id="B_16"></td>
+                  <td id="B_17"></td>
+                  <td id="B_18"></td>
+                  <td id="B_19"></td>
+                </tr>
+                <tr>
+                  <td>C</td>
+                  <td id="B_20"></td>
+                  <td id="B_21"></td>
+                  <td id="B_22"></td>
+                  <td id="B_23"></td>
+                  <td id="B_24"></td>
+                  <td id="B_25"></td>
+                  <td id="B_26"></td>
+                  <td id="B_27"></td>
+                  <td id="B_28"></td>
+                  <td id="B_29"></td>
+                </tr>
+                <tr>
+                  <td>D</td>
+                  <td id="B_30"></td>
+                  <td id="B_31"></td>
+                  <td id="B_32"></td>
+                  <td id="B_33"></td>
+                  <td id="B_34"></td>
+                  <td id="B_35"></td>
+                  <td id="B_36"></td>
+                  <td id="B_37"></td>
+                  <td id="B_38"></td>
+                  <td id="B_39"></td>
+                </tr>
+                <tr>
+                  <td>E</td>
+                  <td id="B_40"></td>
+                  <td id="B_41"></td>
+                  <td id="B_42"></td>
+                  <td id="B_43"></td>
+                  <td id="B_44"></td>
+                  <td id="B_45"></td>
+                  <td id="B_46"></td>
+                  <td id="B_47"></td>
+                  <td id="B_48"></td>
+                  <td id="B_49"></td>
+                </tr>
+                <tr>
+                  <td>F</td>
+                  <td id="B_50"></td>
+                  <td id="B_51"></td>
+                  <td id="B_52"></td>
+                  <td id="B_53"></td>
+                  <td id="B_54"></td>
+                  <td id="B_55"></td>
+                  <td id="B_56"></td>
+                  <td id="B_57"></td>
+                  <td id="B_58"></td>
+                  <td id="B_59"></td>
+                </tr>
+                <tr>
+                  <td>G</td>
+                  <td id="B_60"></td>
+                  <td id="B_61"></td>
+                  <td id="B_62"></td>
+                  <td id="B_63"></td>
+                  <td id="B_64"></td>
+                  <td id="B_65"></td>
+                  <td id="B_66"></td>
+                  <td id="B_67"></td>
+                  <td id="B_68"></td>
+                  <td id="B_69"></td>
+                </tr>
+                <tr>
+                  <td>H</td>
+                  <td id="B_70"></td>
+                  <td id="B_71"></td>
+                  <td id="B_72"></td>
+                  <td id="B_73"></td>
+                  <td id="B_74"></td>
+                  <td id="B_75"></td>
+                  <td id="B_76"></td>
+                  <td id="B_77"></td>
+                  <td id="B_78"></td>
+                  <td id="B_79"></td>
+                </tr>
+                <tr>
+                  <td>I</td>
+                  <td id="B_80"></td>
+                  <td id="B_81"></td>
+                  <td id="B_82"></td>
+                  <td id="B_83"></td>
+                  <td id="B_84"></td>
+                  <td id="B_85"></td>
+                  <td id="B_86"></td>
+                  <td id="B_87"></td>
+                  <td id="B_88"></td>
+                  <td id="B_89"></td>
+                </tr>
+                <tr>
+                  <td>J</td>
+                  <td id="B_90"></td>
+                  <td id="B_91"></td>
+                  <td id="B_92"></td>
+                  <td id="B_93"></td>
+                  <td id="B_94"></td>
+                  <td id="B_95"></td>
+                  <td id="B_96"></td>
+                  <td id="B_97"></td>
+                  <td id="B_98"></td>
+                  <td id="B_99"></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+        <div class="col-6">
+          <section>
+            <h2 class="bg-dark text-success text-center">Salvo board</h2>
+            <table id="salvoTable" border="1" class="table ">
+              <thead>
+                <th></th>
+                <th id="bth_0">1</th>
+                <th id="bth_1">2</th>
+                <th id="bth_2">3</th>
+                <th id="bth_3">4</th>
+                <th id="bth_4">5</th>
+                <th id="bth_5">6</th>
+                <th id="bth_6">7</th>
+                <th id="bth_7">8</th>
+                <th id="bth_8">9</th>
+                <th id="bth_9">10</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>A</td>
+                  <td id="S_00"></td>
+                  <td id="S_01"></td>
+                  <td id="S_02"></td>
+                  <td id="S_03"></td>
+                  <td id="S_04"></td>
+                  <td id="S_05"></td>
+                  <td id="S_06"></td>
+                  <td id="S_07"></td>
+                  <td id="S_08"></td>
+                  <td id="S_09"></td>
+                </tr>
+                <tr>
+                  <td>B</td>
+                  <td id="S_10"></td>
+                  <td id="S_11"></td>
+                  <td id="S_12"></td>
+                  <td id="S_13"></td>
+                  <td id="S_14"></td>
+                  <td id="S_15"></td>
+                  <td id="S_16"></td>
+                  <td id="S_17"></td>
+                  <td id="S_18"></td>
+                  <td id="S_19"></td>
+                </tr>
+                <tr>
+                  <td>C</td>
+                  <td id="S_20"></td>
+                  <td id="S_21"></td>
+                  <td id="S_22"></td>
+                  <td id="S_23"></td>
+                  <td id="S_24"></td>
+                  <td id="S_25"></td>
+                  <td id="S_26"></td>
+                  <td id="S_27"></td>
+                  <td id="S_28"></td>
+                  <td id="S_29"></td>
+                </tr>
+                <tr>
+                  <td>D</td>
+                  <td id="S_30"></td>
+                  <td id="S_31"></td>
+                  <td id="S_32"></td>
+                  <td id="S_33"></td>
+                  <td id="S_34"></td>
+                  <td id="S_35"></td>
+                  <td id="S_36"></td>
+                  <td id="S_37"></td>
+                  <td id="S_38"></td>
+                  <td id="S_39"></td>
+                </tr>
+                <tr>
+                  <td>E</td>
+                  <td id="S_40"></td>
+                  <td id="S_41"></td>
+                  <td id="S_42"></td>
+                  <td id="S_43"></td>
+                  <td id="S_44"></td>
+                  <td id="S_45"></td>
+                  <td id="S_46"></td>
+                  <td id="S_47"></td>
+                  <td id="S_48"></td>
+                  <td id="S_49"></td>
+                </tr>
+                <tr>
+                  <td>F</td>
+                  <td id="S_50"></td>
+                  <td id="S_51"></td>
+                  <td id="S_52"></td>
+                  <td id="S_53"></td>
+                  <td id="S_54"></td>
+                  <td id="S_55"></td>
+                  <td id="S_56"></td>
+                  <td id="S_57"></td>
+                  <td id="S_58"></td>
+                  <td id="S_59"></td>
+                </tr>
+                <tr>
+                  <td>G</td>
+                  <td id="S_60"></td>
+                  <td id="S_61"></td>
+                  <td id="S_62"></td>
+                  <td id="S_63"></td>
+                  <td id="S_64"></td>
+                  <td id="S_65"></td>
+                  <td id="S_66"></td>
+                  <td id="S_67"></td>
+                  <td id="S_68"></td>
+                  <td id="S_69"></td>
+                </tr>
+                <tr>
+                  <td>H</td>
+                  <td id="S_70"></td>
+                  <td id="S_71"></td>
+                  <td id="S_72"></td>
+                  <td id="S_73"></td>
+                  <td id="S_74"></td>
+                  <td id="S_75"></td>
+                  <td id="S_76"></td>
+                  <td id="S_77"></td>
+                  <td id="S_78"></td>
+                  <td id="S_79"></td>
+                </tr>
+                <tr>
+                  <td>I</td>
+                  <td id="S_80"></td>
+                  <td id="S_81"></td>
+                  <td id="S_82"></td>
+                  <td id="S_83"></td>
+                  <td id="S_84"></td>
+                  <td id="S_85"></td>
+                  <td id="S_86"></td>
+                  <td id="S_87"></td>
+                  <td id="S_88"></td>
+                  <td id="S_89"></td>
+                </tr>
+                <tr>
+                  <td>J</td>
+                  <td id="S_90"></td>
+                  <td id="S_91"></td>
+                  <td id="S_92"></td>
+                  <td id="S_93"></td>
+                  <td id="S_94"></td>
+                  <td id="S_95"></td>
+                  <td id="S_96"></td>
+                  <td id="S_97"></td>
+                  <td id="S_98"></td>
+                  <td id="S_99"></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <h4>Hits on you</h4>
+
+          <table class="col-10">
+            <tr>
+              <th>Turn</th>
+              <th>Ship</th>
+              <th>Sink</th>
+            </tr>
+            <tbody id="historialOwn"></tbody>
+          </table>
+        </div>
+        <div class="col-6">
+          <h4>Hits on opponent</h4>
+
+          <table class="col-10">
+            <tr>
+              <th>Turn</th>
+              <th>Ship</th>
+              <th>Sink</th>
+            </tr>
+            <tbody id="historialOponent"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
-
-
 
     <script src="./js/librerias/popper.min.js"></script>
     <script src="./js/librerias/jquery-3.3.1.min.js"></script>
     <script src="./js/librerias/bootstrap.min.js"></script>
     <script src="./js/game.js"></script>
-</body>
-
+  </body>
 </html>

@@ -1,8 +1,8 @@
 package com.codeoftheweb.salvo.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.LinkedHashMap;
@@ -11,112 +11,116 @@ import java.util.Set;
 
 @Entity
 public class Player {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-  @GenericGenerator(name = "native", strategy = "native")
-  private Long id;
-  private String email;
-  private String userName;
-  private String name;
-  private String lastName;
-  private String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    private Long id;
 
-  @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
-  Set<GamePlayer> gamePlayers;
+    private String email;
 
-  @JsonIgnore
-  @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
-  Set<Score> scores;
+    private String userName;
 
-  public Player() {
-  }
+    private String name;
 
-  public Player(String email, String password) {
-    this.email = email;
-    this.password = password;
-  }
+    private String lastName;
 
-  public Player(String name, String lastName, String userName, String email, String password) {
-    this.name = name;
-    this.lastName = lastName;
-    this.userName = userName;
-    this.email = email;
-    this.password = password;
-  }
+    private String password;
 
-  public Long getId() {
-    return id;
-  }
+    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
+    Set<GamePlayer> gamePlayers;
 
-  public String getEmail() {
-    return this.email;
-  }
+    @JsonIgnore
+    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
+    Set<Score> scores;
 
-  public String getName() {
-    return name;
-  }
+    public Player() {
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public Player(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
-  public String toString() {
-    return email + " " + userName;
-  }
+    public Player(String name, String lastName, String userName, String email, String password) {
+        this.name = name;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
 
-  @JsonIgnore
-  public String getPassword() {
-    return password;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public String getEmail() {
+        return this.email;
+    }
 
-  public Set<Score> getScores() {
-    return scores;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public Map<String, Object> makePlayerDTO() {
-    Map<String, Object> dto = new LinkedHashMap<>();
-    dto.put("id", this.getId());
-    dto.put("email", this.getEmail());
-    return dto;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public Map<String, Object> makePlayerScoreDTO() {
-    Map<String, Object> dto = new LinkedHashMap<>();
-    Map<String, Object> score = new LinkedHashMap<>();
-    dto.put("id", this.getId());
-    dto.put("email", this.getEmail());
-    dto.put("scores", score);
-    score.put("total", this.getTotalScore());
-    score.put("won", this.getWinScore());
-    score.put("lost", this.getLostScore());
-    score.put("tied", this.getTiedScore());
-    return dto;
-  }
+    public String toString() {
+        return email + " " + userName;
+    }
 
-  public long getTotalScore() {
-    return this.getWinScore() + this.getTiedScore();
-  }
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
 
-  public long getWinScore() {
-    return this.getScores().stream()
-      .filter(score -> score.getScore() == 2)
-      .count();
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public long getLostScore() {
-    return this.getScores().stream()
-      .filter(score -> score.getScore() == 0)
-      .count();
-  }
+    public Set<Score> getScores() {
+        return scores;
+    }
 
-  public long getTiedScore() {
-    return this.getScores().stream()
-      .filter(score -> score.getScore() == 1)
-      .count();
-  }
+    public Map<String, Object> makePlayerDTO() {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", this.getId());
+        dto.put("email", this.getEmail());
+        return dto;
+    }
 
+    public Map<String, Object> makePlayerScoreDTO() {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        Map<String, Object> score = new LinkedHashMap<>();
+        dto.put("id", this.getId());
+        dto.put("email", this.getEmail());
+        dto.put("scores", score);
+        score.put("total", this.getTotalScore());
+        score.put("won", this.getWinScore());
+        score.put("lost", this.getLostScore());
+        score.put("tied", this.getTiedScore());
+        return dto;
+    }
+
+    public long getTotalScore() {
+        return this.getWinScore() + this.getTiedScore();
+    }
+
+    public long getWinScore() {
+        return this.getScores().stream()
+                .filter(score -> score.getScore() == 2)
+                .count();
+    }
+
+    public long getLostScore() {
+        return this.getScores().stream()
+                .filter(score -> score.getScore() == 0)
+                .count();
+    }
+
+    public long getTiedScore() {
+        return this.getScores().stream()
+                .filter(score -> score.getScore() == 1)
+                .count();
+    }
 }

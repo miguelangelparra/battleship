@@ -10,105 +10,102 @@ import java.util.stream.Collectors;
 
 @Entity
 public class GamePlayer {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-  @GenericGenerator(name = "native", strategy = "native")
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    private Long id;
 
-  private Instant joinGame;
+    private Instant joinGame;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "player_id")
-  private Player player;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "player_id")
+    private Player player;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "game_id")
-  private Game game;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "game_id")
+    private Game game;
 
-  @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
- private Set<History> histories;
+    @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
+    private Set<History> histories;
 
-  @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
-  private Set<Ship> ships;
+    @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
+    private Set<Ship> ships;
 
-  @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
-  private Set<Salvo> salves;
+    @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
+    private Set<Salvo> salves;
 
-  private boolean allShipSunk = false;
+    private boolean allShipSunk = false;
 
-  public GamePlayer() {
-  }
-
-  public GamePlayer(Instant joinGame, Player player, Game game) {
-    this.player = player;
-    this.game = game;
-    this.joinGame = joinGame;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Instant getJoinGame() {
-    return joinGame;
-  }
-
-  public Player getPlayer() {
-    return player;
-  }
-
-  public void setPlayer(Player player) {
-    this.player = player;
-  }
-
-  public Game getGame() {
-    return game;
-  }
-
-  public Set<Ship> getShips() {
-    return ships;
-  }
-
-  public Set<Salvo> getSalves() {
-    return salves;
-  }
-
-  public boolean isAllShipSunk() {
-    return allShipSunk;
-  }
-
-  public void setAllShipSunk(boolean allShipSunk) {
-    this.allShipSunk = allShipSunk;
-  }
-
-  public boolean toCalculateAllShipSunk(){
-    if (    ((getShips().stream().filter(sh->sh.isSink()==true)).collect(Collectors.toList()).size() == getShips().size() )&& getShips().size()!=0 ){
-      setAllShipSunk(true);
+    public GamePlayer() {
     }
-    return isAllShipSunk();
-  }
+
+    public GamePlayer(Instant joinGame, Player player, Game game) {
+        this.player = player;
+        this.game = game;
+        this.joinGame = joinGame;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Instant getJoinGame() {
+        return joinGame;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public Set<Ship> getShips() {
+        return ships;
+    }
+
+    public Set<Salvo> getSalves() {
+        return salves;
+    }
+
+    public boolean isAllShipSunk() {
+        return allShipSunk;
+    }
+
+    public void setAllShipSunk(boolean allShipSunk) {
+        this.allShipSunk = allShipSunk;
+    }
+
+    public boolean toCalculateAllShipSunk() {
+        if (((getShips().stream().filter(sh -> sh.isSink() == true)).collect(Collectors.toList()).size() == getShips().size()) && getShips().size() != 0) {
+            setAllShipSunk(true);
+        }
+        return isAllShipSunk();
+    }
+
+    public Map<String, Object> makeGamePlayerDTO() {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", this.getId());
+        dto.put("player", this.getPlayer().makePlayerDTO());
+        // dto.put("histories",this.getHistories());
+        return dto;
+    }
+
+}
+
   /*public Set<History> getHistories() {
     return histories;
   }
 
   public void setHistories(Set<History> histories) {
     this.histories = histories;
-  }*/
-
-  public Map<String, Object> makeGamePlayerDTO() {
-    Map<String, Object> dto = new LinkedHashMap<>();
-    dto.put("id", this.getId());
-    dto.put("player", this.getPlayer().makePlayerDTO());
-   // dto.put("histories",this.getHistories());
-    return dto;
-  }
-
-}
-  /*public void addShip(Ship ship) {
-    ship.setGamePlayer(this);
-    ships.add(ship);
   }*/
