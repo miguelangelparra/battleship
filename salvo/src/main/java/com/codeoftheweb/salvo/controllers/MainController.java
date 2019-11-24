@@ -2,6 +2,7 @@ package com.codeoftheweb.salvo.controllers;
 
 import com.codeoftheweb.salvo.models.*;
 import com.codeoftheweb.salvo.repositories.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +36,14 @@ public class MainController {
     @Autowired
     private HistoryRepository historyRepository;
 
+    @Autowired
+    private ScoreRepository scoreRepository;
+
     @RequestMapping("/leaderBoard")
     public List<Map<String, Object>> leaderBoard() {
         return playerRepository.findAll()
                 .stream()
-                .map(player -> player.makePlayerScoreDTO())
+                .map(Player::makePlayerScoreDTO)
                 .collect(Collectors.toList());
     }
 
@@ -72,6 +76,14 @@ public class MainController {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
+        if(gamePlayerRepository.findById(idGamePlayer).get().getGame().toCalculateStateGame(gamePlayerRepository.findById(idGamePlayer).get()) == 5 ){
+
+            List <Score> score=  gamePlayerRepository.findById(idGamePlayer).get().getGame().toGetScore();
+           score.forEach(sco->{scoreRepository.save(sco);
+               gamePlayerRepository.findById(idGamePlayer).get().getGame().setStatus(6);
+           });
+        }
+
         return new ResponseEntity<>((gameViewDTO(gamePlayerRepository.findById(idGamePlayer).get())), HttpStatus.ACCEPTED);
     }
 
@@ -89,23 +101,23 @@ public class MainController {
                 .getGame()
                 .getGamePlayers()
                 .stream()
-                .map(gp -> gp.makeGamePlayerDTO()));
+                .map(GamePlayer::makeGamePlayerDTO));
         dto.put("history", gamePlayer
                 .getGame()
                 .getHistories()
                 .stream()
                 .sorted(Comparator.comparing(History::getTurn)
                         .reversed())
-                .map(a -> a.makeHistoryDTO()));
+                .map(History::makeHistoryDTO));
         dto.put("ships", gamePlayer.getShips()
                 .stream()
-                .map(sh -> sh.makeShipDTO())
+                .map(Ship::makeShipDTO)
                 .collect(Collectors.toList()));
         dto.put("salvoes", gamePlayer.getGame().getGamePlayers()
                 .stream()
                 .map(gp -> gp.getSalves()
                         .stream()
-                        .map(salvo -> salvo.makeSalvoDTO())));
+                        .map(Salvo::makeSalvoDTO)));
         return dto;
     }
 

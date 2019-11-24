@@ -499,7 +499,7 @@ function loadData() {
             .classList.remove("hidden");
           break;
 
-        case 4:
+        case 4 ,5, 6:
           statusGame.innerText = "Juego terminado";
           break;
       }

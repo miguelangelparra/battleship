@@ -27,9 +27,7 @@ public class Game {
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     private Set<History> histories;
 
-    private boolean gameOver = false;
-
-    private int status;
+    private int status ;
 
     public Game() {
         this.dateGame = new Date();
@@ -63,11 +61,12 @@ public class Game {
         this.status = status;
     }
 
+
     //Calcula el estado de juego
     public int toCalculateStateGame(GamePlayer gp) {
+System.out.println("estado del juego" + getStatus());
+        if (getStatus() != 5) {
 
-        if (gameOver == true) {
-        } else {
             //Transforma el set en array para poder procesar los datos
             GamePlayer[] myArray = new GamePlayer[this.getGamePlayers().size()];
             this.getGamePlayers().toArray(myArray);
@@ -83,43 +82,66 @@ public class Game {
             //Comprueba si el otro jugador ya termino su turno
             if (this.getGamePlayers().size() == 2 && (gp.getSalves().size() > oponent.getSalves().size())) {
                 this.setStatus(2);
-            } else if ((gp.getShips().size() != 0) && (gp.toCalculateAllShipSunk() == true || oponent.toCalculateAllShipSunk() == true) && (oponent.getSalves().size()==gp.getSalves().size())) {
+            } else if ((gp.getShips().size() != 0)
+                    && (gp.toCalculateAllShipSunk() || oponent.toCalculateAllShipSunk())
+                    && (oponent.getSalves().size() == gp.getSalves().size())
+                    &&(status < 4) ) {
                 //Comprueba si alguno de los jugadores tiene todos los barcos hundidos, juego terminado
-                this.gameOver = true;
                 this.setStatus(4);
-                toCreateScore(gp, oponent);
-            } else {
-//Responde si aun no se han hundido los barcos, colocar salvoes.
+                if(gp.isScoreSaved() == false && status!=6){
+                    this.toCreateScore(gp, oponent);
+                  //  this.setStatus(5);
+                }
+              ;
+            }
+            //Comprueba si hay otro jugador
+            else if (this.getGamePlayers().size() < 2) {
+                this.setStatus(0);
+            }  //Comprueba si los jugadores colocaron los barcos
+            else if (gp.getShips().size() == 0 || oponent.getShips().size() == 0) {
+                this.setStatus(1);
+            }
+           else if (status<3){//Responde si aun no se han hundido los barcos, colocar salvoes.
                 this.setStatus(3);
             }
 
-            //Comprueba si los jugadores colocaron los barcos
-            if (gp.getShips().size() == 0 || oponent.getShips().size() == 0) {
-                this.setStatus(1);
-            }
 
-            //Comprueba si hay otro jugador
-            if (this.getGamePlayers().size() < 2) {
-                this.setStatus(0);
-            }
+
+
+
         }
 
         return this.getStatus();
     }
 
     public void toCreateScore(GamePlayer gamePlayer, GamePlayer oponnet) {
-        Score score;
-
-        if (gamePlayer.isAllShipSunk() == true && oponnet.isAllShipSunk() == true) {
-            score = new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 1);
-        } else if (gamePlayer.isAllShipSunk() == true) {
-            score = new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0);
+        Score score1  ;
+        Score score2 ;
+        if (gamePlayer.isAllShipSunk() && oponnet.isAllShipSunk()) {
+            score1 = new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 1);
+            score2 = new Score(gamePlayer.getGame(), oponnet.getPlayer(), 1);
+        } else if (gamePlayer.isAllShipSunk()) {
+            score1 = new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0);
+            score2 = new Score(gamePlayer.getGame(), oponnet.getPlayer(), 2);
         } else {
-            score = new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 2);
+            score1 = new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 2);
+            score2 = new Score(gamePlayer.getGame(), oponnet.getPlayer(), 0);
+
         }
-        scores.add(score);
+        System.out.println("create score fue ejecutado por : " + gamePlayer.getId());
+        this.scores.add(score1);
+        this.scores.add(score2);
+        gamePlayer.setScoreSaved(true);
+        oponnet.setScoreSaved(true);
+
+        if (scores.size() == 2){
+            this.setStatus(5);
+        }
     }
 
+    public List<Score> toGetScore(){
+        return this.scores;
+    }
     public Map<String, Object> getGameDTO() {
 
         Map<String, Object> dto = new LinkedHashMap<>();
@@ -133,15 +155,15 @@ public class Game {
         return dto;
     }
 
-    public List<Map<String, Object>> getScoresList() {
+   public List<Map<String, Object>> getScoresList() {
         return this.scores.stream()
-                .map(score -> score.makeScoreDTO())
+                .map(Score::makeScoreDTO)
                 .collect(Collectors.toList());
     }
 
     public List<Map<String, Object>> getGamePlayersList() {
         return this.gamePlayers.stream()
-                .map(GamePlayer -> GamePlayer.makeGamePlayerDTO())
+                .map(GamePlayer::makeGamePlayerDTO)
                 .collect(Collectors.toList());
     }
  /* @JsonIgnore

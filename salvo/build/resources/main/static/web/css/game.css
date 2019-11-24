@@ -47,8 +47,10 @@ body {
 
 td {
     text-align: center;
-    max-width: 3px;
-    max-height: 3px;
+    width: 3em;
+    width: 3em;
+ /*  max-width: 2em;
+    max-height: 2em;*/
 }
 
 .btnGiro {
@@ -72,3 +74,24 @@ td {
 .hidden{
     display: none;
 }
+
+#Submarine{    
+   background-image: url(../img/barco1.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+background-position: center;
+}
+
+
+/*#Submarine::after{
+
+       content: url(../img/barco1.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+background-position: center;
+    position: absolute;
+z-index: 2;
+    width: 9em;
+    height: 30px;
+}*/
+

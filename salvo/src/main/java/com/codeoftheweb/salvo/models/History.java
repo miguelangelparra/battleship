@@ -1,5 +1,6 @@
 package com.codeoftheweb.salvo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.LinkedHashMap;
@@ -50,6 +51,7 @@ public class History {
         this.id = id;
     }
 
+    @JsonIgnore
     public GamePlayer getGamePlayer() {
         return gamePlayer;
     }

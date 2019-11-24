@@ -25,8 +25,8 @@ public class GamePlayer {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
-    private Set<History> histories;
+    /*@OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
+    private Set<History> histories;*/
 
     @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
     private Set<Ship> ships;
@@ -35,6 +35,8 @@ public class GamePlayer {
     private Set<Salvo> salves;
 
     private boolean allShipSunk = false;
+
+    private boolean scoreSaved = false;
 
     public GamePlayer() {
     }
@@ -83,6 +85,14 @@ public class GamePlayer {
 
     public void setAllShipSunk(boolean allShipSunk) {
         this.allShipSunk = allShipSunk;
+    }
+
+    public boolean isScoreSaved() {
+        return scoreSaved;
+    }
+
+    public void setScoreSaved(boolean scoreSaved) {
+        this.scoreSaved = scoreSaved;
     }
 
     public boolean toCalculateAllShipSunk() {
