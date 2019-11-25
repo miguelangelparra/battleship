@@ -114,7 +114,7 @@ function updateViewGames(data) {
   gameList.innerHTML = "";
   document
     .getElementById("MessageToLogin")
-    .setAttribute("style", "display:none");
+    // .setAttribute("style", "display:none");
   if (data.player != "Guest") {
     let btnCreate = document.getElementById("btnCreate");
     btnCreate.style.display = "block";

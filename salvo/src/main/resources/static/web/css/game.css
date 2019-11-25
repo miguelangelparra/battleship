@@ -27,7 +27,7 @@ td {
     padding: 0
 }
 
-body {
+ .games {
     height: 100vh;
     background-color: aqua;
     background-image: url("../img/shipInitial.jpg");
@@ -36,16 +36,27 @@ body {
     background-position: bottom;
 }
 
+ .game {
+    height: 100vh;
+    background-color: aqua;
+    background-image: url("../img/timon.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+}
 .list-group-item {
     background-color: transparent;
     color: black;
 }
 
+
+
 .table td {
     padding: 0;
 }
-
+th{color: azure;}
 td {
+    color: azure;
     text-align: center;
     width: 3em;
     width: 3em;
@@ -63,8 +74,13 @@ td {
     overflow: scroll;
 }
 
-#btnEnviarBarcos {
+/* #btnEnviarBarcos {
     display: block;
+} */
+#btnAddShips, #btnAddSalvos{
+    width: 7em;
+    height: 7em;
+    border-radius: 50%;
 }
 
 #btnCreate {
@@ -82,7 +98,10 @@ td {
 background-position: center;
 }
 
-
+.secTable{
+    background-color:rgba(255, 255, 255, 0.6
+    );
+}
 /*#Submarine::after{
 
        content: url(../img/barco1.svg);

@@ -43,7 +43,7 @@ function loginFunc(nameUsu, passwordUsu) {
     password: passwordUsu
   };
 
-  fetch("http://localhost:8080/api/login", {
+  fetch("/api/login", {
     method: "POST",
     body: new URLSearchParams(body),
     header: "Content-Type = application/x-www-form-urlencoded"
@@ -51,7 +51,7 @@ function loginFunc(nameUsu, passwordUsu) {
     //  .then((resp) =>  resp.json())
     .then(function(data) {
       if (data.ok) {
-        $.get("http://localhost:8080/web/games.html").done(() => {
+        $.get("/web/games.html").done(() => {
           loadData();
           document
             .getElementById("btnLoginModal")
@@ -92,7 +92,7 @@ function toCreateGame() {
 
 //Carga y actualizacion de datos
 function loadData() {
-  $.get("http://localhost:8080/api/games")
+  $.get("/api/games")
     .done(function(data) {
       updateViewGames(data);
     })
@@ -100,7 +100,7 @@ function loadData() {
       //  alert( "Failed: " + textStatus );
     });
 
-  $.get("http://localhost:8080/api/leaderBoard")
+  $.get("/api/leaderBoard")
     .done(function(data) {
       updateViewLBoard(data);
     })

@@ -466,14 +466,29 @@ function loadData() {
   $.get("/api/game_view/" + toGetParameterByName("gp"))
     .done(function(data) {
       var playerInfo;
+      var playerInfoOpponent;
       console.log(data);
 
       if (data.gameplayers.length == 1) {
-        playerInfo = [data.gameplayers[0].player];
+        // playerInfo = [data.gameplayers[0].player];
+        playerInfo = data.gameplayers[0].player;
+        playerInfoOponent = "Waiting Opponent"
       } else if (data.gameplayers[0].id == toGetParameterByName("gp")) {
-        playerInfo = [data.gameplayers[0].player, data.gameplayers[1].player];
+        // playerInfo = [data.gameplayers[0].player, data.gameplayers[1].player];
+        playerInfo = data.gameplayers[0].player;
+        playerInfoOpponent= data.gameplayers[1].player
       } else
-        playerInfo = [data.gameplayers[1].player, data.gameplayers[0].player];
+        // playerInfo = [data.gameplayers[1].player, data.gameplayers[0].player];
+        playerInfo = data.gameplayers[1].player;
+        playerInfoOpponent= data.gameplayers[0].player
+
+        // $("#userLogged").text(playerInfo[0].email);
+        // var player2 = playerInfo[1] != undefined ? playerInfo[1].email : "";
+        // $("#playerInfo").text(playerInfo[0].email + "(you) vs " + player2);
+
+        $("#userLogged").text(playerInfo.email);
+        $("#playerInfo").text(playerInfo.email);
+        $("#playerInfoOpponent").text(playerInfoOpponent.email);
 
       var statusGame = document.getElementById("statusGame");
       switch (data.status) {
@@ -499,14 +514,12 @@ function loadData() {
             .classList.remove("hidden");
           break;
 
-        case 4:
+        case 4 ,5, 6:
           statusGame.innerText = "Juego terminado";
           break;
       }
 
-      $("#userLogged").text("It´s time to win, " + playerInfo[0].email);
-      var player2 = playerInfo[1] != undefined ? playerInfo[1].email : "";
-      $("#playerInfo").text(playerInfo[0].email + "(you) vs " + player2);
+     
 
       if (data.ships.length != 0) {
         let shipsHall = document.getElementById("shipsHall");
