@@ -89,4 +89,12 @@ public class Ship {
         dto.put("sink", this.sink);
         return dto;
     }
+
+    public Map<String, Object> makeShipPublicDTO() {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("type", this.type);
+        dto.put("damage",this.getDamage());
+        dto.put("sink", this.sink);
+        return dto;
+    }
 }

@@ -393,7 +393,11 @@
     </div>
 
     <div class="row">
-      <div class="col-6">
+        <div class="col-2">       
+            <button id="btnAddShips" class="bg-success hidden" onclick="toAddShips()">
+             Send Ship
+           </button></div>
+      <div class="col-4">
         <h4 class="text-white text-center font-weight-bold">Hits on you</h4>
 
         <table class="col-10">
@@ -405,7 +409,8 @@
           <tbody id="historialOwn"></tbody>
         </table>
       </div>
-      <div class="col-6">
+ 
+      <div class="col-4">
 
         <h4 class="text-white text-center font-weight-bold">Hits on opponent</h4>
 
@@ -419,16 +424,14 @@
         </table>
 
       </div>
+      <div class="col-2">       
+          <button id="btnAddSalvos" class="bg-success hidden" onclick="toAddSalvos()">
+           Send Salvoes
+         </button></div>
     </div>
     <div class="row">
-      <div class="col-6">       
-         <button id="btnAddShips" class="bg-success hidden" onclick="toAddShips()">
-          Send Ship
-        </button></div>
-      <div class="col-6">       
-         <button id="btnAddSalvos" class="bg-success hidden" onclick="toAddSalvos()">
-          Send Salvoes
-        </button></div>
+
+
     </div>
   </div>
 

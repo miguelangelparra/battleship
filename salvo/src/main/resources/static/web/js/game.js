@@ -258,16 +258,16 @@ function toLocateSalvo(e) {
 
 //Dibujos:
 //Dibuja en barcos
-function toDrawShips(ships, salvoes, gamePlayers) {
+function toDrawShips(ships, salvoes, player) {
   ships.forEach(function(shipPiece) {
     shipPiece.locations.forEach(function(shipLocation) {
-      if (gamePlayers == undefined) {
+      if (player == undefined) {
         $("#B_" + shipLocation).addClass("ship-piece");
       } else {
-        if (isHit(shipLocation, salvoes, gamePlayers[0].player.id) != 0) {
+        if (isHit(shipLocation, salvoes, player.id) != 0) {
           $("#B_" + shipLocation).addClass("ship-piece-hited");
           $("#B_" + shipLocation).text(
-            isHit(shipLocation, salvoes, gamePlayers[0].player.id)
+            isHit(shipLocation, salvoes, player.id)
           );
         } else $("#B_" + shipLocation).addClass("ship-piece");
       }
@@ -276,10 +276,12 @@ function toDrawShips(ships, salvoes, gamePlayers) {
 }
 
 //Dibuja salvos
-function toDrawSalvoes(salvoes, gamePlayers) {
+function toDrawSalvoes(salvoes, player) {
   salvoes.forEach(function(gp) {
     gp.forEach(salvo => {
-      if (gamePlayers[0].player.id === salvo.player) {
+     // if (gamePlayers[0].player.id == salvo.player) {
+      if (player.id == salvo.player) {
+
         salvo.locations.forEach(function(location) {
           $("#S_" + location).addClass("salvo-piece-finished");
         });
@@ -323,8 +325,8 @@ function toDrawHistorial(history, gpId) {
     }
   });
 
-  turn(historyOwn, historialOwn);
-  turn(historyOponent, historialOponent);
+  turn(historyOwn, historialOponent);
+  turn(historyOponent,  historialOwn);
 
   function turn(arr, divList) {
     var turns = [];
@@ -425,7 +427,6 @@ function toAddShips() {
       contentType: "application/json"
     })
       .done(function(data) {
-        console.log("success");
         location.reload();
       })
       .fail(function(jqXHR, textStatus) {
@@ -462,31 +463,23 @@ function toGetParameterByName(name) {
 function loadData() {
   $.get("/api/game_view/" + toGetParameterByName("gp"))
     .done(function(data) {
-      var playerInfo;
-      var playerInfoOpponent;
-
-      if (data.gameplayers.length == 1) {
-        // playerInfo = [data.gameplayers[0].player];
-        playerInfo = data.gameplayers[0].player;
-        playerInfoOponent = "Waiting Opponent"
-      } else if (data.gameplayers[0].id == toGetParameterByName("gp")) {
-        // playerInfo = [data.gameplayers[0].player, data.gameplayers[1].player];
-        playerInfo = data.gameplayers[0].player;
-        playerInfoOpponent= data.gameplayers[1].player
+      var gamePlayers= data.gameplayers
+      var player;
+      var opponent;
+console.log(data)
+      if (gamePlayers.length == 1) {
+        player = gamePlayers[0].player;
+        opponent = "Waiting Opponent"
+      } else if (gamePlayers[0].id == toGetParameterByName("gp")) {
+        player = gamePlayers[0].player;
+        opponent= gamePlayers[1].player
       } else{
-        // playerInfo = [data.gameplayers[1].player, data.gameplayers[0].player];
-        playerInfo = data.gameplayers[1].player;
-        playerInfoOpponent= data.gameplayers[0].player
+        player = gamePlayers[1].player;
+        opponent= gamePlayers[0].player
         }
 
-        // $("#userLogged").text(playerInfo[0].email);
-        // var player2 = playerInfo[1] != undefined ? playerInfo[1].email : "";
-        // $("#playerInfo").text(playerInfo[0].email + "(you) vs " + player2);
-console.log(playerInfo)
-console.log(data)
-        // $("#userLogged").text(playerInfo.email);
-        $("#playerInfo").text(playerInfo.email);
-       playerInfoOpponent != undefined ? $("#playerInfoOpponent").text(playerInfoOpponent.email) : "";
+        $("#playerInfo").text(player.email);
+       opponent != undefined ? $("#playerInfoOpponent").text(opponent.email) : "";
 
       var statusGame = document.getElementById("statusGame");
       switch (data.status) {
@@ -495,20 +488,25 @@ console.log(data)
           break;
 
         case 1:
-          statusGame.innerText = "Waiting all ships";
+          if(data.ships.length == 0){
+          statusGame.innerText = "Place ships";
           document.getElementById("shipsHall").classList.remove("hidden");
           document.getElementById("btnAddShips").classList.remove("hidden");
+          }else{
+            statusGame.innerText = "Wait for enemy ships";
+            document.getElementById("shipsHall").classList.add("hidden");
+            document.getElementById("btnAddShips").classList.add("hidden");
+          }
           break;
 
         case 2:
           statusGame.innerText = "Waiting for other player";
-          document.getElementById("btnAddSalvos");
           break;
 
         case 3:
           statusGame.innerText = "Place Salvos";
           document
-            .getElementById("btnEnviarSalvos")
+            .getElementById("btnAddSalvos")
             .classList.remove("hidden");
           break;
 
@@ -524,11 +522,8 @@ console.log(data)
         shipsHall.style.display = "none";
       }
 
-      // toDrawShips(data.ships, data.salvoes, playerInfo);
-      // toDrawSalvoes(data.salvoes, playerInfo);
-
-      toDrawShips(data.ships, data.salvoes, data.gameplayers);
-      toDrawSalvoes(data.salvoes,data.gameplayers);
+      toDrawShips(data.ships, data.salvoes, player);
+      toDrawSalvoes(data.salvoes,player,);
       toDrawHistorial(data.history, data.id);
     })
     .fail(function(jqXHR, textStatus) {

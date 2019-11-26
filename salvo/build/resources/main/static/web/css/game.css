@@ -74,8 +74,13 @@ td {
     overflow: scroll;
 }
 
-#btnEnviarBarcos {
+/* #btnEnviarBarcos {
     display: block;
+} */
+#btnAddShips, #btnAddSalvos{
+    width: 7em;
+    height: 7em;
+    border-radius: 50%;
 }
 
 #btnCreate {

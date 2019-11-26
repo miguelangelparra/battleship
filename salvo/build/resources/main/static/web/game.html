@@ -12,7 +12,7 @@
   <div class="container-fluid">
     <div class="row justify-content-end">
       <div class="col-4">
-        <h3 id="userLogged" class="bg-info text-dark text-center">maria</h3>
+        <!-- <h3 id="userLogged" class="bg-info text-dark text-center"></h3> -->
       </div>
       <div class="col-1 ">
         <form id="formLogin  ">
@@ -22,16 +22,16 @@
       </div>
     </div>
     <div class="row justify-content-start">
-       <p><span class="text-warning">You: </span> <span id="playerInfo" class="text-success">Chanflatuda Victoriana</span>
- <br>       <span class="text-warning">Enemy: </span> <span id="playerInfoOpponent" class="text-danger">Carapacho infernal</span>
+       <p><span class="text-warning">You: </span> <span id="playerInfo" class="text-success"></span>
+ <br>       <span class="text-warning">Enemy: </span> <span id="playerInfoOpponent" class="text-danger"></span>
  <!-- <span id="playerInfo" class="text-white">SSSS</span> -->
 
       </p> 
     </div>
     <div>
-      <h3 id="statusGame"></h3>
+      <h3 id="statusGame" class="text-white"></h3>
       <h1 class="bg-warning text-dark text-center font-weight-bold">
-        MANDO CONTROL<br />
+        COMMAND SYSTEM
       </h1>
     </div>
     <div id="shipsHall" class="row hidden">
@@ -79,13 +79,8 @@
           </button>
         </div>
       </div>
-      <button id="btnAddShips" class="bg-success hidden" onclick="toAddShips()">
-        Send Ship
-      </button>
     </div>
-    <button id="btnEnviarSalvoes" class="bg-success hidden" onclick="toAddSalvoes()">
-      Send Salvoes
-    </button>
+
 
     <div class="row">
       <div class="col-6 p-4 border">
@@ -393,11 +388,16 @@
             </tbody>
           </table>
         </section>
+
       </div>
     </div>
 
     <div class="row">
-      <div class="col-6">
+        <div class="col-2">       
+            <button id="btnAddShips" class="bg-success hidden" onclick="toAddShips()">
+             Send Ship
+           </button></div>
+      <div class="col-4">
         <h4 class="text-white text-center font-weight-bold">Hits on you</h4>
 
         <table class="col-10">
@@ -409,7 +409,8 @@
           <tbody id="historialOwn"></tbody>
         </table>
       </div>
-      <div class="col-6">
+ 
+      <div class="col-4">
 
         <h4 class="text-white text-center font-weight-bold">Hits on opponent</h4>
 
@@ -423,13 +424,21 @@
         </table>
 
       </div>
+      <div class="col-2">       
+          <button id="btnAddSalvos" class="bg-success hidden" onclick="toAddSalvos()">
+           Send Salvoes
+         </button></div>
+    </div>
+    <div class="row">
+
+
     </div>
   </div>
 
   <script src="./js/librerias/popper.min.js"></script>
   <script src="./js/librerias/jquery-3.3.1.min.js"></script>
   <script src="./js/librerias/bootstrap.min.js"></script>
-  <!-- <script src="./js/game.js"></script> -->
+  <script src="./js/game.js"></script>
 </body>
 
 </html>

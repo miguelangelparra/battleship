@@ -101,6 +101,7 @@ public class MainController {
                 .getGame()
                 .getGamePlayers()
                 .stream()
+                .sorted(Comparator.comparing(GamePlayer::getId))
                 .map(GamePlayer::makeGamePlayerDTO));
         dto.put("history", gamePlayer
                 .getGame()
@@ -113,6 +114,14 @@ public class MainController {
                 .stream()
                 .map(Ship::makeShipDTO)
                 .collect(Collectors.toList()));
+        dto.put("damage",gamePlayer
+                .getGame()
+                .getGamePlayers()
+                .stream()
+                .map(gp->gp
+                        .getShips()
+                        .stream()
+                        .map(Ship::makeShipPublicDTO)));
         dto.put("salvoes", gamePlayer.getGame().getGamePlayers()
                 .stream()
                 .map(gp -> gp.getSalves()

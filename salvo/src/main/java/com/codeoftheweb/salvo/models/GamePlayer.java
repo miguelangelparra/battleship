@@ -106,7 +106,7 @@ public class GamePlayer {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("id", this.getId());
         dto.put("player", this.getPlayer().makePlayerDTO());
-        // dto.put("histories",this.getHistories());
+         dto.put("damage",this.getShips().stream().map(Ship::makeShipPublicDTO));
         return dto;
     }
 
