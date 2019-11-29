@@ -1,23 +1,27 @@
 .ship-piece {
-    background-color: mediumpurple;
+    background-color: green;
 }
 
 ​ .ship-piece-hited {
-    background-color: green;
-    color:green
+    background-color: red;
+    background-image: url("../img/fire.png");
+    background-size: cover;
 }
 
-​ .salvo {
+
+/* ​ .salvo {
     background-color: crimson;
-}
+} */
 
 .salvo-piece {
     background-color: crimson;
 }
 
 .salvo-piece-finished {
-    background-color: green;
+    background-color: rgb(128, 98, 0);
 }
+
+
 /*.ship{
     width: 3%;
     height: auto;
@@ -27,7 +31,7 @@ td {
     padding: 0
 }
 
- .games {
+.games {
     height: 100vh;
     background-color: aqua;
     background-image: url("../img/shipInitial.jpg");
@@ -36,7 +40,7 @@ td {
     background-position: bottom;
 }
 
- .game {
+.game {
     height: 100vh;
     background-color: aqua;
     background-image: url("../img/timon.jpg");
@@ -44,23 +48,26 @@ td {
     background-size: cover;
     background-position: bottom;
 }
+
 .list-group-item {
     background-color: transparent;
     color: black;
 }
 
-
-
 .table td {
     padding: 0;
 }
-th{color: azure;}
+
+th {
+    color: azure;
+}
+
 td {
     color: azure;
     text-align: center;
     width: 3em;
     width: 3em;
- /*  max-width: 2em;
+    /*  max-width: 2em;
     max-height: 2em;*/
 }
 
@@ -74,10 +81,13 @@ td {
     overflow: scroll;
 }
 
+
 /* #btnEnviarBarcos {
     display: block;
 } */
-#btnAddShips, #btnAddSalvos{
+
+#btnAddShips,
+#btnAddSalvos {
     width: 7em;
     height: 7em;
     border-radius: 50%;
@@ -87,21 +97,22 @@ td {
     display: none;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
-#Submarine{    
-   background-image: url(../img/barco1.svg);
+#Submarine {
+    background-image: url(../img/barco1.svg);
     background-repeat: no-repeat;
     background-size: cover;
-background-position: center;
+    background-position: center;
 }
 
-.secTable{
-    background-color:rgba(255, 255, 255, 0.6
-    );
+.secTable {
+    background-color: rgba(255, 255, 255, 0.6);
 }
+
+
 /*#Submarine::after{
 
        content: url(../img/barco1.svg);
@@ -113,4 +124,3 @@ z-index: 2;
     width: 9em;
     height: 30px;
 }*/
-

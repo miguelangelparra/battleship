@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,8 +62,7 @@ public class GameController {
             Game game = new Game();
             gameRepository.save(game);
 
-            GamePlayer gamePlayer = new GamePlayer(Instant.now(), playerRepository
-                    .findByEmail(authentication.getName()), game);
+            GamePlayer gamePlayer = new GamePlayer(Instant.now(), playerRepository.findByEmail(authentication.getName()), game);
             gamePlayerRepository.save(gamePlayer);
 
             Map<String, Object> gpid = new LinkedHashMap<>();
@@ -75,12 +75,15 @@ public class GameController {
 
     @RequestMapping("/games/{idGame}/players")
     public List<Map<String, Object>> getPlayersInGame(@PathVariable long idGame) {
-        return gameRepository.findById(idGame)
+        return gameRepository
+                .findById(idGame)
                 .getGamePlayersList();
     }
 
     public List<Map<String, Object>> infoGame() {
-        return gameRepository.findAll().stream()
+        return gameRepository
+                .findAll()
+                .stream().sorted(Comparator.comparing(Game::getDateGame).reversed())
                 .map(game -> game.getGameDTO())
                 .collect(Collectors.toList());
     }
@@ -88,4 +91,16 @@ public class GameController {
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
-}
+
+    public Map<String, Object> getGameDTO(Game game) {
+
+        Map<String, Object> dto = new LinkedHashMap<>();
+
+        dto.put("id", game.getId());
+        dto.put("created", game.getDateGame().getTime());
+        dto.put("gamePlayers", game.getGamePlayersList().stream().sorted());
+        dto.put("score", game.getScoresList());
+        //  dto.put("histories", this.getHistories());
+
+        return dto;
+}}

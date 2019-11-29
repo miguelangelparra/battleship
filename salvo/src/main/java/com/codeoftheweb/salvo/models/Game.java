@@ -29,6 +29,9 @@ public class Game {
 
     private int status ;
 
+    private int winnerGP =-1;
+
+
     public Game() {
         this.dateGame = new Date();
     }
@@ -61,6 +64,9 @@ public class Game {
         this.status = status;
     }
 
+    public int getWinnerGP() {
+        return winnerGP;
+    }
 
     //Calcula el estado de juego
     public int toCalculateStateGame(GamePlayer gp) {
@@ -92,7 +98,6 @@ System.out.println("estado del juego" + getStatus());
                     this.toCreateScore(gp, oponent);
                   //  this.setStatus(5);
                 }
-              ;
             }
             //Comprueba si hay otro jugador
             else if (this.getGamePlayers().size() < 2) {
@@ -104,35 +109,35 @@ System.out.println("estado del juego" + getStatus());
            else if (status<3){//Responde si aun no se han hundido los barcos, colocar salvoes.
                 this.setStatus(3);
             }
-
-
-
-
-
         }
 
         return this.getStatus();
     }
 
-    public void toCreateScore(GamePlayer gamePlayer, GamePlayer oponnet) {
+    public void toCreateScore(GamePlayer playerGP, GamePlayer opponetGP) {
+      Game game = playerGP.getGame();
+              Player player = playerGP.getPlayer();
+              Player opponent=opponetGP.getPlayer();
         Score score1  ;
         Score score2 ;
-        if (gamePlayer.isAllShipSunk() && oponnet.isAllShipSunk()) {
-            score1 = new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 1);
-            score2 = new Score(gamePlayer.getGame(), oponnet.getPlayer(), 1);
-        } else if (gamePlayer.isAllShipSunk()) {
-            score1 = new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 0);
-            score2 = new Score(gamePlayer.getGame(), oponnet.getPlayer(), 2);
+        if (playerGP.isAllShipSunk() && opponetGP.isAllShipSunk()) {
+            score1 = new Score(game, player, 1);
+            score2 = new Score(game, opponent, 1);
+            winnerGP=0;
+        } else if (playerGP.isAllShipSunk()) {
+            score1 = new Score(game, player, 0);
+            score2 = new Score(game, opponent, 2);
+            winnerGP= Math.toIntExact(opponetGP.getId());
         } else {
-            score1 = new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), 2);
-            score2 = new Score(gamePlayer.getGame(), oponnet.getPlayer(), 0);
-
+            score1 = new Score(game, player, 2);
+            score2 = new Score(game, opponent, 0);
+            winnerGP= Math.toIntExact(playerGP.getId());
         }
-        System.out.println("create score fue ejecutado por : " + gamePlayer.getId());
+        //System.out.println("create score fue ejecutado por : " + playerGP.getId());
         this.scores.add(score1);
         this.scores.add(score2);
-        gamePlayer.setScoreSaved(true);
-        oponnet.setScoreSaved(true);
+        playerGP.setScoreSaved(true);
+        opponetGP.setScoreSaved(true);
 
         if (scores.size() == 2){
             this.setStatus(5);
@@ -147,10 +152,11 @@ System.out.println("estado del juego" + getStatus());
         Map<String, Object> dto = new LinkedHashMap<>();
 
         dto.put("id", this.getId());
+        dto.put("winner",this.getWinnerGP());
         dto.put("created", this.getDateGame().getTime());
         dto.put("gamePlayers", this.getGamePlayersList());
         dto.put("score", this.getScoresList());
-        dto.put("histories", this.getHistories());
+      //  dto.put("histories", this.getHistories());
 
         return dto;
     }

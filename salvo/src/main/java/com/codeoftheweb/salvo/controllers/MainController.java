@@ -43,6 +43,7 @@ public class MainController {
     public List<Map<String, Object>> leaderBoard() {
         return playerRepository.findAll()
                 .stream()
+                .sorted(Comparator.comparing(Player::getTotalScore).reversed())
                 .map(Player::makePlayerScoreDTO)
                 .collect(Collectors.toList());
     }
@@ -97,31 +98,17 @@ public class MainController {
                 .getId());
         dto.put("created", gamePlayer
                 .getJoinGame());
+        dto.put("winner",gamePlayer.getGame().getWinnerGP());
         dto.put("gameplayers", gamePlayer
                 .getGame()
                 .getGamePlayers()
                 .stream()
                 .sorted(Comparator.comparing(GamePlayer::getId))
                 .map(GamePlayer::makeGamePlayerDTO));
-        dto.put("history", gamePlayer
-                .getGame()
-                .getHistories()
-                .stream()
-                .sorted(Comparator.comparing(History::getTurn)
-                        .reversed())
-                .map(History::makeHistoryDTO));
         dto.put("ships", gamePlayer.getShips()
                 .stream()
                 .map(Ship::makeShipDTO)
                 .collect(Collectors.toList()));
-        dto.put("damage",gamePlayer
-                .getGame()
-                .getGamePlayers()
-                .stream()
-                .map(gp->gp
-                        .getShips()
-                        .stream()
-                        .map(Ship::makeShipPublicDTO)));
         dto.put("salvoes", gamePlayer.getGame().getGamePlayers()
                 .stream()
                 .map(gp -> gp.getSalves()
@@ -136,3 +123,21 @@ public class MainController {
         return map;
     }
 }
+
+
+      /*  dto.put("damage",gamePlayer
+                .getGame()
+                .getGamePlayers()
+                .stream()
+                .map(gp->gp
+                        .getShips()
+                        .stream()
+                        .map(Ship::makeShipPublicDTO)));*/
+
+             /* dto.put("history", gamePlayer
+                .getGame()
+                .getHistories()
+                .stream()
+                .sorted(Comparator.comparing(History::getTurn)
+                        .reversed())
+                .map(History::makeHistoryDTO));*/
