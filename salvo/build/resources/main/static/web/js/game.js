@@ -264,7 +264,7 @@ function toDrawShips(ships, salvoes, player) {
                 if (isHit(shipLocation, salvoes, player.id) != 0) {
                     $("#B_" + shipLocation).removeClass("ship-piece");
                     $("#B_" + shipLocation).addClass("ship-piece-hited");
-                    //   $("#B_" + shipLocation).text("X"
+                       $("#B_" + shipLocation).text("X")
                     //        isHit(shipLocation, salvoes, player.id)
                     //     );
                 } else $("#B_" + shipLocation).addClass("ship-piece");
@@ -428,12 +428,18 @@ function loadData() {
                         .classList.remove("hidden");
                     break;
 
-                case 4, 5, 6:
+                case 4, 5:
                     statusGame.innerText = "Game Over";
                     break;
+
+                case 6:
+                    if(data.winner == data.id){
+            statusGame.innerText = "YOU WON";
+                    }else{
+                    statusGame.innerText = "YOU LOSE";
+                }
+                    break;
             }
-
-
 
             if (data.ships.length != 0) {
                 let shipsHall = document.getElementById("shipsHall");
@@ -442,7 +448,6 @@ function loadData() {
 
             toDrawShips(data.ships, data.salvoes, player);
             toDrawSalvoes(data.salvoes, player);
-            // toDrawHistorial(data.history, data.id);
             toDrawDamage(data.gameplayers, data.id);
 
         })
@@ -462,7 +467,12 @@ setInterval(() => {
 }, 4000);
 
 
+
+
+
 /*
+            // toDrawHistorial(data.history, data.id);
+
 //Dibuja Historial
 function toDrawHistorial1(history, gpId) {
     var historialOwn = document.getElementById("historialOwn");
