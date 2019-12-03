@@ -17,7 +17,8 @@
 
 <body class="bg-secondary game">
     <div class="container-fluid">
-        <div class="row">
+
+        <div id="cabeceras" class="row">
             <div class="col">
                 <div class="row bg-warning">
                     <div class="col-12">
@@ -33,8 +34,7 @@
                         <p>
                             <span class="text-warning">You: </span> <span id="playerInfo" class="text-success"></span>
                             <br>
-                            <span class="text-warning">Enemy: </span> <span id="playerInfoOpponent"
-                                class="text-danger"></span>
+                            <span class="text-warning">Enemy: </span> <span id="playerInfoOpponent" class="text-danger"></span>
                         </p>
                     </div>
 
@@ -52,9 +52,7 @@
 
         </div>
 
-
-
-        <div class="row">
+        <div id="tableros" class="row">
             <div class="col-6 p-4 border">
                 <section class="secTable border border-warning ">
                     <h2 class="bg-warning text-dark text-center font-weight-bold">GAME BOARD</h2>
@@ -367,49 +365,41 @@
         <div id="shipsHall" class="row hidden">
             <div class="col-1 barcoHall">
                 <span>Battleship</span>
-                <div id="Battleship" class="col bg-danger barco">
-                    <button id="BattleshipOrientation" name="Battleship" class="btnGiro"
-                        onclick="toChangeOrientation(this)">
-                        B
+                <div id="Battleship" class="col barco">
+                    <button id="BattleshipOrientation" name="Battleship" class="btnGiro" onclick="toChangeOrientation(this)">
                     </button>
                 </div>
             </div>
 
             <div class="col-1 barcoHall">
                 <span>Submarine</span>
-                <div id="Submarine" class="col bg-danger ship barco">
-                    <button id="SubmarineOrientation" name="Submarine" class="btnGiro"
-                        onclick="toChangeOrientation(this)">
-                        S
+                <div id="Submarine" class="col ship barco">
+                    <img id="SubmarineImg" alt="">
+                    <button id="SubmarineOrientation" name="Submarine" class="btnGiro" onclick="toChangeOrientation(this)">
                     </button>
                 </div>
             </div>
 
             <div class="col-1 barcoHall">
                 <span>Destroyer</span>
-                <div id="Destroyer" class="col bg-danger barco">
-                    <button id="DestroyerOrientation" name="Destroyer" class="btnGiro"
-                        onclick="toChangeOrientation(this)">
-                        D
+                <div id="Destroyer" class="col  barco">
+                    <button id="DestroyerOrientation" name="Destroyer" class="btnGiro" onclick="toChangeOrientation(this)">
                     </button>
                 </div>
             </div>
 
             <div class="col-1 barcoHall">
                 <span>Patrol</span>
-                <div id="Patrol" class="col bg-danger barco">
+                <div id="Patrol" class="col  barco">
                     <button id="PatrolOrientation" name="Patrol" class="btnGiro" onclick="toChangeOrientation(this)">
-                        P
                     </button>
                 </div>
             </div>
 
             <div class="col-1 barcoHall">
                 <span>Aircraft</span>
-                <div id="Aircraft" class="col bg-danger barco ">
-                    <button id="AircraftOrientation" name="Aircraft" class="btnGiro"
-                        onclick="toChangeOrientation(this)">
-                        A
+                <div id="Aircraft" class="col barco ">
+                    <button id="AircraftOrientation" name="Aircraft" class="btnGiro" onclick="toChangeOrientation(this)">
                     </button>
                 </div>
             </div>
@@ -417,39 +407,38 @@
                 <button id="btnAddShips" class="bg-success hidden" onclick="toAddShips()">
                     Send Ship
                 </button></div>
-        </div>
 
-        <div class="row" id="divStatusDamage">
-            <div class="col">
-                <div class="row">
-                    <div class="col-6">
-                        <h4 class="bg-warning  text-left font-weight-bold">Your Status</h4>
+            <div id="divStatusDamage" class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-6">
+                            <h4 class="bg-warning  text-left font-weight-bold">Your Status</h4>
+                        </div>
+                        <div class="col-6">
+                            <h4 class="bg-warning text-right font-weight-bold">Opponent Status</h4>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <h4 class="bg-warning text-right font-weight-bold">Opponent Status</h4>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div id="historialOwn" class="col-5 historial" >
+                    <div class="row">
+                        <div id="historialOwn" class="col-5 historial">
 
-                        <!-- <table class="col-10">
+                            <!-- <table class="col-10">
                     <tr>
                         <th>Ship</th>
                         <th>Damage</th>
                     </tr>
                     <tbody id="historialOwn"></tbody>
                 </table>-->
-                    </div>
-                    <div class="col-2 text-center ">
-                        <button id="btnAddSalvos" class="bg-success " onclick="toAddSalvos()">
+                        </div>
+                        <div class="col-2 text-center ">
+                            <button id="btnAddSalvos" class="bg-success " onclick="toAddSalvos()">
                             Send Salvoes
                         </button></div>
 
-                    <div id="historialOponent" class="col-5 historial d-flex justify-content-end ">
+                        <div id="historialOponent" class="col-5 historial d-flex justify-content-end ">
 
 
-                        <!--  <table class="col-10">
+                            <!--  <table class="col-10">
                     <tr>
                         <th>Ship</th>
                         <th>Damage</th>
@@ -457,18 +446,22 @@
                     <tbody ></tbody>
                 </table>-->
 
-                    </div>
+                        </div>
 
+                    </div>
                 </div>
+            </div>
+            <div id="pie" class="row text-white">
+                <p class="text-center">Create by Miguelangel Parra</p>
             </div>
         </div>
 
-    </div>
 
-    <script src="./js/librerias/popper.min.js"></script>
-    <script src="./js/librerias/jquery-3.3.1.min.js"></script>
-    <script src="./js/librerias/bootstrap.min.js"></script>
-    <script src="./js/game.js"></script>
+
+        <script src="./js/librerias/popper.min.js"></script>
+        <script src="./js/librerias/jquery-3.3.1.min.js"></script>
+        <script src="./js/librerias/bootstrap.min.js"></script>
+        <script src="./js/game.js"></script>
 </body>
 
 </html>

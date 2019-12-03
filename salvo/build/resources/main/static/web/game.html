@@ -6,88 +6,59 @@
     <title>Ships locations!</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="./css/game.css" />
+    <style>
+        .ship-piece-hited {
+            background-color: lightcoral;
+            background-image: url("./img/fire.png");
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body class="bg-secondary game">
     <div class="container-fluid">
-        <div class="row justify-content-end">
-            <div class="col-4">
-                <!-- <h3 id="userLogged" class="bg-info text-dark text-center"></h3> -->
+        <div class="row">
+            <div class="col">
+                <div class="row bg-warning">
+                    <div class="col-12">
+                        <h1 class="bg-warning text-dark text-center font-weight-bold display-">
+                            COMMAND SYSTEM
+                        </h1>
+                    </div>
+
+                </div>
+
+                <div class="row justify-content-start">
+                    <div class="col-6">
+                        <p>
+                            <span class="text-warning">You: </span> <span id="playerInfo" class="text-success"></span>
+                            <br>
+                            <span class="text-warning">Enemy: </span> <span id="playerInfoOpponent"
+                                class="text-danger"></span>
+                        </p>
+                    </div>
+
+                    <div class="col-6">
+                        <span class="text-warning font-weight-bold ">
+                            Game status:
+                        </span>
+                        <span id="statusGame" class="text-success display-4">
+                        </span>
+                    </div>
+                </div>
+
+
             </div>
-            <div class="col-1 ">
-                <form id="formLogin  ">
-                    <input type="button" formmethod="post" id="btnLogout" class="btn bg-danger" onclick="toLogOut()" value="Log Out" />
-                </form>
-            </div>
+
         </div>
-        <div class="row justify-content-start">
-            <p>
-                <span class="text-warning">You: </span> <span id="playerInfo" class="text-success"></span>
-                <br>
-                <span class="text-warning">Enemy: </span> <span id="playerInfoOpponent" class="text-danger"></span>
-            </p>
-        </div>
-        <div>
-            <h1 class="bg-warning text-dark text-center font-weight-bold">
-                COMMAND SYSTEM
-                <h4 id="statusGame" class="text-white">
-                </h4>
 
-            </h1>
-        </div>
-        <div id="shipsHall" class="row hidden">
-            <div class="col-1 barcoHall">
-                <span>Battleship</span>
-                <div id="Battleship" class="col bg-danger barco">
-                    <button id="BattleshipOrientation" name="Battleship" class="btnGiro" onclick="toChangeOrientation(this)">
-            B
-          </button>
-                </div>
-            </div>
-
-            <div class="col-1 barcoHall">
-                <span>Submarine</span>
-                <div id="Submarine" class="col bg-danger ship barco">
-                    <button id="SubmarineOrientation" name="Submarine" class="btnGiro" onclick="toChangeOrientation(this)">
-            S
-          </button>
-                </div>
-            </div>
-
-            <div class="col-1 barcoHall">
-                <span>Destroyer</span>
-                <div id="Destroyer" class="col bg-danger barco">
-                    <button id="DestroyerOrientation" name="Destroyer" class="btnGiro" onclick="toChangeOrientation(this)">
-            D
-          </button>
-                </div>
-            </div>
-
-            <div class="col-1 barcoHall">
-                <span>Patrol</span>
-                <div id="Patrol" class="col bg-danger barco">
-                    <button id="PatrolOrientation" name="Patrol" class="btnGiro" onclick="toChangeOrientation(this)">
-            P
-          </button>
-                </div>
-            </div>
-
-            <div class="col-1 barcoHall">
-                <span>Aircraft</span>
-                <div id="Aircraft" class="col bg-danger barco ">
-                    <button id="AircraftOrientation" name="Aircraft" class="btnGiro" onclick="toChangeOrientation(this)">
-            A
-          </button>
-                </div>
-            </div>
-        </div>
 
 
         <div class="row">
             <div class="col-6 p-4 border">
                 <section class="secTable border border-warning ">
                     <h2 class="bg-warning text-dark text-center font-weight-bold">GAME BOARD</h2>
-                    <table id="salvoTable" border="1" class="table ">
+                    <table id="shipTable" border="1" class="table ">
                         <thead>
                             <th></th>
                             <th id="bth_0">1</th>
@@ -104,7 +75,7 @@
 
                         <tbody>
                             <tr>
-                                <td>A</td>
+                                <th>A</th>
                                 <td id="B_00"></td>
                                 <td id="B_01"></td>
                                 <td id="B_02"></td>
@@ -117,7 +88,7 @@
                                 <td id="B_09"></td>
                             </tr>
                             <tr>
-                                <td>B</td>
+                                <th>B</th>
                                 <td id="B_10"></td>
                                 <td id="B_11"></td>
                                 <td id="B_12"></td>
@@ -130,7 +101,7 @@
                                 <td id="B_19"></td>
                             </tr>
                             <tr>
-                                <td>C</td>
+                                <th>C</th>
                                 <td id="B_20"></td>
                                 <td id="B_21"></td>
                                 <td id="B_22"></td>
@@ -143,7 +114,7 @@
                                 <td id="B_29"></td>
                             </tr>
                             <tr>
-                                <td>D</td>
+                                <th>D</th>
                                 <td id="B_30"></td>
                                 <td id="B_31"></td>
                                 <td id="B_32"></td>
@@ -156,7 +127,7 @@
                                 <td id="B_39"></td>
                             </tr>
                             <tr>
-                                <td>E</td>
+                                <th>E</th>
                                 <td id="B_40"></td>
                                 <td id="B_41"></td>
                                 <td id="B_42"></td>
@@ -169,7 +140,7 @@
                                 <td id="B_49"></td>
                             </tr>
                             <tr>
-                                <td>F</td>
+                                <th>F</th>
                                 <td id="B_50"></td>
                                 <td id="B_51"></td>
                                 <td id="B_52"></td>
@@ -182,7 +153,7 @@
                                 <td id="B_59"></td>
                             </tr>
                             <tr>
-                                <td>G</td>
+                                <th>G</th>
                                 <td id="B_60"></td>
                                 <td id="B_61"></td>
                                 <td id="B_62"></td>
@@ -195,7 +166,7 @@
                                 <td id="B_69"></td>
                             </tr>
                             <tr>
-                                <td>H</td>
+                                <th>H</th>
                                 <td id="B_70"></td>
                                 <td id="B_71"></td>
                                 <td id="B_72"></td>
@@ -208,7 +179,7 @@
                                 <td id="B_79"></td>
                             </tr>
                             <tr>
-                                <td>I</td>
+                                <th>I</th>
                                 <td id="B_80"></td>
                                 <td id="B_81"></td>
                                 <td id="B_82"></td>
@@ -221,7 +192,7 @@
                                 <td id="B_89"></td>
                             </tr>
                             <tr>
-                                <td>J</td>
+                                <th>J</th>
                                 <td id="B_90"></td>
                                 <td id="B_91"></td>
                                 <td id="B_92"></td>
@@ -257,7 +228,7 @@
 
                         <tbody>
                             <tr>
-                                <td>A</td>
+                                <th>A</th>
                                 <td id="S_00"></td>
                                 <td id="S_01"></td>
                                 <td id="S_02"></td>
@@ -270,7 +241,7 @@
                                 <td id="S_09"></td>
                             </tr>
                             <tr>
-                                <td>B</td>
+                                <th>B</th>
                                 <td id="S_10"></td>
                                 <td id="S_11"></td>
                                 <td id="S_12"></td>
@@ -283,7 +254,7 @@
                                 <td id="S_19"></td>
                             </tr>
                             <tr>
-                                <td>C</td>
+                                <th>C</th>
                                 <td id="S_20"></td>
                                 <td id="S_21"></td>
                                 <td id="S_22"></td>
@@ -296,7 +267,7 @@
                                 <td id="S_29"></td>
                             </tr>
                             <tr>
-                                <td>D</td>
+                                <th>D</th>
                                 <td id="S_30"></td>
                                 <td id="S_31"></td>
                                 <td id="S_32"></td>
@@ -309,7 +280,7 @@
                                 <td id="S_39"></td>
                             </tr>
                             <tr>
-                                <td>E</td>
+                                <th>E</th>
                                 <td id="S_40"></td>
                                 <td id="S_41"></td>
                                 <td id="S_42"></td>
@@ -322,7 +293,7 @@
                                 <td id="S_49"></td>
                             </tr>
                             <tr>
-                                <td>F</td>
+                                <th>F</th>
                                 <td id="S_50"></td>
                                 <td id="S_51"></td>
                                 <td id="S_52"></td>
@@ -335,7 +306,7 @@
                                 <td id="S_59"></td>
                             </tr>
                             <tr>
-                                <td>G</td>
+                                <th>G</th>
                                 <td id="S_60"></td>
                                 <td id="S_61"></td>
                                 <td id="S_62"></td>
@@ -348,7 +319,7 @@
                                 <td id="S_69"></td>
                             </tr>
                             <tr>
-                                <td>H</td>
+                                <th>H</th>
                                 <td id="S_70"></td>
                                 <td id="S_71"></td>
                                 <td id="S_72"></td>
@@ -361,7 +332,7 @@
                                 <td id="S_79"></td>
                             </tr>
                             <tr>
-                                <td>I</td>
+                                <th>I</th>
                                 <td id="S_80"></td>
                                 <td id="S_81"></td>
                                 <td id="S_82"></td>
@@ -374,7 +345,7 @@
                                 <td id="S_89"></td>
                             </tr>
                             <tr>
-                                <td>J</td>
+                                <th>J</th>
                                 <td id="S_90"></td>
                                 <td id="S_91"></td>
                                 <td id="S_92"></td>
@@ -393,45 +364,105 @@
             </div>
         </div>
 
-        <div class="row">
+        <div id="shipsHall" class="row hidden">
+            <div class="col-1 barcoHall">
+                <span>Battleship</span>
+                <div id="Battleship" class="col bg-danger barco">
+                    <button id="BattleshipOrientation" name="Battleship" class="btnGiro"
+                        onclick="toChangeOrientation(this)">
+                        B
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-1 barcoHall">
+                <span>Submarine</span>
+                <div id="Submarine" class="col bg-danger ship barco">
+                    <button id="SubmarineOrientation" name="Submarine" class="btnGiro"
+                        onclick="toChangeOrientation(this)">
+                        S
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-1 barcoHall">
+                <span>Destroyer</span>
+                <div id="Destroyer" class="col bg-danger barco">
+                    <button id="DestroyerOrientation" name="Destroyer" class="btnGiro"
+                        onclick="toChangeOrientation(this)">
+                        D
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-1 barcoHall">
+                <span>Patrol</span>
+                <div id="Patrol" class="col bg-danger barco">
+                    <button id="PatrolOrientation" name="Patrol" class="btnGiro" onclick="toChangeOrientation(this)">
+                        P
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-1 barcoHall">
+                <span>Aircraft</span>
+                <div id="Aircraft" class="col bg-danger barco ">
+                    <button id="AircraftOrientation" name="Aircraft" class="btnGiro"
+                        onclick="toChangeOrientation(this)">
+                        A
+                    </button>
+                </div>
+            </div>
             <div class="col-2">
                 <button id="btnAddShips" class="bg-success hidden" onclick="toAddShips()">
-          Send Ship
-        </button></div>
-            <div class="col-4">
-                <h4 class="text-white text-center font-weight-bold">Your Status</h4>
+                    Send Ship
+                </button></div>
+        </div>
 
-                <table class="col-10">
+        <div class="row" id="divStatusDamage">
+            <div class="col">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="bg-warning  text-left font-weight-bold">Your Status</h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="bg-warning text-right font-weight-bold">Opponent Status</h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="historialOwn" class="col-5 historial" >
+
+                        <!-- <table class="col-10">
                     <tr>
                         <th>Ship</th>
                         <th>Damage</th>
                     </tr>
                     <tbody id="historialOwn"></tbody>
-                </table>
-            </div>
+                </table>-->
+                    </div>
+                    <div class="col-2 text-center ">
+                        <button id="btnAddSalvos" class="bg-success " onclick="toAddSalvos()">
+                            Send Salvoes
+                        </button></div>
 
-            <div class="col-4">
+                    <div id="historialOponent" class="col-5 historial d-flex justify-content-end ">
 
-                <h4 class="text-white text-center font-weight-bold">Opponent Status</h4>
 
-                <table class="col-10">
+                        <!--  <table class="col-10">
                     <tr>
                         <th>Ship</th>
                         <th>Damage</th>
                     </tr>
-                    <tbody id="historialOponent"></tbody>
-                </table>
+                    <tbody ></tbody>
+                </table>-->
 
+                    </div>
+
+                </div>
             </div>
-            <div class="col-2">
-                <button id="btnAddSalvos" class="bg-success hidden" onclick="toAddSalvos()">
-          Send Salvoes
-        </button></div>
         </div>
-        <div class="row">
 
-
-        </div>
     </div>
 
     <script src="./js/librerias/popper.min.js"></script>

@@ -264,7 +264,7 @@ function toDrawShips(ships, salvoes, player) {
                 if (isHit(shipLocation, salvoes, player.id) != 0) {
                     $("#B_" + shipLocation).removeClass("ship-piece");
                     $("#B_" + shipLocation).addClass("ship-piece-hited");
-                       $("#B_" + shipLocation).text("X")
+                    //$("#B_" + shipLocation).text("X")
                     //        isHit(shipLocation, salvoes, player.id)
                     //     );
                 } else $("#B_" + shipLocation).addClass("ship-piece");
@@ -315,19 +315,63 @@ function toDrawDamage(gPlayers, gpId) {
     damageOponent.innerHTML = "";
 
     gPlayers.forEach(gp => {
+
+        var table = document.createElement("table")
+        var thead = document.createElement("thead");
+        var tbody = document.createElement("tbody");
+
+        thead.innerHTML = " <tr class='th'> <th>Ship</th> <th>Damage</th> </tr>"
+        table.appendChild(thead)
+
         gp.damage.forEach(ship => {
+
+
+            var tipoBarco = tipos.filter(shipType => {
+                return shipType.tipo == ship.type
+            })
+
+            var corazonesTotal = tipoBarco[0].cantidad
+            var corazonesVivos = corazonesTotal - ship.damage
+            var corazonesMuertos = ship.damage
+
+            var td = document.createElement("td")
+
+            for (let i = 0; i < corazonesVivos; i++) {
+                let img = document.createElement("img")
+                img.src = './img/heart.png'
+                td.appendChild(img)
+            }
+            for (let i = 0; i < corazonesMuertos; i++) {
+                let img = document.createElement("img")
+                img.classList.add("corazones")
+                img.src = './img/broken-heart1.png'
+                td.appendChild(img)
+            }
+
             var tr = document.createElement("tr");
             tr.innerHTML =
                 "<td>" +
                 ship.type +
                 "</td>" +
-                "<td>" +
-                ship.damage +
-                "</td>";
+                //  "<td>" +
+                //  ship.damage +
+                //  "</td>" +
+                td.innerHTML;
+            // tr.appendChild(td)
+
+
+
+            table.classList.add("table-dinamica")
+            tbody.appendChild(tr)
+
+
             if (gp.id == gpId) {
-                damageOwn.appendChild(tr);
+                table.appendChild(tbody)
+                damageOwn.appendChild(table);
             } else {
-                damageOponent.appendChild(tr);
+                table.appendChild(tbody)
+                damageOponent.appendChild(table);
+
             }
         });
     })
@@ -354,7 +398,7 @@ function toAddShips() {
     }
 }
 
-//Envia Salvoes
+//Envia Salvos
 function toAddSalvos() {
     var salvoes = Array.from(document.getElementsByClassName("salvo-piece")).map(
         s => s.id.split("_")[1]
@@ -403,9 +447,12 @@ function loadData() {
             switch (data.status) {
                 case 0:
                     statusGame.innerText = "Waiting player";
+                    document.getElementById("divStatusDamage").classList.add("hidden")
                     break;
 
                 case 1:
+                    document.getElementById("divStatusDamage").classList.add("hidden")
+
                     if (data.ships.length == 0) {
                         statusGame.innerText = "Place ships";
                         document.getElementById("shipsHall").classList.remove("hidden");
@@ -418,26 +465,36 @@ function loadData() {
                     break;
 
                 case 2:
-                    statusGame.innerText = "Waiting for other player";
+                    statusGame.innerText = "Wait for enemy move";
+                    document
+                        .getElementById("btnAddSalvos").setAttribute("disabled", true)
                     break;
 
                 case 3:
                     statusGame.innerText = "Place Salvos";
+                    document.getElementById("divStatusDamage").classList.remove("hidden")
+
                     document
-                        .getElementById("btnAddSalvos")
-                        .classList.remove("hidden");
+                        .getElementById("btnAddSalvos").removeAttribute("disabled", true)
+
                     break;
 
                 case 4, 5:
                     statusGame.innerText = "Game Over";
+                    document.getElementById("btnAddSalvos").classList.add("hidden")
                     break;
 
                 case 6:
-                    if(data.winner == data.id){
-            statusGame.innerText = "YOU WON";
-                    }else{
-                    statusGame.innerText = "YOU LOSE";
-                }
+                    document.getElementById("btnAddSalvos").classList.add("hidden")
+
+                    if (data.winner == data.id) {
+                        statusGame.classList.add("font-weight-bold")
+                        statusGame.innerText = "YOU WON";
+                    } else {
+                        statusGame.classList.add("text-danger")
+                        statusGame.classList.add("font-weight-bold")
+                        statusGame.innerText = "YOU LOSE";
+                    }
                     break;
             }
 

@@ -1,34 +1,34 @@
 //Dispara funcion de solicitud de datos al servidor
-$(function () {
+$(function() {
     loadData();
 });
 
 //Barcos
 var tipos = [{
-    tipo: "Aircraft",
-    cantidad: 5,
-    orientation: false
-},
-{
-    tipo: "Battleship",
-    cantidad: 4,
-    orientation: false
-},
-{
-    tipo: "Submarine",
-    cantidad: 3,
-    orientation: false
-},
-{
-    tipo: "Destroyer",
-    cantidad: 3,
-    orientation: false
-},
-{
-    tipo: "Patrol",
-    cantidad: 2,
-    orientation: false
-}
+        tipo: "Aircraft",
+        cantidad: 5,
+        orientation: false
+    },
+    {
+        tipo: "Battleship",
+        cantidad: 4,
+        orientation: false
+    },
+    {
+        tipo: "Submarine",
+        cantidad: 3,
+        orientation: false
+    },
+    {
+        tipo: "Destroyer",
+        cantidad: 3,
+        orientation: false
+    },
+    {
+        tipo: "Patrol",
+        cantidad: 2,
+        orientation: false
+    }
 ];
 
 //Variables de logica
@@ -91,7 +91,7 @@ function allowDrop(ev) {
     ev.preventDefault();
     toPosIniPosCam(ev.target.id, bufferTipo);
     toBuildArrAuxLocation();
-    arrAuxLocation.forEach(function (shipLocation) {
+    arrAuxLocation.forEach(function(shipLocation) {
         $("#B_" + shipLocation).addClass("ship-piece");
     });
 }
@@ -160,7 +160,7 @@ function toChangeOrientation(ev) {
     var shipPosition = button.parentElement.parentElement.id;
     toGetTipoCant(ship);
     toSetTipo(ship);
-    tipos = tipos.map(function (e) {
+    tipos = tipos.map(function(e) {
         if (e.tipo == ship) {
             var modificado = {
                 tipo: e.tipo,
@@ -223,7 +223,7 @@ function toValidatePosition() {
         return bufferTipo != ship.type;
     });
 
-    auxLocation.forEach(function (ship) {
+    auxLocation.forEach(function(ship) {
         ship.locations.forEach(location => {
             for (let i = 0; i < arrAuxLocation.length; i++) {
                 if (arrAuxLocation[i] == location) {
@@ -256,8 +256,8 @@ function toLocateSalvo(e) {
 //Dibujos:
 //Dibuja en barcos
 function toDrawShips(ships, salvoes, player) {
-    ships.forEach(function (shipPiece) {
-        shipPiece.locations.forEach(function (shipLocation) {
+    ships.forEach(function(shipPiece) {
+        shipPiece.locations.forEach(function(shipLocation) {
             if (player == undefined) {
                 $("#B_" + shipLocation).addClass("ship-piece");
             } else {
@@ -275,16 +275,16 @@ function toDrawShips(ships, salvoes, player) {
 
 //Dibuja salvos
 function toDrawSalvoes(salvoes, player) {
-    salvoes.forEach(function (gp) {
+    salvoes.forEach(function(gp) {
         gp.forEach(salvo => {
             // if (gamePlayers[0].player.id == salvo.player) {
             if (player.id == salvo.player) {
 
-                salvo.locations.forEach(function (location) {
+                salvo.locations.forEach(function(location) {
                     $("#S_" + location).addClass("salvo-piece-finished");
                 });
             } else {
-                salvo.locations.forEach(function (location) {
+                salvo.locations.forEach(function(location) {
                     $("#B_" + location).addClass("salvo");
                 });
             }
@@ -295,10 +295,10 @@ function toDrawSalvoes(salvoes, player) {
 //Dibuja Barcos impactados
 function isHit(shipLocation, salvoes, playerId) {
     var turn = 0;
-    salvoes.forEach(function (gp) {
+    salvoes.forEach(function(gp) {
         gp.forEach(salvo => {
             if (salvo.player != playerId)
-                salvo.locations.forEach(function (location) {
+                salvo.locations.forEach(function(location) {
                     if (shipLocation === location) turn = salvo.turn;
 
                 });
@@ -335,6 +335,7 @@ function toDrawDamage(gPlayers, gpId) {
             var corazonesMuertos = ship.damage
 
             var td = document.createElement("td")
+            td.classList.add("divCorazones")
 
             for (let i = 0; i < corazonesVivos; i++) {
                 let img = document.createElement("img")
@@ -352,11 +353,11 @@ function toDrawDamage(gPlayers, gpId) {
             tr.innerHTML =
                 "<td>" +
                 ship.type +
-                "</td>" +
+                "</td >" + "<td class='divCorazones text-left'>" +
                 //  "<td>" +
                 //  ship.damage +
                 //  "</td>" +
-                td.innerHTML;
+                td.innerHTML + "</td>";
             // tr.appendChild(td)
 
 
@@ -384,15 +385,15 @@ function toAddShips() {
         alert("You didn´t place all yours ships");
     } else {
         $.post({
-            url: "/api/games/players/" + toGetParameterByName("gp") + "/ships",
-            data: JSON.stringify(arrLocation),
-            dataType: "text",
-            contentType: "application/json"
-        })
-            .done(function (data) {
+                url: "/api/games/players/" + toGetParameterByName("gp") + "/ships",
+                data: JSON.stringify(arrLocation),
+                dataType: "text",
+                contentType: "application/json"
+            })
+            .done(function(data) {
                 location.reload();
             })
-            .fail(function (jqXHR, textStatus) {
+            .fail(function(jqXHR, textStatus) {
                 console.log(jqXHR.status);
             });
     }
@@ -404,15 +405,15 @@ function toAddSalvos() {
         s => s.id.split("_")[1]
     );
     $.post({
-        url: "/api/games/players/" + toGetParameterByName("gp") + "/salvos",
-        data: JSON.stringify(salvoes),
-        dataType: "text",
-        contentType: "application/json"
-    })
-        .done(function (data) {
+            url: "/api/games/players/" + toGetParameterByName("gp") + "/salvos",
+            data: JSON.stringify(salvoes),
+            dataType: "text",
+            contentType: "application/json"
+        })
+        .done(function(data) {
             location.reload();
         })
-        .fail(function (jqXHR) { });
+        .fail(function(jqXHR) {});
 }
 
 //Toma parametro de la url
@@ -424,7 +425,7 @@ function toGetParameterByName(name) {
 //Realiza peticion de datos del juego
 function loadData() {
     $.get("/api/game_view/" + toGetParameterByName("gp"))
-        .done(function (data) {
+        .done(function(data) {
             var gamePlayers = data.gameplayers
             var player;
             var opponent;
@@ -508,13 +509,13 @@ function loadData() {
             toDrawDamage(data.gameplayers, data.id);
 
         })
-        .fail(function (jqXHR, textStatus) {
+        .fail(function(jqXHR, textStatus) {
             alert("Failed: " + textStatus);
         });
 }
 //Realiza logout
 function toLogOut() {
-    $.post("/api/logout").done(function () {
+    $.post("/api/logout").done(function() {
         location.href = "/web/games.html";
     });
 }

@@ -1,9 +1,9 @@
 .ship-piece {
-    background-color: green;
+    background-color: lightseagreen;
 }
 
 ​ .ship-piece-hited {
-    background-color: red;
+    background-color: lightcoral;
     background-image: url("../img/fire.png");
     background-size: cover;
 }
@@ -14,14 +14,17 @@
 } */
 
 .salvo-piece {
-    background-color: crimson;
+    background-color: green;
 }
 
 .salvo-piece-finished {
-    background-color: rgb(128, 98, 0);
+    background-color: lightseagreen
 }
 
-
+.corazones{
+    color: red;
+    border-color: green;
+}
 /*.ship{
     width: 3%;
     height: auto;
@@ -34,7 +37,7 @@ td {
 .games {
     height: 100vh;
     background-color: aqua;
-    background-image: url("../img/shipInitial.jpg");
+    background-image: url("../img/shipInitial3.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom;
@@ -60,24 +63,35 @@ td {
 
 th {
     color: azure;
+    background-color:grey;
 }
 
 td {
     color: azure;
     text-align: center;
-    width: 3em;
-    width: 3em;
     /*  max-width: 2em;
     max-height: 2em;*/
 }
 
+#shipTable th, #salvoTable th, .th{
+    padding: 0;
+    width: 1.5em;
+    height: 2em;
+    text-align: center;
+    background-color: grey;
+}
+
+#shipTable td, #salvoTable td{
+    width: 2em;
+    height: 2em;
+}
 .btnGiro {
     max-width: 3px;
     max-height: 3px;
 }
 
 #game-list {
-    max-height: 37vh;
+    max-height: 50vh;
     overflow: scroll;
 }
 
@@ -95,6 +109,11 @@ td {
 
 #btnCreate {
     display: none;
+    width: 15em;
+    height: 15em;
+    border-radius: 50%;
+    font-size: 1.2em;
+    border-color: blanchedalmond;
 }
 
 .hidden {
@@ -108,11 +127,15 @@ td {
     background-position: center;
 }
 
-.secTable {
+.secTable, .table-dinamica {
     background-color: rgba(255, 255, 255, 0.6);
 }
 
+/*.historial{
+    background-color: rgba(255, 255, 255, 0.6);
 
+}
+*/
 /*#Submarine::after{
 
        content: url(../img/barco1.svg);
