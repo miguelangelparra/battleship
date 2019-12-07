@@ -4,10 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 public class Ship {
@@ -23,6 +20,10 @@ public class Ship {
     @ElementCollection
     @Column(name = "locations")
     private List<String> locations = new ArrayList<>();
+
+    @ElementCollection
+    @Column(name = "hitlocations")
+    private Set<String> hitlocations = new HashSet<>();
 
     private String type;
 
@@ -82,11 +83,26 @@ public class Ship {
         }
     }
 
+    public Set<String> getHitlocations() {
+        return hitlocations;
+    }
+
+    public void setHitlocations(String hitlocation) {
+        this.hitlocations.add(hitlocation);
+    }
+
     public Map<String, Object> makeShipDTO() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("type", this.type);
         dto.put("locations", this.locations);
         dto.put("sink", this.sink);
+        return dto;
+    }
+
+    public Map<String,Object> makeShipHitDTO(){
+        Map<String,Object> dto = new LinkedHashMap<>();
+        dto.put("idGP",this.getGamePlayer().getId());
+        dto.put("hited",this.hitlocations);
         return dto;
     }
 

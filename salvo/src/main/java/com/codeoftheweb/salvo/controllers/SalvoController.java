@@ -74,6 +74,7 @@ public class SalvoController {
         for (String a : salvo.getSalvoLocations()) {
             for (Ship sh : shipsOponente) {
                 if (sh.getLocations().contains(a)) {
+                    sh.setHitlocations(a);
                     History history = new History(turn, gamePlayer, sh.getTypeShip(), true, shipsOponente);
                     historyRepository.save(history);
                 }

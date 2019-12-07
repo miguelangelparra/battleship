@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="row justify-content-start">
-                    <div class="col-6">
+                    <div class="col-6 fondo-blanco">
                         <p>
                             <span class="text-warning">You: </span> <span id="playerInfo" class="text-success"></span>
                             <br>
@@ -38,7 +38,7 @@
                         </p>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-6 fondo-blanco">
                         <span class="text-warning font-weight-bold ">
                             Game status:
                         </span>
@@ -54,7 +54,7 @@
 
         <div id="tableros" class="row">
             <div class="col-6 p-4 border">
-                <section class="secTable border border-warning ">
+                <section class="fondo-blanco border border-warning ">
                     <h2 class="bg-warning text-dark text-center font-weight-bold">GAME BOARD</h2>
                     <table id="shipTable" border="1" class="table ">
                         <thead>
@@ -207,7 +207,7 @@
                 </section>
             </div>
             <div class="col-6 p-4 border">
-                <section class="secTable border border-warning ">
+                <section class="fondo-blanco border border-warning ">
                     <h2 class="bg-warning text-dark  text-center font-weight-bold">SALVO BOARD</h2>
                     <table id="salvoTable" border="1" class="table ">
                         <thead>
@@ -406,39 +406,42 @@
             <div class="col-2">
                 <button id="btnAddShips" class="bg-success hidden" onclick="toAddShips()">
                     Send Ship
-                </button></div>
+                </button>
+            </div>
 
-            <div id="divStatusDamage" class="row">
-                <div class="col">
-                    <div class="row">
-                        <div class="col-6">
-                            <h4 class="bg-warning  text-left font-weight-bold">Your Status</h4>
-                        </div>
-                        <div class="col-6">
-                            <h4 class="bg-warning text-right font-weight-bold">Opponent Status</h4>
-                        </div>
+        </div>
+
+        <div id="divStatusDamage" class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="bg-warning  text-left font-weight-bold">Your Status</h4>
                     </div>
+                    <div class="col-6">
+                        <h4 class="bg-warning text-right font-weight-bold">Opponent Status</h4>
+                    </div>
+                </div>
 
-                    <div class="row">
-                        <div id="historialOwn" class="col-5 historial">
+                <div class="row">
+                    <div id="historialOwn" class="col-5 historial">
 
-                            <!-- <table class="col-10">
+                        <!-- <table class="col-10">
                     <tr>
                         <th>Ship</th>
                         <th>Damage</th>
                     </tr>
                     <tbody id="historialOwn"></tbody>
                 </table>-->
-                        </div>
-                        <div class="col-2 text-center ">
-                            <button id="btnAddSalvos" class="bg-success " onclick="toAddSalvos()">
+                    </div>
+                    <div class="col-2 text-center ">
+                        <button id="btnAddSalvos" class="bg-success " onclick="toAddSalvos()">
                             Send Salvoes
                         </button></div>
 
-                        <div id="historialOponent" class="col-5 historial d-flex justify-content-end ">
+                    <div id="historialOponent" class="col-5 historial d-flex justify-content-end ">
 
 
-                            <!--  <table class="col-10">
+                        <!--  <table class="col-10">
                     <tr>
                         <th>Ship</th>
                         <th>Damage</th>
@@ -446,22 +449,22 @@
                     <tbody ></tbody>
                 </table>-->
 
-                        </div>
-
                     </div>
+
                 </div>
             </div>
-            <div id="pie" class="row text-white">
-                <p class="text-center">Create by Miguelangel Parra</p>
-            </div>
         </div>
+        <div id="pie" class="row text-white">
+            <p class="text-center">Create by Miguelangel Parra</p>
+        </div>
+    </div>
 
 
 
-        <script src="./js/librerias/popper.min.js"></script>
-        <script src="./js/librerias/jquery-3.3.1.min.js"></script>
-        <script src="./js/librerias/bootstrap.min.js"></script>
-        <script src="./js/game.js"></script>
+    <script src="./js/librerias/popper.min.js"></script>
+    <script src="./js/librerias/jquery-3.3.1.min.js"></script>
+    <script src="./js/librerias/bootstrap.min.js"></script>
+    <script src="./js/game.js"></script>
 </body>
 
 </html>

@@ -147,6 +147,7 @@ System.out.println("estado del juego" + getStatus());
     public List<Score> toGetScore(){
         return this.scores;
     }
+
     public Map<String, Object> getGameDTO() {
 
         Map<String, Object> dto = new LinkedHashMap<>();

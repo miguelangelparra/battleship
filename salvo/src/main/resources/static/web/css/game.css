@@ -171,13 +171,12 @@ th {
     z-index: 1;
 }
 
-.secTable,
-.table-dinamica {
-    background-color: rgba(255, 255, 255, 0.6);
-}
-
 .divCorazones {
     width: 150px;
+}
+
+.fondo-blanco {
+    background-color: rgba(255, 255, 255, 0.6);
 }
 
 

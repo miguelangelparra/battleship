@@ -362,7 +362,7 @@ function toDrawDamage(gPlayers, gpId) {
 
 
 
-            table.classList.add("table-dinamica")
+            table.classList.add("fondo-blanco")
             tbody.appendChild(tr)
 
 

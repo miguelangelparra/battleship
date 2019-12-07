@@ -1,3 +1,22 @@
+#cabeceras {
+    height: 18vh;
+}
+
+#tableros {
+    height: 50vh;
+}
+
+#divStatusDamage {
+    height: 28vh;
+}
+
+#pie {
+    text-align: center;
+    justify-content: center;
+    background-color: black;
+    height: 4vh;
+}
+
 .ship-piece {
     background-color: lightseagreen;
 }
@@ -21,17 +40,18 @@
     background-color: lightseagreen
 }
 
-.corazones{
+.corazones {
     color: red;
     border-color: green;
 }
-/*.ship{
+
+.ship {
     width: 3%;
     height: auto;
-}*/
+}
 
 td {
-    padding: 0
+    padding: 0;
 }
 
 .games {
@@ -63,28 +83,34 @@ td {
 
 th {
     color: azure;
-    background-color:grey;
+    background-color: grey;
 }
 
-td {
+#shipTable td {
     color: azure;
     text-align: center;
+    width: 1vh;
+    max-width: 1vh;
     /*  max-width: 2em;
     max-height: 2em;*/
 }
 
-#shipTable th, #salvoTable th, .th{
+#shipTable th,
+#salvoTable th,
+.th {
     padding: 0;
-    width: 1.5em;
-    height: 2em;
+    width: 2vh;
+    height: 2vh;
     text-align: center;
     background-color: grey;
 }
 
-#shipTable td, #salvoTable td{
-    width: 2em;
-    height: 2em;
+#shipTable td,
+#salvoTable td {
+    width: 2vh;
+    height: 2vh;
 }
+
 .btnGiro {
     max-width: 3px;
     max-height: 3px;
@@ -93,6 +119,10 @@ td {
 #game-list {
     max-height: 50vh;
     overflow: scroll;
+}
+
+.barco {
+    background-color: dodgerblue;
 }
 
 
@@ -120,22 +150,43 @@ td {
     display: none;
 }
 
+
+/*
 #Submarine {
     background-image: url(../img/barco1.svg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    width: 20vh;
+}*/
+
+#SubmarineImg {
+    width: 20vh;
+    height: 10vh;
+    background: url(../img/barco1.svg);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
 }
 
-.secTable, .table-dinamica {
+.divCorazones {
+    width: 150px;
+}
+
+.fondo-blanco {
     background-color: rgba(255, 255, 255, 0.6);
 }
+
 
 /*.historial{
     background-color: rgba(255, 255, 255, 0.6);
 
 }
 */
+
+
 /*#Submarine::after{
 
        content: url(../img/barco1.svg);

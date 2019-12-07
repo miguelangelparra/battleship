@@ -105,9 +105,13 @@ public class GamePlayer {
     public Map<String, Object> makeGamePlayerDTO() {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("id", this.getId());
-        dto.put("player", this.getPlayer().makePlayerDTO());
-         dto.put("damage",this.getShips().stream().sorted(Comparator.comparing(Ship::getTypeShip)).
+        dto.put("player", this.getPlayer()
+          .makePlayerDTO());
+         dto.put("damage",this.getShips()
+           .stream()
+           .sorted(Comparator.comparing(Ship::getTypeShip)).
         map(Ship::makeShipPublicDTO));
+         dto.put("hited",getShips().stream().map(Ship::makeShipHitDTO));
         return dto;
     }
 

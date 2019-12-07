@@ -2,107 +2,106 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Salvo!</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="./css/game.css" />
+    <meta charset="UTF-8" />
+    <title>Salvo!</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="./css/game.css" />
 </head>
 
 <body class="bg-secondary games">
-   <!--<audio src="./audio/war-sound.mp3" autoplay loop></audio>-->
+    <!--<audio src="./audio/war-sound.mp3" autoplay loop></audio>-->
 
-  <div id="main" class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <div>
-          <h3>Welcome <span id="spanUser"></span></h3>
-        </div>
-        <!-- Button trigger modal -->
-        <button id="btnLoginModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+    <div id="main" class="container-fluid ">
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <h3>Welcome <span id="spanUser"></span></h3>
+                </div>
+                <!-- Button trigger modal -->
+                <button id="btnLoginModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
           Log In
         </button>
 
-        <button id="btnLogout" class="btn bg-danger" onclick="toLogOut()" style="display: none;">
+                <button id="btnLogout" class="btn bg-danger" onclick="toLogOut()" style="display: none;">
           Log Out!
         </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <!-- Modal -->
+                <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-              </div>
-              <div class="modal-body">
-                <form id="formLogin">
-                  <div class="form-group">
-                    <label for="inpEmail">Email address</label>
-                    <input type="email" class="form-control" id="inpEmail" aria-describedby="emailHelp"
-                      placeholder="Enter email" />
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                            </div>
+                            <div class="modal-body">
+                                <form id="formLogin">
+                                    <div class="form-group">
+                                        <label for="inpEmail">Email address</label>
+                                        <input type="email" class="form-control" id="inpEmail" aria-describedby="emailHelp" placeholder="Enter email" />
+                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                       else.</small>
-                  </div>
-                  <div class="form-group">
-                    <label for="inpPassword">Password</label>
-                    <input type="password" class="form-control" id="inpPassword" placeholder="Password" />
-                  </div>
-                  <!-- <button type="submit" class="btn btn-primary">Submit</button>-->
-                </form>
-              </div>
-              <div class="modal-footer">
-                <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-                <input type="button" id="btnLogin" class="btn bg-success" data-dismiss="modal" onclick="toLogin()"
-                  value="Log In" />
-                <input type="button" id="btnLogUp" class="btn bg-primary" data-dismiss="modal" onclick="toLogUp()"
-                  value="Log UP!" />
-              </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inpPassword">Password</label>
+                                        <input type="password" class="form-control" id="inpPassword" placeholder="Password" />
+                                    </div>
+                                    <!-- <button type="submit" class="btn btn-primary">Submit</button>-->
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                <input type="button" id="btnLogin" class="btn bg-success" data-dismiss="modal" onclick="toLogin()" value="Log In" />
+                                <input type="button" id="btnLogUp" class="btn bg-primary" data-dismiss="modal" onclick="toLogUp()" value="Log UP!" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <p class="text-center display-1 font-weight-bold bg-warning"><u>MANGO BATTLESHIP</u></p>
-  <div class="container-fluid">
-    <div class="row ">
-     
-      <div class="col-6 container-fluid ">
-          <h2 class="text-center text-warning">Games!</h2>
+    <p class="text-center display-1 font-weight-bold bg-warning"><u>MANGO BATTLESHIP</u></p>
+    <div class="container-fluid">
+        <div class="row ">
 
-          
-            <ol class="list-group overflow-auto table-dinamica" id="game-list"></ol>
+            <div class="col-6 container-fluid ">
+                <h2 class="text-center text-warning">Games!</h2>
 
-      </div>
-      <div class="col-6">
-          <h2 class="text-center text-warning">Leader Board</h2>
-          <table class="table table-dinamica">
-            <thead>
-              <th>Name</th>
-              <th>Total</th>
-              <th>Won</th>
-              <th>Lost</th>
-              <th>Tied</th>
-            </thead>
-            <tbody id="leader-list"></tbody>
-          </table>
-          <div class="col-6 d-flex justify-content-end" >
-              <button id="btnCreate" onclick="toCreateGame()" class="btn btn-large bg-success text-white ">
+
+                <ol class="list-group overflow-auto fondo-blanco" id="game-list"></ol>
+
+            </div>
+            <div class="col-6">
+                <h2 class="text-center text-warning">Leader Board</h2>
+                <table class="table fondo-blanco">
+                    <thead>
+                        <th>Name</th>
+                        <th>Total</th>
+                        <th>Won</th>
+                        <th>Lost</th>
+                        <th>Tied</th>
+                    </thead>
+                    <tbody id="leader-list"></tbody>
+                </table>
+                <div class="col-6 d-flex justify-content-end">
+                    <button id="btnCreate" onclick="toCreateGame()" class="btn btn-large bg-success text-white ">
                 Create Game!
               </button>
+                </div>
             </div>
+
         </div>
-
+        <div id="pie" class="row text-white">
+            <p class="text-center">Create by Miguelangel Parra</p>
+        </div>
     </div>
-  </div>
 
-  <script src="./js/librerias/popper.min.js"></script>
-  <script src="./js/librerias/jquery-3.3.1.min.js"></script>
-  <script src="./js/librerias/bootstrap.min.js"></script>
-  <script src="./js/games.js"></script>
+    <script src="./js/librerias/popper.min.js"></script>
+    <script src="./js/librerias/jquery-3.3.1.min.js"></script>
+    <script src="./js/librerias/bootstrap.min.js"></script>
+    <script src="./js/games.js"></script>
 </body>
 
 </html>

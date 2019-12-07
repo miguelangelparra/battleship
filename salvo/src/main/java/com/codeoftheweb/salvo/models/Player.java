@@ -103,7 +103,7 @@ public class Player {
     }
 
     public long getTotalScore() {
-        return this.getWinScore() + this.getTiedScore();
+        return this.getWinScore()*2 + this.getTiedScore()*1;
     }
 
     public long getWinScore() {

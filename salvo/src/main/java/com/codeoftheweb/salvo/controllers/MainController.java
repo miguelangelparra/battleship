@@ -114,6 +114,7 @@ public class MainController {
                 .map(gp -> gp.getSalves()
                         .stream()
                         .map(Salvo::makeSalvoDTO)));
+        dto.put("hitOnOpponent",gamePlayer.getGame().getGamePlayers().stream().map(gp->gp.getShips().stream().map(Ship::makeShipHitDTO).collect(Collectors.toList())));
         return dto;
     }
 
