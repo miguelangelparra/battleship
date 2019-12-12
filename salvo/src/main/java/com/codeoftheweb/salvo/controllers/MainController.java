@@ -98,7 +98,9 @@ public class MainController {
                 .getId());
         dto.put("created", gamePlayer
                 .getJoinGame());
-        dto.put("winner",gamePlayer.getGame().getWinnerGP());
+        dto.put("winner",gamePlayer
+                .getGame()
+                .getWinnerGP());
         dto.put("gameplayers", gamePlayer
                 .getGame()
                 .getGamePlayers()
@@ -114,7 +116,14 @@ public class MainController {
                 .map(gp -> gp.getSalves()
                         .stream()
                         .map(Salvo::makeSalvoDTO)));
-        dto.put("hitOnOpponent",gamePlayer.getGame().getGamePlayers().stream().map(gp->gp.getShips().stream().map(Ship::makeShipHitDTO).collect(Collectors.toList())));
+        dto.put("hitOnOpponent",gamePlayer
+                .getGame()
+                .getGamePlayers()
+                .stream()
+                .map(gp->gp.getShips()
+                        .stream()
+                        .map(Ship::makeShipHitDTO)
+                        .collect(Collectors.toList())));
         return dto;
     }
 

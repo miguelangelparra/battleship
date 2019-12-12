@@ -271,10 +271,11 @@ function toDrawShips(ships, salvoes, player) {
             }
         });
     });
+
 }
 
 //Dibuja salvos
-function toDrawSalvoes(salvoes, player) {
+function toDrawSalvoes(salvoes, player, gPlayers, gpID) {
     salvoes.forEach(function(gp) {
         gp.forEach(salvo => {
             // if (gamePlayers[0].player.id == salvo.player) {
@@ -290,6 +291,12 @@ function toDrawSalvoes(salvoes, player) {
             }
         });
     });
+    var opponent =gPlayers.filter(gp=>{if(gp.id!=gpID){ 
+        return gp}})
+    opponent[0].hited.forEach(function(shipPiece) {
+        shipPiece.hited.forEach(function(salvoLocation) {
+            $("#S_" + salvoLocation).addClass("ship-piece-hited");
+        })})
 }
 
 //Dibuja Barcos impactados
@@ -503,9 +510,9 @@ function loadData() {
                 let shipsHall = document.getElementById("shipsHall");
                 shipsHall.style.display = "none";
             }
-
+                              
             toDrawShips(data.ships, data.salvoes, player);
-            toDrawSalvoes(data.salvoes, player);
+            toDrawSalvoes(data.salvoes, player,data.gameplayers,data.id);
             toDrawDamage(data.gameplayers, data.id);
 
         })

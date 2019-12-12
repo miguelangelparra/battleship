@@ -8,19 +8,20 @@
     <link rel="stylesheet" type="text/css" href="./css/game.css" />
 </head>
 
-<body class="bg-secondary games">
+<body class="bg-secondary ">
     <!--<audio src="./audio/war-sound.mp3" autoplay loop></audio>-->
 
-    <div id="main" class="container-fluid ">
+    <div id="main" class=" games container-fluid d-flex flex-column justify-content-between">
         <div class="row">
-            <div class="col-12">
-                <div>
-                    <h3>Welcome <span id="spanUser"></span></h3>
-                </div>
+
+            <div class="col-12 fondo-blanco">
+                    <h3 class="text-right">Welcome <span id="spanUser"></span>              <button id="btnLoginModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+                            Log In
+                          </button></h3>
+                    <h1 class="text-center display-3 font-weight-bold "><u> MANGO BATTLESHIP</u></h1>
+
                 <!-- Button trigger modal -->
-                <button id="btnLoginModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
-          Log In
-        </button>
+  
 
                 <button id="btnLogout" class="btn bg-danger" onclick="toLogOut()" style="display: none;">
           Log Out!
@@ -61,20 +62,14 @@
                 </div>
             </div>
         </div>
-    </div>
-    <p class="text-center display-1 font-weight-bold bg-warning"><u>MANGO BATTLESHIP</u></p>
-    <div class="container-fluid">
         <div class="row ">
 
             <div class="col-6 container-fluid ">
-                <h2 class="text-center text-warning">Games!</h2>
-
-
+                <h2 class="text-center bg-warning"><b>Games!</b></h2>
                 <ol class="list-group overflow-auto fondo-blanco" id="game-list"></ol>
-
             </div>
             <div class="col-6">
-                <h2 class="text-center text-warning">Leader Board</h2>
+                <h2 class="text-center bg-warning"><b>Leader Board</b></h2>
                 <table class="table fondo-blanco">
                     <thead>
                         <th>Name</th>
@@ -85,18 +80,23 @@
                     </thead>
                     <tbody id="leader-list"></tbody>
                 </table>
-                <div class="col-6 d-flex justify-content-end">
-                    <button id="btnCreate" onclick="toCreateGame()" class="btn btn-large bg-success text-white ">
+                <div class="col-6 ">
+                    <button id="btnCreate" onclick="toCreateGame()" class="btn btn-large bg-success text-white  ">
                 Create Game!
               </button>
                 </div>
             </div>
 
-        </div>
-        <div id="pie" class="row text-white">
-            <p class="text-center">Create by Miguelangel Parra</p>
-        </div>
+      
     </div>
+    <div id="pie" class="row text-white justify-content-end">
+            <div class="col">
+                    <p class="text-center">Create by Miguelangel Parra</p>
+
+            </div>
+            </div>
+    </div>
+
 
     <script src="./js/librerias/popper.min.js"></script>
     <script src="./js/librerias/jquery-3.3.1.min.js"></script>

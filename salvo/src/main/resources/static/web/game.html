@@ -15,45 +15,27 @@
     </style>
 </head>
 
-<body class="bg-secondary game">
-    <div class="container-fluid">
+<body class="bg-secondary game container-fluid d-flex flex-column justify-content-between">
 
         <div id="cabeceras" class="row">
             <div class="col">
-                <div class="row bg-warning">
-                    <div class="col-12">
-                        <h1 class="bg-warning text-dark text-center font-weight-bold display-">
+                <div class="row ">
+                    <div class="col-6 offset-3">
+                        <h1 class="bg-warning text-dark text-center font-weight-bold display-4">
                             COMMAND SYSTEM
                         </h1>
-                    </div>
-
-                </div>
-
-                <div class="row justify-content-start">
-                    <div class="col-6 fondo-blanco">
-                        <p>
-                            <span class="text-warning">You: </span> <span id="playerInfo" class="text-success"></span>
-                            <br>
-                            <span class="text-warning">Enemy: </span> <span id="playerInfoOpponent" class="text-danger"></span>
+                        <p class="text-dark font-weight-bold text-center">
+                            Game status:          <span id="statusGame" class="text-success display-5">
+                            </span>
                         </p>
-                    </div>
-
-                    <div class="col-6 fondo-blanco">
-                        <span class="text-warning font-weight-bold ">
-                            Game status:
-                        </span>
-                        <span id="statusGame" class="text-success display-4">
-                        </span>
+              
                     </div>
                 </div>
-
-
             </div>
-
         </div>
 
         <div id="tableros" class="row">
-            <div class="col-6 p-4 border">
+            <div class="col-6 border">
                 <section class="fondo-blanco border border-warning ">
                     <h2 class="bg-warning text-dark text-center font-weight-bold">GAME BOARD</h2>
                     <table id="shipTable" border="1" class="table ">
@@ -206,10 +188,10 @@
                     </table>
                 </section>
             </div>
-            <div class="col-6 p-4 border">
+            <div class="col-6 border">
                 <section class="fondo-blanco border border-warning ">
                     <h2 class="bg-warning text-dark  text-center font-weight-bold">SALVO BOARD</h2>
-                    <table id="salvoTable" border="1" class="table ">
+                    <table id="salvoTable" border="1" class="table">
                         <thead>
                             <th></th>
                             <th id="bth_0">1</th>
@@ -374,7 +356,7 @@
             <div class="col-1 barcoHall">
                 <span>Submarine</span>
                 <div id="Submarine" class="col ship barco">
-                    <img id="SubmarineImg" alt="">
+                  <!--  <img id="SubmarineImg" alt="">-->
                     <button id="SubmarineOrientation" name="Submarine" class="btnGiro" onclick="toChangeOrientation(this)">
                     </button>
                 </div>
@@ -411,19 +393,19 @@
 
         </div>
 
-        <div id="divStatusDamage" class="row">
+        <div id="divStatusDamage" class="row fondo-blanco">
             <div class="col">
                 <div class="row">
-                    <div class="col-6">
-                        <h4 class="bg-warning  text-left font-weight-bold">Your Status</h4>
-                    </div>
-                    <div class="col-6">
-                        <h4 class="bg-warning text-right font-weight-bold">Opponent Status</h4>
-                    </div>
+
+
                 </div>
 
                 <div class="row">
-                    <div id="historialOwn" class="col-5 historial">
+                        <div class="col-2 ">
+                                <h4 class=" text-left font-weight-bold">Your Status</h4>
+                                <span class="text-success">You: </span> <span id="playerInfo" class="text-dark"></span>
+                            </div>
+                    <div id="historialOwn" class="col-3 historial">
 
                         <!-- <table class="col-10">
                     <tr>
@@ -437,8 +419,11 @@
                         <button id="btnAddSalvos" class="bg-success " onclick="toAddSalvos()">
                             Send Salvoes
                         </button></div>
-
-                    <div id="historialOponent" class="col-5 historial d-flex justify-content-end ">
+                        <div class="col-2">
+                                <h4 class=" text-right font-weight-bold">Opponent Status</h4>
+                                <span class="text-danger">Enemy: </span> <span id="playerInfoOpponent" class="text-dark"></span>
+                            </div>
+                    <div id="historialOponent" class="col-3 historial d-flex justify-content-end ">
 
 
                         <!--  <table class="col-10">
@@ -454,10 +439,9 @@
                 </div>
             </div>
         </div>
-        <div id="pie" class="row text-white">
+        <div id="pie" class="row text-white align-items-end">
             <p class="text-center">Create by Miguelangel Parra</p>
         </div>
-    </div>
 
 
 

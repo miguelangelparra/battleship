@@ -112,39 +112,57 @@ function loadData() {
 function updateViewGames(data) {
   console.log(data);
   gameList.innerHTML = "";
-  document
-    .getElementById("MessageToLogin")
-    // .setAttribute("style", "display:none");
+  document.getElementById("MessageToLogin")
+
   if (data.player != "Guest") {
     let btnCreate = document.getElementById("btnCreate");
     btnCreate.style.display = "block";
   }
-  var htmlListGames = data.games.map(function(game) {
-    let line = document.createElement("li");
 
-    function toCreateBtn(id, message, func) {
-      if (data.player != "Guest") {
-        let btnJoinGame = document.createElement("button");
-        btnJoinGame.setAttribute("onclick", func);
-        btnJoinGame.classList.add("btnJoinGame", "btn", "bg-success");
-        btnJoinGame.setAttribute("data-gameId", id);
-        btnJoinGame.innerText = message;
-        line.appendChild(btnJoinGame);
-      }
-    }
-    game.gamePlayers.map(function(gamePlayer) {
-      //game.gamePlayers.length == 2 &&
-      if (gamePlayer.player.email == data.player.email) {
-        toCreateBtn(gamePlayer.id, "Re-Entry", "toReEntry(this)");
-        return; //idGamePlayer = gamePlayer.id
-      } else if (
-        game.gamePlayers.length == 1 &&
-        gamePlayer.player.email != data.player.email
-      ) {
-        toCreateBtn(game.id, "Join!", "toJoin(this)");
-        return;
-      }
-    });
+ /* var htmlList = data.games
+  .map(function(game) {
+    let fecha = new Date(game.created).toLocaleString()
+    let gps= game.gamePlayers.sort((a,b)=>a.player.email-b.player.email)
+    return (
+"<li class='list-group-item'>" +
+"<span>"+ fecha + "</span>"+
+"<span>"+ gps[0].player.email + "VS" + (gps.length ==2? gps[1].player.email : '') +  "</span>"+ 
+ game.gamePlayers.map(function(gamePlayer) {
+  //game.gamePlayers.length == 2 &&
+  if (gamePlayer.player.email == data.player.email) {
+    toCreateBtn(gamePlayer.id, "Re-Entry", "toReEntry(this)");
+    return; //idGamePlayer = gamePlayer.id
+  } else if (
+    game.gamePlayers.length == 1 &&
+    gamePlayer.player.email != data.player.email
+  ) {
+    toCreateBtn(game.id, "Join!", "toJoin(this)");
+    return;
+  }
+})+
+"</li>"
+    );
+  })
+  .join("");
+document.getElementById("game-list").innerHTML = htmlList;
+}
+
+function toCreateBtn(id, message, func) {
+ //if (data.player != "Guest") {
+   /* let btnJoinGame = document.createElement("button");
+    btnJoinGame.setAttribute("onclick", func);
+    btnJoinGame.classList.add("btnJoinGame", "btn", "bg-warning");
+    btnJoinGame.setAttribute("data-gameId", id);
+    btnJoinGame.innerText = message;
+    line.appendChild(btnJoinGame);
+    let btn = ('<button onclick="' +func+ 'data-gameId="'+ id+ '">' + message+'</button>')
+    return  btn
+  //}
+*/
+/////////
+  data.games.map(function(game) {
+
+    let line = document.createElement("li");
 
     var spanUser = document.getElementById("spanUser");
     spanUser.textContent = data.player.email;
@@ -164,9 +182,36 @@ function updateViewGames(data) {
     line.appendChild(textDate);
     line.appendChild(textPlayer);
 
+
+    function toCreateBtn(id, message, func) {
+      if (data.player != "Guest") {
+        let btnJoinGame = document.createElement("button");
+        btnJoinGame.setAttribute("onclick", func);
+        btnJoinGame.classList.add("btnJoinGame", "btn", "bg-warning");
+        btnJoinGame.setAttribute("data-gameId", id);
+        btnJoinGame.innerText = message;
+        line.appendChild(btnJoinGame);
+      }
+    }
+    game.gamePlayers.map(function(gamePlayer) {
+      //game.gamePlayers.length == 2 &&
+      if (gamePlayer.player.email == data.player.email) {
+        toCreateBtn(gamePlayer.id, "Re-Entry", "toReEntry(this)");
+        return; //idGamePlayer = gamePlayer.id
+      } else if (
+        game.gamePlayers.length == 1 &&
+        gamePlayer.player.email != data.player.email
+      ) {
+        toCreateBtn(game.id, "Join!", "toJoin(this)");
+        return;
+      }
+    });
+
     return gameList.appendChild(line);
   });
 }
+
+////////////
 
 function updateViewLBoard(data) {
   var htmlList = data
@@ -196,81 +241,3 @@ function updateViewLBoard(data) {
 setInterval(() => {
   loadData();
 }, 4000);
-
-/*
-function loginFunc(nameUsu, passwordUsu) {
-
-    $.ajax({
-        type: 'POST',
-        url: '/api/login',
-        data: {
-            name: nameUsu,
-            password: passwordUsu
-        },
-        success: function() {
-            console.log("login!")
-            $.get("http://localhost:8080/web/games.html")
-
-            loadData();
-            document.getElementById("inpEmail").setAttribute("style", "display:none")
-            document.getElementById("inpPassword").setAttribute("style", "display:none")
-            document.getElementById("btnLoginModal").setAttribute("style", "display:none")
-            document.getElementById("btnLogUp").setAttribute("style", "display:none")
-            document.getElementById("btnLogout").setAttribute("style", "display:inline")
-                //  location.reload()
-        },
-        error: function(data) {
-            alert("No se ha podido obtener la información, compruebe sus datos de acceso")
-            alert(data.responseJSON.error)
-        }
-    })
-
-}
-/*
-
-
-/*
-Codigo anterior
-$(function(){
-    var listGames = $("ol")
-    var games = $.getJSON({
-        url:"http://localhost:8080/api/games",
-        })
-        .done(function (data)
-            {
-            data.map(function(data)
-                {
-                let date = new Date(data.created).toLocaleString()
-                var arrGame = []
-                arrGame.push(date)
-                for (let i = 0; i < data.gamePlayers.length; i++){
-                let email = data.gamePlayers[i].player.player
-                arrGame.push(email)
-                }
-                listGames.append(
-                '<li>' + arrGame + '</li>'
-                )})
-            }
-            )}
-)
-
-
-
-*/
-//line.innerHTML=new Date(game.created).toLocaleString()
-//                   + ' | <br> '
-//                 + game.gamePlayers.map(function(element) { return element.player.email}).join(', ')
-
-/* '<li class="list-group-item">'
-      + new Date(game.created).toLocaleString()
-      + ' | <br> '
-      + game.gamePlayers.map(function(element) { return element.player.email}).join(', ')
-       + '</li>' + btnJoinGame;
-  }).join('');
-    document.getElementById("game-list").innerHTML = htmlListGames;
-
-   var htmlListGamesOwn = data.gamesOwn.map(function (game) {
-         return  '<li class="list-group-item">' + new Date(game.joinGame).toLocaleString() /*+ ' | <br> ' + game.map(function(element) { return element.player.email}).join(', ')  +'</li>';
-     }).join('');*/
-//document.getElementById("game-list-own").innerHTML = htmlListGamesOwn;
-//   return document.getElementById("game-list").appendChild(line)

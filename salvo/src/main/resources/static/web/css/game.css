@@ -7,7 +7,7 @@
 }
 
 #divStatusDamage {
-    height: 28vh;
+    height: 25vh;
 }
 
 #pie {
@@ -52,6 +52,7 @@
 
 td {
     padding: 0;
+    text-align: center;
 }
 
 .games {
@@ -81,9 +82,14 @@ td {
     padding: 0;
 }
 
+#btnLoginModal{
+    display: inline;
+}
+
 th {
     color: azure;
     background-color: grey;
+    text-align: center;
 }
 
 #shipTable td {
@@ -139,15 +145,15 @@ th {
 
 #btnCreate {
     display: none;
-    width: 15em;
-    height: 15em;
-    border-radius: 50%;
-    font-size: 1.2em;
+width: 45vw;
+height: 30vh;
+    border-radius: 5% , 5%;
+    font-size: 1.5em;
     border-color: blanchedalmond;
 }
 
 .hidden {
-    display: none;
+    display: none; 
 }
 
 
